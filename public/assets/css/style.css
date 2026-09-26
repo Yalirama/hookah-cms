@@ -1,0 +1,4319 @@
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+*:focus,
+a:focus {
+    outline: none;
+}
+
+button {
+    font-weight: inherit;
+    font-family: inherit;
+}
+
+:root {
+    --resizer: 320;
+    --dark: #0F0E0C;
+    --box: #181612;
+    --border: #231F18;
+    --gold: #CDAA7D;
+    --white: #FFFFFF;
+    --search: #221E1A;
+    --info: #5A5348;
+    --orange: #D4903A;
+    --blue: #4A6FA5;
+    --light: #4CAF76;
+    --past: #5A5248;
+    --surface: #1D1B17;
+}
+
+html,
+body {
+    font-family: "Jura", sans-serif;
+    background: var(--dark);
+}
+
+body {
+    padding: 0 0 calc(50vw / var(--resizer) * 100) 0;
+}
+
+/* calc(150vw / var(--resizer) * 100) */
+
+main {
+    padding: calc(10vw / var(--resizer) * 100);
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+}
+
+.headerTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 calc(8vw / var(--resizer) * 100) 0;
+}
+
+.headerTop h1 {
+    font-size: calc(20vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(24vw / var(--resizer) * 100);
+    text-align: left;
+    color: var(--white);
+}
+
+.headerUser {
+    position: relative;
+    width: calc(27vw / var(--resizer) * 100);
+    height: calc(27vw / var(--resizer) * 100);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.headerUser img {
+    width: inherit;
+    height: inherit;
+}
+
+.headerTopWelcome {
+    display: flex;
+    flex-direction: column;
+    margin: calc(8vw / var(--resizer) * 100) 0 0 0;
+}
+
+.headerTopWelcome span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(12vw / var(--resizer) * 100);
+    text-align: center;
+    color: rgba(205, 170, 125, 1);
+}
+
+.headerTopWelcome p {
+    font-size: calc(14vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(16vw / var(--resizer) * 100);
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
+}
+
+.headerStats {
+    display: flex;
+    overflow: auto;
+    gap: calc(8vw / var(--resizer) * 100);
+}
+
+.headerStat {
+    display: flex;
+    flex-direction: column;
+    padding: calc(6vw / var(--resizer) * 100);
+    min-width: max-content;
+    border: calc(1vw / var(--resizer) * 100) solid var(--border);
+    background: var(--box);
+    border-radius: calc(8vw / var(--resizer) * 100);
+}
+
+.headerStat p {
+    font-size: calc(17vw / var(--resizer) * 100);
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+}
+
+.headerStat span {
+    font-size: calc(9vw / var(--resizer) * 100);
+    font-weight: 600;
+    text-align: center;
+    color: var(--info);
+}
+
+.topNav {
+    display: flex;
+    flex-direction: column;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+}
+
+.search,
+.defaultForm {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    width: 100%;
+    border: calc(1vw / var(--resizer) * 100) solid var(--border);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: var(--search);
+    transition: .4s border linear;
+}
+
+.search:hover,
+.defaultForm:hover {
+    border: calc(1vw / var(--resizer) * 100) solid var(--gold);
+}
+
+.search img {
+    margin: 0 calc(6vw / var(--resizer) * 100) 0 0;
+    width: calc(11vw / var(--resizer) * 100);
+    height: calc(11vw / var(--resizer) * 100);
+}
+
+.search input,
+.defaultForm input {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 400;
+    text-align: left;
+    flex: 1;
+}
+
+.search input::placeholder,
+.defaultForm input::placeholder {
+    color: var(--info);
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 400;
+    text-align: left;
+}
+
+.topNav .filters {
+    display: flex;
+    flex-direction: column;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+header .topNav .filters {
+    margin: 0;
+}
+
+.topNav .filters .filtersRow {
+    display: flex;
+    gap: calc(5vw / var(--resizer) * 100);
+    width: 100%;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+main._ordersShow .topNav .filters .filtersRow {
+    overflow: visible;
+}
+
+.topNav .filters .filtersRow::-webkit-scrollbar {
+    display: none;
+}
+
+.filtersBtn {
+    padding: calc(4vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid var(--border);
+    border-radius: calc(12vw / var(--resizer) * 100);
+    background: var(--box);
+
+    color: var(--info);
+
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    transition: .4s border linear, .4s color linear;
+    text-decoration: none;
+}
+
+.filtersBtn:hover,
+.filtersBtn.active {
+    color: var(--gold);
+    border: calc(1vw / var(--resizer) * 100) solid var(--gold);
+}
+
+.ordersSection {
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+}
+
+.ordersSectionDay {
+    margin: calc(16vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 700;
+    text-align: left;
+    color: var(--info);
+}
+
+.ordersSectionDay.active {
+    margin: 0;
+    color: var(--gold);
+}
+
+.ordersCard {
+    display: flex;
+    flex-direction: column;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    padding: calc(8vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid var(--border);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: var(--box)
+}
+
+.--questNew.ordersCard {
+    position: relative;
+}
+
+.--questNew.ordersCard::before {
+    content: '';
+    position: absolute;
+    top: calc(-5vw / var(--resizer) * 100);
+    left: calc(-5vw / var(--resizer) * 100);
+    width: calc(18vw / var(--resizer) * 100);
+    height: calc(18vw / var(--resizer) * 100);
+    background: url('/assets/img/new-icon.svg') center / cover no-repeat;
+}
+
+.ordersCardTop {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ordersCardUser {
+    display: flex;
+    align-items: center;
+}
+
+.ordersCardUserImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 calc(8vw / var(--resizer) * 100) 0 0;
+    width: calc(30vw / var(--resizer) * 100);
+    height: calc(30vw / var(--resizer) * 100);
+    border: calc(0.5vw / var(--resizer) * 100) solid rgba(90, 83, 72, 1);
+    border-radius: calc(50vw / var(--resizer) * 100);
+}
+
+.ordersCardUserImg span {
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.ordersCardUserInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.ordersCardUserInfoTop {
+    display: flex;
+    align-items: center;
+}
+
+.ordersCardUserInfoName {
+    margin: 0 calc(10vw / var(--resizer) * 100) 0 0;
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 600;
+    text-align: left;
+    color: var(--white);
+}
+
+.ordersCardUserInfoUsername {
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 600;
+    text-align: left;
+    color: var(--gold);
+}
+
+.ordersCardUserInfoBtm {
+    display: flex;
+    margin: calc(3vw / var(--resizer) * 100) 0 0 0;
+}
+
+.ordersCardUserInfoStatus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 calc(6vw / var(--resizer) * 100) 0 0;
+    padding: calc(2vw / var(--resizer) * 100) calc(5vw / var(--resizer) * 100);
+    border-radius: calc(12vw / var(--resizer) * 100);
+    transition: .4s background linear;
+}
+
+.--questVip.ordersCardUserInfoStatus,
+.--questNew.ordersCardUserInfoStatus {
+    background: rgba(48, 41, 32, 1);
+}
+
+.--questRegular.ordersCardUserInfoStatus {
+    background: rgba(33, 35, 39, 1);
+}
+
+.--questPermanent.ordersCardUserInfoStatus {
+    background: rgb(221, 40, 58);
+}
+
+.--questVip.ordersCardUserInfoStatus img {
+    margin: 0 calc(2vw / var(--resizer) * 100) 0 0;
+    width: calc(7vw / var(--resizer) * 100);
+    height: calc(7vw / var(--resizer) * 100);
+}
+
+.ordersCardUserInfoStatus span {
+    font-size: calc(8vw / var(--resizer) * 100);
+    line-height: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    text-align: center;
+    transition: .4s background linear;
+}
+
+.--questVip.ordersCardUserInfoStatus span,
+.--questNew.ordersCardUserInfoStatus span {
+    color: rgba(205, 170, 125, 1);
+}
+
+.--questRegular.ordersCardUserInfoStatus span {
+    color: rgba(74, 111, 165, 1);
+}
+
+.--questPermanent.ordersCardUserInfoStatus span {
+    color: var(--white);
+}
+
+.ordersCardUserInfoVisit {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    color: var(--info);
+}
+
+.ordersCardInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.--orderWithoutGuest.ordersCardInfo {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.ordersCardStatus {
+    display: flex;
+    align-items: center;
+    padding: calc(2vw / var(--resizer) * 100) calc(4vw / var(--resizer) * 100);
+    border-radius: calc(4vw / var(--resizer) * 100);
+    background: var(--search);
+    margin: 0 0 calc(5vw / var(--resizer) * 100) 0;
+}
+
+.--orderWithoutGuest .ordersCardStatus {
+    margin: 0;
+}
+
+.ordersCardStatus span {
+    margin: 0 calc(4vw / var(--resizer) * 100) 0 0;
+    width: calc(5vw / var(--resizer) * 100);
+    height: calc(5vw / var(--resizer) * 100);
+    border-radius: 50%;
+    transition: .4s background linear;
+}
+
+.--statusWait .ordersCardStatus span {
+    background: var(--orange);
+}
+
+.--statusDone .ordersCardStatus span {
+    background: rgba(76, 175, 118, 1);
+}
+
+.--statusActive .ordersCardStatus span {
+    background: var(--blue);
+}
+
+.--statusClose .ordersCardStatus span {
+    background: var(--past);
+}
+
+.ordersCardStatus p {
+    font-size: calc(8vw / var(--resizer) * 100);
+    line-height: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    transition: .4s color linear;
+}
+
+
+.--statusWait .ordersCardStatus p {
+    color: rgba(212, 144, 58, 1);
+}
+
+.--statusDone .ordersCardStatus p {
+    color: rgba(76, 175, 118, 1);
+}
+
+.--statusActive .ordersCardStatus p {
+    color: var(--blue);
+}
+
+.--statusClose .ordersCardStatus p {
+    color: var(--past);
+}
+
+.ordersCardId {
+    color: rgba(205, 170, 125, 1);
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    text-align: right;
+    align-self: flex-end;
+}
+
+.ordersCardView {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: calc(6vw / var(--resizer) * 100) 0 0 0;
+    padding: calc(4vw / var(--resizer) * 100) calc(8vw / var(--resizer) * 100);
+    border-radius: calc(4vw / var(--resizer) * 100);
+    background: var(--surface);
+}
+
+.ordersCardViewTitle {
+    display: flex;
+    align-items: center;
+}
+
+.ordersCardViewTitle span {
+    margin: 0 calc(3vw / var(--resizer) * 100) 0 0;
+    width: calc(4vw / var(--resizer) * 100);
+    height: calc(4vw / var(--resizer) * 100);
+    border-radius: 50%;
+    background: rgba(243, 80, 80, 1);
+    transition: .4s background linear;
+}
+
+.--typeMix.ordersCardViewTitle span {
+    background: rgba(74, 111, 165, 1);
+}
+
+.ordersCardViewTitle p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    text-align: left;
+    color: var(--info);
+}
+
+.ordersCardViewInfo {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    align-self: flex-end;
+}
+
+.ordersCardViewInfo li {
+    font-size: calc(8vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    text-align: right;
+    color: var(--info);
+}
+
+.ordersCardDetails {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: calc(9vw / var(--resizer) * 100) 0 0 0;
+}
+
+.ordersCardDetailsl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.ordersCardDetail {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.ordersCardDetail::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: calc(-5vw / var(--resizer) * 100);
+    height: 100%;
+    width: calc(0.5vw / var(--resizer) * 100);
+    opacity: .3;
+    background: var(--info);
+}
+
+.ordersCardDetail:last-child:after {
+    display: none;
+}
+
+.ordersCardDetail img {
+    margin: 0 calc(3vw / var(--resizer) * 100) 0 0;
+    width: calc(9vw / var(--resizer) * 100);
+    height: calc(9vw / var(--resizer) * 100);
+}
+
+.ordersCardDetail p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    text-align: left;
+    color: var(--info);
+}
+
+.btnOpen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: calc(4vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border-radius: calc(6vw / var(--resizer) * 100);
+    background: rgba(48, 41, 32, 1);
+    text-decoration: none;
+
+    color: rgba(205, 170, 125, 1);
+
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+    font-weight: 400;
+    text-align: center;
+    border: none;
+}
+
+.menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    z-index: 9999;
+    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    backdrop-filter: blur(calc(22vw / var(--resizer) * 100));
+    background: rgba(24, 22, 18, 0.12);
+}
+
+.menuItem {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    justify-content: center;
+    width: calc(40vw / var(--resizer) * 100);
+    height: calc(40vw / var(--resizer) * 100);
+}
+
+.menuItem svg {
+    align-self: center;
+    width: calc(17vw / var(--resizer) * 100);
+    height: calc(17vw / var(--resizer) * 100);
+}
+
+.menuItem.active svg path,
+.menuItem:hover svg path {
+    stroke: var(--gold);
+}
+
+.menuItem span {
+    margin: calc(2vw / var(--resizer) * 100) 0 0 0;
+    color: rgba(51, 46, 39, 1);
+    font-size: calc(7vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(7vw / var(--resizer) * 100);
+    text-align: center;
+    align-self: center;
+    transition: .4s color linear;
+}
+
+.menuItem.active span,
+.menuItem:hover span {
+    color: var(--gold);
+}
+
+.menuItemCreateOrder {
+    width: calc(40vw / var(--resizer) * 100);
+    height: calc(40vw / var(--resizer) * 100);
+    background: url('/assets/img/create-order.svg') center / cover no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+/* .actionTab {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(calc(1vw / var(--resizer) * 100));
+    background: rgba(0, 0, 0, 0.66);
+    z-index: 99999;
+}
+
+.actionTab.active {
+    display: flex;
+}
+
+.actionTabWrapper {
+    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(18vw / var(--resizer) * 100) calc(18vw / var(--resizer) * 100) 0 0;
+    backdrop-filter: blur(calc(40vw / var(--resizer) * 100));
+    background: rgba(24, 22, 18, 0.78);
+    height: 93vh;
+    transform: translateY(100%);
+    transition: transform .3s ease;
+    touch-action: none;
+}
+
+.actionTabWrapper.active { transform: translateY(0); } */
+
+.actionTab {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(calc(1vw / var(--resizer) * 100));
+    background: rgba(0, 0, 0, 0.66);
+    z-index: 99999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+}
+
+.actionTab.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.actionTabWrapper {
+    display: flex;
+    flex-direction: column;
+    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(18vw / var(--resizer) * 100) calc(18vw / var(--resizer) * 100) 0 0;
+    backdrop-filter: blur(calc(40vw / var(--resizer) * 100));
+    background: rgba(24, 22, 18, 0.78);
+    height: 93vh;
+    transform: translateY(100%);
+    transition: transform .35s cubic-bezier(0.32, 0.72, 0, 1);
+    touch-action: none;
+}
+
+.actionTabInner {
+    padding: 0 calc(10vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    overflow: auto;
+}
+
+.actionTabWrapper.active {
+    transform: translateY(0);
+}
+
+.actionTabHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(15vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+}
+
+.actionTabHeader::before {
+    content: '';
+    position: absolute;
+    top: calc(10vw / var(--resizer) * 100);
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(27vw / var(--resizer) * 100);
+    height: calc(1.5vw / var(--resizer) * 100);
+    background: rgba(35, 31, 24, 1);
+}
+
+.actionTabHeader h3 {
+    font-size: calc(14vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(14vw / var(--resizer) * 100);
+    text-align: left;
+    color: var(--white);
+}
+
+.actionTabHeader h3 span {
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(12vw / var(--resizer) * 100);
+    color: rgba(90, 83, 72, 1);
+}
+
+.actionTabHeaderBtns {
+    display: flex;
+    align-items: center;
+    gap: calc(8vw / var(--resizer) * 100);
+}
+
+.actionTabHeaderBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: 100%;
+    background: rgba(34, 30, 26, 1);
+    border: none;
+    width: calc(20vw / var(--resizer) * 100);
+    height: calc(20vw / var(--resizer) * 100);
+    cursor: pointer;
+}
+
+.actionTabHeaderBtn img {
+    width: calc(10vw / var(--resizer) * 100);
+    height: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabSearchSection {
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+}
+
+.actionTabSearchSection form {
+    display: flex;
+    flex-direction: column;
+}
+
+.actionTabTitle {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 83, 72, 1);
+    text-transform: uppercase;
+}
+
+.actionTabSearchSection .search {
+    margin: calc(6vw / var(--resizer) * 100) 0 0 0;
+}
+
+.actionTabSearchSectionResult {
+    position: relative;
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    height: calc(130vw / var(--resizer) * 100);
+    overflow: auto;
+}
+
+.actionTabSearchSectionResult .ordersCardTop {
+    position: relative;
+    padding: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabSearchSectionResult .ordersCardTop:last-child {
+    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+}
+
+.editTobaccoRow,
+.guestLabelRow {
+    backdrop-filter: blur(calc(8vw / var(--resizer) * 100));
+    background: rgba(24, 22, 18, 0.24);
+    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    transition: .4s background linear;
+}
+
+.editTobaccoRow.--actionTabSearchSectionResultActive,
+.guestLabelRow.--actionTabSearchSectionResultActive,
+.addItemOption.--actionTabSearchSectionResultActive {
+    background: rgba(56, 48, 39, 1);
+}
+
+.ordersCardTop::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: calc(10vw / var(--resizer) * 100);
+    transform: translateY(-50%);
+    width: calc(14vw / var(--resizer) * 100);
+    height: calc(14vw / var(--resizer) * 100);
+    border: 1px solid rgba(35, 31, 24, 1);
+    border-radius: 50%;
+}
+
+.ordersCardTop::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: calc(11vw / var(--resizer) * 100);
+    transform: translateY(-50%) scale(.7);
+    width: calc(14vw / var(--resizer) * 100);
+    height: calc(14vw / var(--resizer) * 100);
+    background: url('/assets/img/check-icon.svg') center / cover no-repeat;
+    z-index: 1;
+    opacity: 0;
+}
+
+.editTobaccoRow.--actionTabSearchSectionResultActive .ordersCardTop::after,
+.guestLabelRow.--actionTabSearchSectionResultActive.ordersCardTop::after,
+.addItemOption.--actionTabSearchSectionResultActive.ordersCardTop::after {
+    border-color: rgba(205, 170, 125, 1);
+    background: rgba(205, 170, 125, 1);
+}
+
+.editTobaccoRow.--actionTabSearchSectionResultActive .ordersCardTop::before,
+.guestLabelRow.--actionTabSearchSectionResultActive.ordersCardTop::before,
+.addItemOption.--actionTabSearchSectionResultActive.ordersCardTop::before {
+    opacity: 1;
+}
+
+.guestLabelRow {
+    transition: .4s background linear, .4s border-color linear;
+}
+
+.actionTabCreateQuest {
+    position: relative;
+    bottom: calc(6vw / var(--resizer) * 100);
+    display: flex;
+    align-items: center;
+    padding: calc(15vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    backdrop-filter: blur(calc(8vw / var(--resizer) * 100));
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: 0 0 calc(8vw / var(--resizer) * 100) calc(8vw / var(--resizer) * 100);
+    background: rgba(24, 22, 18, 0.24);
+    z-index: 999999;
+}
+
+.actionTabCreateQuest img {
+    margin: 0 calc(8vw / var(--resizer) * 100) 0 0;
+    width: calc(17vw / var(--resizer) * 100);
+    height: calc(17vw / var(--resizer) * 100);
+}
+
+.actionTabCreateQuest span {
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 500;
+    line-height: calc(12vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(205, 170, 125, 1);
+}
+
+.actionTabSection {
+    margin-top: calc(5vw / var(--resizer) * 100);
+}
+
+.actionTabSection .defaultForm {
+    margin-top: calc(6vw / var(--resizer) * 100);
+}
+
+._mt10 {
+    margin-top: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabSectionRow {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: calc(6vw / var(--resizer) * 100);
+}
+
+.defaultForm textarea {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 400;
+    text-align: left;
+}
+
+.actionTabActions {
+    margin: calc(15vw / var(--resizer) * 100) 0 0 0;
+    padding: calc(10vw / var(--resizer) * 100);
+    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+}
+
+.actionTabActionsButtons {
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabActionsButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: calc(15vw / var(--resizer) * 100);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    border: none;
+
+
+    font-size: calc(14vw / var(--resizer) * 100);
+    font-weight: 500;
+    line-height: calc(14vw / var(--resizer) * 100);
+    text-align: center;
+}
+
+.actionTabActionsButton.--buttonAccent {
+    background: rgba(205, 170, 125, 1);
+    color: rgba(22, 20, 16, 1);
+}
+
+.actionTabWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.createOrder .actionTabSection.--flex1 {
+    flex: 1;
+}
+
+.--flex1 {
+    flex: 1;
+}
+
+.actionTabSection .actionTabCreateQuest {
+    border-radius: calc(8vw / var(--resizer) * 100);
+}
+
+.actionTabViewOrderTop {
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    padding: calc(10vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: rgba(24, 22, 18, 1);
+}
+
+.actionTabViewOrderTopBody {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.actionTabViewOrderTopLeft {
+    display: flex;
+    flex-direction: column;
+}
+
+.actionTabViewOrderTopStatus {
+    display: flex;
+    align-items: center;
+}
+
+.actionTabViewOrderTopStatusCircle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 calc(5vw / var(--resizer) * 100) 0 0;
+    width: calc(10vw / var(--resizer) * 100);
+    height: calc(10vw / var(--resizer) * 100);
+    background: rgba(90, 83, 72, 1);
+    border-radius: 50%;
+}
+
+.actionTabViewOrderTopStatusCircle span {
+    width: calc(5vw / var(--resizer) * 100);
+    height: calc(5vw / var(--resizer) * 100);
+    border-radius: 50%;
+    background: rgba(90, 82, 72, 1);
+}
+
+.actionTabViewOrderTopBody.--orderCreated .actionTabViewOrderTopStatusCircle span {
+    background: rgba(212, 144, 58, 1);
+}
+
+.actionTabViewOrderTopBody.--orderDone .actionTabViewOrderTopStatusCircle span {
+    background: rgba(76, 175, 118, 1);
+}
+
+.actionTabViewOrderTopBody.--orderActive .actionTabViewOrderTopStatusCircle span {
+    background: rgba(74, 111, 165, 1);
+}
+
+.actionTabViewOrderTopBody.--orderClosed .actionTabViewOrderTopStatusCircle span {
+    background: rgba(90, 82, 72, 1);
+}
+
+.actionTabViewOrderTopStatus p {
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(12vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 82, 72, 1);
+}
+
+.actionTabViewOrderTopBody.--orderCreated .actionTabViewOrderTopStatus p {
+    color: rgba(212, 144, 58, 1);
+}
+
+.actionTabViewOrderTopBody.--orderDone .actionTabViewOrderTopStatus p {
+    color: rgba(76, 175, 118, 1);
+}
+
+.actionTabViewOrderTopBody.--orderActive .actionTabViewOrderTopStatus p {
+    color: rgba(74, 111, 165, 1);
+}
+
+.actionTabViewOrderTopBody.--orderClosed .actionTabViewOrderTopStatus p {
+    color: rgba(90, 82, 72, 1);
+}
+
+.actionTabViewOrderTopBodyItem {
+    display: flex;
+    align-items: center;
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+}
+
+.actionTabViewOrderTopBodyItem img {
+    margin: 0 calc(3vw / var(--resizer) * 100) 0 0;
+    width: calc(9vw / var(--resizer) * 100);
+    height: calc(9vw / var(--resizer) * 100);
+}
+
+.actionTabViewOrderTopBodyItem p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 83, 72, 1);
+}
+
+.actionTabViewOrderTopTimer {
+    font-size: calc(24vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(24vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 82, 72, 1);
+}
+
+.actionTabViewOrderTopBody.--orderCreated .actionTabViewOrderTopTimer {
+    color: rgba(212, 144, 58, 1);
+}
+
+.actionTabViewOrderTopBody.--orderDone .actionTabViewOrderTopTimer {
+    color: rgba(76, 175, 118, 1);
+}
+
+.actionTabViewOrderTopBody.--orderActive .actionTabViewOrderTopTimer {
+    color: rgba(74, 111, 165, 1);
+}
+
+.actionTabViewOrderTopBody.--orderClosed .actionTabViewOrderTopTimer {
+    color: rgba(90, 82, 72, 1);
+}
+
+.actionTabViewOrderCard {
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    display: flex;
+    flex-direction: column;
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: rgba(24, 22, 18, 1);
+}
+
+.actionTabViewOrderCardTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+}
+
+.actionTabHistorySUV {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+}
+
+.actionTabViewOrderCardTop button,
+.actionTabHistorySUV button,
+.actionTabSearchSectionResultHead button,
+.actionTabCntRow3od21 button {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: transparent;
+}
+
+.actionTabViewOrderCardTop button img,
+.actionTabHistorySUV button img,
+.actionTabSearchSectionResultHead button img,
+.actionTabCntRow3od21 button img {
+    margin: 0 calc(3vw / var(--resizer) * 100) 0 0;
+    width: calc(10vw / var(--resizer) * 100);
+    height: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabViewOrderCardTop button span,
+.actionTabHistorySUV button span,
+.actionTabSearchSectionResultHead button span,
+.actionTabCntRow3od21 button span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 400;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(205, 170, 125, 1);
+}
+
+.actionTabViewOrderCardBtm {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabViewOrderCardBtm2 {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.actionTabViewOrderCardBtmColumn {
+    flex-direction: column;
+    padding: 0;
+}
+
+.actionTabViewOrderCardBtmColumn2 {
+    flex-direction: column;
+    padding: calc(10vw / var(--resizer) * 100);
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabViewOrderCardBtmColumn2 select {
+    width: 100%;
+}
+
+.actionTabViewOrderProductList {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: calc(10vw / var(--resizer) * 100);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+}
+
+.actionTabViewOrderProductListLeft {
+    display: flex;
+    align-items: center;
+}
+
+.actionTabViewOrderProductList img {
+    margin: 0 calc(8vw / var(--resizer) * 100) 0 0;
+    width: calc(30vw / var(--resizer) * 100);
+    height: calc(30vw / var(--resizer) * 100);
+    border-radius: 100%;
+}
+
+.actionTabViewOrderProductListBody {
+    display: flex;
+    flex-direction: column;
+}
+
+.actionTabViewOrderProductListBody p {
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(12vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+    margin: 0 0 calc(4vw / var(--resizer) * 100) 0;
+}
+
+.actionTabViewOrderProductListBody span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(205, 170, 125, 1);
+}
+
+.actionTabViewOrderProductListRight {
+    display: flex;
+    align-items: center;
+}
+
+.actionTabViewOrderProductListRight p {
+    margin: 0 calc(2vw / var(--resizer) * 100) 0 0;
+    font-size: calc(15vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(15vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+}
+
+.actionTabViewOrderProductListRight span {
+    font-size: calc(15vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(15vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(205, 170, 125, 1);
+}
+
+.actionTabViewOrderCard .actionTabSearchSectionResult {
+    margin: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.actionTabSearchSectionResultLists {
+    padding: calc(5vw / var(--resizer) * 100);
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(8vw / var(--resizer) * 100);
+    text-align: left;
+    color: var(--info);
+}
+
+.actionTabSearchSectionResultLists span {
+    color: rgba(205, 170, 125, 1);
+}
+
+.actionTabHistoryItem {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabHistoryItem::before {
+    content: '';
+    position: absolute;
+    top: calc(10vw / var(--resizer) * 100);
+    left: calc(14vw / var(--resizer) * 100);
+    width: calc(2vw / var(--resizer) * 100);
+    height: 100%;
+    background: rgba(34, 30, 26, 1);
+}
+
+.actionTabHistoryItem:last-child::before {
+    display: none;
+}
+
+.actionTabHistoryItemLeft {
+    display: flex;
+}
+
+.actionTabHistoryItemCircle {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 calc(7vw / var(--resizer) * 100) 0 0;
+    background: rgba(34, 30, 26, 1);
+    border-radius: 100%;
+    width: calc(10vw / var(--resizer) * 100);
+    height: calc(10vw / var(--resizer) * 100);
+}
+
+/* .actionTabHistoryItemCircle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: calc(2vw / var(--resizer) * 100);
+    height: calc(100vw / var(--resizer) * 100);
+    background: rgba(34, 30, 26, 1);
+}
+
+.actionTabHistoryItemCircle:last-child::before {
+    display: none;
+} */
+
+.actionTabHistoryItemCircle span {
+    border-radius: 100%;
+    width: calc(6vw / var(--resizer) * 100);
+    height: calc(6vw / var(--resizer) * 100);
+}
+
+.actionTabHistoryItem.--orderCreated .actionTabHistoryItemCircle span {
+    background: rgba(212, 144, 58, 1);
+}
+
+.actionTabHistoryItem.--orderDone .actionTabHistoryItemCircle span,
+.actionTabHistoryItem.--orderAdd .actionTabHistoryItemCircle span {
+    background: rgba(76, 175, 118, 1);
+}
+
+.actionTabHistoryItem.--orderActive .actionTabHistoryItemCircle span {
+    background: rgba(74, 111, 165, 1);
+}
+
+.actionTabHistoryItem.--orderService .actionTabHistoryItemCircle span,
+.actionTabHistoryItem.--orderRemove .actionTabHistoryItemCircle span {
+    background: rgba(255, 0, 0, 1);
+}
+
+.actionTabHistoryItem.--orderClosed .actionTabHistoryItemCircle span {
+    background: rgba(90, 82, 72, 1);
+}
+
+.actionTabHistoryItemLogsBlock .actionTabHistoryItem.--logAdd .actionTabHistoryItemCircle span {
+    background: rgba(74, 111, 165, 1);
+}
+
+.actionTabHistoryItemLogsBlock .actionTabHistoryItem.--logRemove .actionTabHistoryItemCircle span {
+    background: rgba(255, 0, 0, 1);
+}
+
+.actionTabHistoryItemLogsBlock .actionTabHistoryItem.--logChanged .actionTabHistoryItemCircle span {
+    background: rgba(212, 144, 58, 1);
+}
+
+.--isGold {
+    color: rgba(212, 144, 58, 1);
+}
+
+.actionTabHistoryItemInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.actionTabHistoryItemTitle {
+    margin: 0 0 calc(5vw / var(--resizer) * 100) 0;
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(12vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+}
+
+.actionTabHistoryItemSubtitle {
+    margin: 0 0 calc(5vw / var(--resizer) * 100) 0;
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+}
+
+.actionTabHistoryItemSubtitle span {
+    color: var(--gold);
+}
+
+.actionTabHistoryItemRow {
+    display: flex;
+    align-items: center;
+}
+
+.actionTabHistoryItemRow img {
+    margin: 0 calc(5vw / var(--resizer) * 100) 0 0;
+    width: calc(9vw / var(--resizer) * 100);
+    height: calc(9vw / var(--resizer) * 100);
+}
+
+.actionTabHistoryItemRow span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 83, 72, 1);
+}
+
+.actionTabHistoryItemTime {
+    display: flex;
+    flex-direction: column;
+}
+
+.actionTabHistoryItemTime span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: right;
+    color: rgba(205, 170, 125, 1);
+}
+
+.actionTabHistoryItemTime span:last-child {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    color: var(--info);
+}
+
+.actionTabHistoryItemComment {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    padding: calc(5vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(4vw / var(--resizer) * 100);
+    background: rgba(34, 30, 26, 1);
+    width: calc(180vw / var(--resizer) * 100);
+}
+
+.actionTabHistoryItemComment p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(205, 170, 125, 1);
+}
+
+.actionTabHistorySUV {
+    padding: calc(5vw / var(--resizer) * 100);
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(8vw / var(--resizer) * 100);
+    text-align: left;
+    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    color: var(--info);
+}
+
+.actionTabHistorySUV span.--isBlue {
+    color: rgba(74, 111, 165, 1);
+}
+
+.actionTabHistorySUV span.--isRed {
+   color: rgba(255, 0, 0, 1); 
+}
+
+.arrowDown {
+    transition: .4s transform ease;
+}
+
+.actionTabViewOrderCardHide {
+    overflow: hidden;
+    max-height: calc(27vw / var(--resizer) * 100);
+    transition: .4s max-height ease;
+}
+
+.actionTabViewOrderCardHide.actionTabViewOrderCardShow {
+    max-height: calc(1000vw / var(--resizer) * 100);
+    overflow: auto;
+}
+
+.actionTabViewOrderCardHide.actionTabViewOrderCardShow .arrowDown {
+    transform: rotate(180deg);
+}
+
+.actionTabViewOrderCardAction {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabViewOrderCardActionButtons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabViewOrderCardButton {
+    padding: calc(10vw / var(--resizer) * 100);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: rgba(205, 170, 125, 1);
+    border: none;
+
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(12vw / var(--resizer) * 100);
+}
+
+.actionTabViewOrderCardButton.--orderDone {
+    background: rgba(76, 175, 118, 1);
+}
+
+.actionTabViewOrderCardButton.--orderActive {
+    background: rgba(74, 111, 165, 1);
+}
+
+.actionTabViewOrderCardButton.--orderService {
+    background: transparent;
+    border: calc(1vw / var(--resizer) * 100) solid var(--gold);
+    color: var(--gold);
+    transition: .3s background linear, .3s border-color linear, .3s color linear;
+}
+
+.actionTabViewOrderCardButton.--orderService:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #000;
+}
+
+.actionTabViewOrderCardButton.--orderCancel {
+    background: transparent;
+    border: calc(1vw / var(--resizer) * 100) solid var(--gold);
+    color: var(--gold);
+}
+
+.actionTabViewOrderCardActionWrapper {
+    border: none;
+}
+
+.actionTabViewOrderCardActionWrapper .actionTabViewOrderCardBtm {
+    padding: 0;
+}
+
+.analytics {
+    display: flex;
+    flex-direction: column;
+    gap: calc(15vw / var(--resizer) * 100);
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+}
+
+.analyticsCard {
+    display: flex;
+    flex-direction: column;
+}
+
+.analyticsCardTitle {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 83, 72, 1);
+    text-transform: uppercase;
+}
+
+.analyticsCardTitle span {
+    text-transform: lowercase;
+}
+
+.analyticsCardRow {
+    margin: calc(6vw / var(--resizer) * 100) 0 0 0;   
+}
+
+.analyticsCardQuests .analyticsCardRow {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: calc(6vw / var(--resizer) * 100);
+}
+
+.analyticsCardRow .analyticsQuestsItem {
+    display: flex;
+    flex-direction: column;
+    padding: calc(8vw / var(--resizer) * 100) calc(12vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: rgba(24, 22, 18, 1);
+}
+
+.analyticsQuestsTitle {
+    font-size: calc(22vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(24vw / var(--resizer) * 100);
+    text-align: center;
+    align-self: center;
+    color: rgba(255, 255, 255, 1);
+}
+
+.analyticsQuestsSubtitle {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(14vw / var(--resizer) * 100);
+    text-align: center;
+    align-self: center;
+    color: rgba(90, 83, 72, 1);
+}
+
+.analyticsQuestsDescription {
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(14vw / var(--resizer) * 100);
+    text-align: center;
+    align-self: center;
+    color: rgba(255, 255, 255, 1);
+    flex: 1;
+}
+
+.analyticsQuestsDescription.--plus {
+    color: rgba(205, 170, 125, 1);
+}
+
+.analyticsQuestsDescription.--minus {
+    color: rgba(192, 87, 74, 1);
+}
+
+.analyticsQuestsText {
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(26vw / var(--resizer) * 100);
+    text-align: center;
+    align-self: center;
+    color: rgba(205, 170, 125, 1);
+}
+
+.analyticsQuestsItemRow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: calc(4vw / var(--resizer) * 100);
+    margin: calc(7vw / var(--resizer) * 100) 0 0 0;
+    height: calc(35vw / var(--resizer) * 100);
+}
+
+.analyticsQuestsItemRow span {
+    border-radius: calc(2vw / var(--resizer) * 100);
+    background: rgba(39, 35, 28, 1);
+    height: calc(27vw / var(--resizer) * 100);
+}
+
+.analyticsQuestsItemRow span.active {
+    background: rgba(205, 170, 125, 1);
+}
+
+.analyticsCardQuestsPercent .analyticsQuestsItem {
+    padding: calc(14vw / var(--resizer) * 100);
+}
+
+.analyticsCardQuestsBody {
+    display: flex;
+    justify-content: flex-end;
+    border-radius: calc(17vw / var(--resizer) * 100);
+    background: rgba(205, 170, 125, 1);
+    width: 100%;
+    height: calc(10vw / var(--resizer) * 100);
+    overflow: hidden;
+}
+
+.analyticsCardQuestsBody span {
+    height: calc(10vw / var(--resizer) * 100);
+    background: rgba(192, 87, 74, 1);
+    width: 69%;
+}
+
+.analyticsCardQuestsBodyRow {
+    display: flex;
+    justify-content: space-between;
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+}
+
+.analyticsCardQuestsBodyRowItem {
+    display: flex;
+    align-items: center;
+}
+
+.analyticsCardQuestsBodyRowItemCircle {
+    margin: 0 calc(5vw / var(--resizer) * 100) 0 0;
+    border-radius: 50%;
+    background: rgba(205, 170, 125, 1);
+    width: calc(7vw / var(--resizer) * 100);
+    height: calc(7vw / var(--resizer) * 100);
+}
+
+.analyticsCardQuestsBodyRow .analyticsCardQuestsBodyRowItem:last-child .analyticsCardQuestsBodyRowItemCircle {
+    background: rgba(192, 87, 74, 1);
+}
+
+.analyticsCardQuestsBodyRowItemBody {
+    display: flex;
+    flex-direction: column;
+}
+
+.analyticsCardQuestsBodyRowItemBody p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(12vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+}
+
+.analyticsCardQuestsBodyRowItemBody span {
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 83, 72, 1);
+}
+
+.analyticsCardDayTime .analyticsCardRow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(6vw / var(--resizer) * 100);
+}
+
+.analyticsCardDayTime .analyticsQuestsItem {
+    display: flex;
+    flex-direction: column;
+    transition: .4s background linear, .4s border linear;
+}
+
+.analyticsCardDayTime .analyticsQuestsItem.active {
+    border: calc(1vw / var(--resizer) * 100) solid rgba(76, 175, 118, 1);
+    background: rgba(32, 42, 31, 1);
+}
+
+.analyticsCardDayTime .analyticsQuestsItem img {
+    width: calc(20vw / var(--resizer) * 100);
+    height: calc(20vw / var(--resizer) * 100);
+    align-self: center;
+}
+
+.analyticsCardDayTime .analyticsQuestsItem p {
+    margin: calc(3vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: center;
+    align-self: center;
+    color: rgba(255, 255, 255, 1);
+    transition: .4s color linear;
+}
+
+.analyticsCardDayTime .analyticsQuestsItem.active p {
+    color: var(--gold);
+}
+
+.analyticsCardDayTime .analyticsQuestsItem span {
+    margin: calc(3vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(8vw / var(--resizer) * 100);
+    align-self: center;
+    text-align: center;
+    color: rgba(90, 83, 72, 1);
+    transition: .4s color linear;
+}
+
+.analyticsCardDayTime .analyticsQuestsItem.active span {
+    color: var(--gold);
+}
+
+.analyticsWorkloadByTimeAndWeek {
+
+}
+
+.analyticsWorkloadByTimeAndWeek .analyticsQuestsItem {
+    display: flex;
+    flex-direction: column;
+    padding: calc(10vw / var(--resizer) * 100) calc(16vw / var(--resizer) * 100);
+}
+
+.analyticsWorkloadByTimeAndWeekTop {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: calc(6vw / var(--resizer) * 100);
+}
+
+.analyticsWorkloadByTimeAndWeekTop span {
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(16vw / var(--resizer) * 100);
+    text-align: center;
+    color: rgba(90, 83, 72, 1);
+}
+
+.analyticsWorkloadByTimeAndWeekBtm {
+    display: flex;
+    flex-direction: column;
+    gap: calc(6vw / var(--resizer) * 100);
+}
+
+.analyticsWorkloadByTimeAndWeekBtmItem {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: calc(6vw / var(--resizer) * 100);  
+}
+
+.analyticsWorkloadByTimeAndWeekBtmItem span {
+    height: calc(30vw / var(--resizer) * 100);
+    border-radius: calc(2vw / var(--resizer) * 100);
+    background: rgba(34, 30, 26, 1);
+}
+
+.analyticsWorkloadByTimeAndWeekBtmItem div {
+    height: calc(30vw / var(--resizer) * 100);
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(8vw / var(--resizer) * 100);
+    text-align: center;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(90, 83, 72, 1);
+}
+
+.analyticsWorkloadByTimeAndWeekSUV {
+    display: flex;
+    align-items: center;
+    margin: calc(14vw / var(--resizer) * 100) 0 0 0;
+    align-self: flex-end;
+    gap: calc(2vw / var(--resizer) * 100);
+}
+
+.analyticsWorkloadByTimeAndWeekSUV p {
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(8vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 83, 72, 1);
+}
+
+.analyticsWorkloadByTimeAndWeekSUV span {
+    width: calc(10vw / var(--resizer) * 100);
+    height: calc(10vw / var(--resizer) * 100);
+    border-radius: calc(2vw / var(--resizer) * 100);
+    background: rgba(34, 30, 26, 1);
+}
+
+.analyticsWorkloadByTimeAndWeek .--stage1 {
+    background: rgba(34, 30, 26, 1);
+}
+
+.analyticsWorkloadByTimeAndWeek .--stage2 {
+    background: rgba(60, 52, 40, 1);
+}
+
+.analyticsWorkloadByTimeAndWeek .--stage3 {
+    background: rgba(96, 81, 60, 1);
+}
+
+.analyticsWorkloadByTimeAndWeek .--stage4 {
+    background: rgba(142, 118, 88, 1);
+}
+
+.analyticsWorkloadByTimeAndWeek .--stage5 {
+    background: rgba(206, 171, 125, 1);
+}
+
+.analyticsCardTop {
+
+}
+
+.analyticsCardTopRow {
+    display: flex;
+    flex-direction: column;
+    gap: calc(6vw / var(--resizer) * 100);
+    margin: calc(6vw / var(--resizer) * 100) 0 0 0;
+}
+
+.analyticsCardTopItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(4vw / var(--resizer) * 100) calc(6vw / var(--resizer) * 100);
+    border-radius: calc(4vw / var(--resizer) * 100);
+    background: rgba(34, 30, 26, 1);
+}
+
+.analyticsCardTopItemLeft {
+    display: flex;
+    align-items: center;
+    width: calc(190vw / var(--resizer) * 100);
+}
+
+.analyticsCardTopItemCount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 calc(9vw / var(--resizer) * 100) 0 0;
+    width: calc(15vw / var(--resizer) * 100);
+    height: calc(15vw / var(--resizer) * 100);
+    border-radius: calc(12vw / var(--resizer) * 100);
+    background: rgba(32, 42, 31, 1);
+}
+
+.analyticsCardTopItemCount span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    align-self: center;
+    text-align: center;
+    color: rgba(76, 175, 118, 1);
+}
+
+.analyticsCardTopItemTitle {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+    max-width: 80%;
+}
+
+.analyticsCardTopItemRight {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+.analyticsCardTopItemBar {
+    display: flex;
+    justify-content: flex-start;
+    width: calc(63vw / var(--resizer) * 100);
+    height: calc(5vw / var(--resizer) * 100);
+    border-radius: calc(4vw / var(--resizer) * 100);
+    background: rgba(42, 38, 31, 1);
+    overflow: hidden;
+}
+
+.analyticsCardTopItemBar span {
+    background: rgba(205, 170, 125, 1);
+    width: 30%;
+}
+
+.analyticsCardTopItemDesc {
+    margin: 0 calc(4vw / var(--resizer) * 100) 0 0;
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(8vw / var(--resizer) * 100);
+    text-align: right;
+    color: var(--gold);
+    width: calc(20vw / var(--resizer) * 100);
+}
+
+.analyticsCardTopHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.analyticsCardTopHeadRow {
+    display: flex;
+    align-items: center;
+}
+
+.analyticsCardTopHeadRow p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    color: var(--gold);
+}
+
+.analyticsCardTopMore {
+    display: flex;
+    align-items: center;
+    margin: 0 0 0 calc(5vw / var(--resizer) * 100);
+    border: none;
+    background: transparent;
+}
+
+.analyticsCardTopMore span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    color: rgba(205, 170, 125, 1);
+}
+
+.analyticsCardTopMore img {
+    margin: 0 0 0 calc(5vw / var(--resizer) * 100);
+    width: calc(8vw / var(--resizer) * 100);
+    height: calc(8vw / var(--resizer) * 100);
+}
+
+header.defaultFixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    padding: calc(10vw / var(--resizer) * 100);
+    background: rgba(15, 14, 12, 1);
+}
+
+.analytics.defaultFixed {
+    padding: calc(105vw / var(--resizer) * 100) 0 0 0;
+}
+
+.analyticsCardTastesRow {
+    display: flex;
+    flex-direction: column;
+    margin: calc(6vw / var(--resizer) * 100) 0 0 0;
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: rgba(24, 22, 18, 1);
+    overflow: hidden;
+}
+
+.analyticsCardTastesItem {
+    display: flex;
+    align-items: center;
+    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+}
+
+.analyticsCardTastesRow .analyticsCardTastesItem:last-child {
+    border: none;
+}
+
+.analyticsCardTastesItemTitle {
+    margin: 0 calc(10vw / var(--resizer) * 100) 0 0;
+    padding: calc(5vw / var(--resizer) * 100);
+    width: calc(12vw / var(--resizer) * 100);
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    color: rgba(90, 83, 72, 1);
+}
+
+.analyticsCardTastesItemRow {
+    display: flex;
+    overflow: auto;
+    padding: calc(5vw / var(--resizer) * 100);
+    gap: calc(6vw / var(--resizer) * 100);
+    scrollbar-width: none;
+}
+
+.analyticsCardTastesItemRow::-webkit-scrollbar {
+    display: none;
+}
+
+.analyticsCardTastesItemRowItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: calc(2vw / var(--resizer) * 100) calc(6vw / var(--resizer) * 100);
+    border-radius: calc(12vw / var(--resizer) * 100);
+    background: rgba(32, 42, 31, 1);
+}
+
+.analyticsCardTastesItemRowItem span {
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(8vw / var(--resizer) * 100);
+    text-align: center;
+    color: var(--gold);
+    white-space: nowrap;
+}
+
+.analyticsCardLongGuestRow .btnOpen {
+    margin: calc(4vw / var(--resizer) * 100) 0 0 0;
+}
+
+.analyticsCardLongGuestRowSUV {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+}
+
+.analyticsCardLongGuestRowSUV p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    color: rgba(192, 87, 74, 1);
+}
+
+.analyticsCardLongGuest .filters {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.analyticsCardLongGuest .filtersRow {
+    display: flex;
+    gap: calc(5vw / var(--resizer) * 100);
+    width: 100%;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.analyticsCardLongGuest .ordersCard {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+}
+
+main.tabaccos .defaultFixed .filters {
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+}
+
+.headerStatsWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.headerStatsWrapperAction {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.headerStatsWrapperAction button {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    padding: calc(8vw / var(--resizer) * 100) calc(12vw / var(--resizer) * 100);
+    border-radius: calc(6vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid var(--info);
+    background: var(--info);
+}
+
+.headerStatsWrapperAction button span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: center;
+    color: var(--white);
+}
+
+.headerStatsWrapperAction button.headerStatsButtonPrimary {
+    background: var(--gold);
+}
+
+.headerStatsWrapperAction button.headerStatsButtonPrimary span {
+    color: rgba(15, 14, 12, 1);
+}
+
+.headerStatsWrapperAction button.headerStatsButtonSecondary {
+    background: transparent;
+    border-color: var(--gold);
+}
+
+.headerStatsWrapperAction button.headerStatsButtonSecondary span {
+    color: var(--gold);
+}
+
+.productList {
+    display: flex;
+    flex-direction: column;
+    gap: calc(8vw / var(--resizer) * 100);
+}
+
+.productList.defaultFixed {
+    padding: calc(200vw / var(--resizer) * 100) 0 0 0;
+}
+
+.productListItem {
+    display: flex;
+    flex-direction: column;
+    padding: calc(10vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: rgba(24, 22, 18, 1);
+}
+
+.productListItemTop {
+    display: flex;
+    justify-content: space-between;
+}
+
+.productListItemTopInfo {
+    display: flex;
+    align-items: center;
+}
+
+.productListItemTopInfo img {
+    margin: 0 calc(8vw / var(--resizer) * 100) 0 0;
+    width: calc(30vw / var(--resizer) * 100);
+    height: calc(30vw / var(--resizer) * 100);
+    border-radius: 50%;
+}
+
+.productListItemTopBody {
+    display: flex;
+    flex-direction: column;
+}
+
+.productListItemToptitle {
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(16vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+}
+
+.productListItemTopDescription {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(14vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(205, 170, 125, 1);
+}
+
+.productListItemTopId {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: right;
+    color: rgba(205, 170, 125, 1);
+}
+
+.productListItemTags {
+    display: flex;
+    flex-wrap: wrap;
+    margin: calc(8vw / var(--resizer) * 100) 0 calc(4vw / var(--resizer) * 100) 0;
+    gap: calc(3vw / var(--resizer) * 100);
+}
+
+.productListItemTagsItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: calc(9vw / var(--resizer) * 100);
+    padding: calc(2vw / var(--resizer) * 100) calc(6vw / var(--resizer) * 100);
+    background: rgba(29, 27, 23, 1);
+}
+
+.productListItemTagsItem span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: center;
+    color: rgba(90, 83, 72, 1);
+}
+
+.productListItemTastes {
+    display: flex;
+    flex-wrap: wrap;
+    padding: calc(4vw / var(--resizer) * 100) 0 0 0;
+    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    gap: calc(3vw / var(--resizer) * 100);
+}
+
+.productListItemTastesItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: calc(2vw / var(--resizer) * 100) calc(6vw / var(--resizer) * 100);
+    border-radius: calc(4vw / var(--resizer) * 100);
+    background: rgba(48, 41, 32, 1);
+}
+
+.productListItemTastesItem span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: center;
+    color: rgba(205, 170, 125, 1);
+}
+
+.productListItemBottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+}
+
+.productListItemLeft {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.productListItemLeftItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: max-content;
+}
+
+.productListItemLeftItem::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: calc(-5vw / var(--resizer) * 100);
+    width: calc(.5vw / var(--resizer) * 100);
+    height: 100%;
+    background: rgba(35, 31, 24, 1);
+}
+
+.productListItemLeft .productListItemLeftItem:last-child::after {
+    display: none;
+}
+
+.productListItemLeftItem img {
+    margin: 0 calc(3vw / var(--resizer) * 100) 0 0;
+    width: calc(9vw / var(--resizer) * 100);
+    height: calc(9vw / var(--resizer) * 100);
+}
+
+.productListItemLeftItem span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 83, 72, 1);
+}
+
+.productListItemBottomButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: calc(6vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border-radius: calc(6vw / var(--resizer) * 100);
+    background: rgba(48, 41, 32, 1);
+    border: none;
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: center;
+    color: rgba(205, 170, 125, 1);
+}
+
+main.tabaccos .filters {
+    margin: calc(10vw / var(--resizer) * 100) 0;
+}
+
+.viewProductSameTabHead {
+    display: flex;
+    align-items: center;
+    padding: calc(10vw / var(--resizer) * 100);
+}
+
+.viewProductSameTabHead img {
+    margin: 0 calc(12vw / var(--resizer) * 100) 0 0;
+    width: calc(50vw / var(--resizer) * 100);
+    height: calc(50vw / var(--resizer) * 100);
+    border-radius: 50%;
+}
+
+.viewProductSameTabHeadBody {
+    display: flex;
+    flex-direction: column;
+}
+
+.viewProductSameTabHeadTitle {
+    font-size: calc(14vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(14vw / var(--resizer) * 100);
+    color: var(--white);
+}
+
+.viewProductSameTabHeadText {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(12vw / var(--resizer) * 100);
+    color: var(--gold);
+}
+
+.actionTabCnt {
+    display: flex;
+    flex-direction: column;
+    padding: calc(10vw / var(--resizer) * 100);
+    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+}
+
+.actionTabCntText {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    color: rgba(255, 255, 255, 1);
+}
+
+.actionTabCntRow9d3mc,
+.actionTabCntRow0s2fp {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow9d3mc span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    color: var(--gold);
+}
+
+.actionTabCntRow0s2fp span {
+    padding: calc(4vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border-radius: calc(12vw / var(--resizer) * 100);
+    background: rgba(32, 42, 31, 1);
+
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: center;
+    color: rgba(76, 175, 118, 1);
+}
+
+.actionTabCntRow8n37d,
+.actionTabCntRow6bs7c {
+    display: grid;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(6vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow8n37d .item,
+.actionTabCntRow6bs7c .item {
+    display: flex;
+    flex-direction: column;
+    padding: calc(10vw / var(--resizer) * 100) calc(2vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow8n37d .item p {
+    font-size: calc(18vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(18vw / var(--resizer) * 100);
+    text-align: center;
+    color: var(--gold);
+}
+
+.actionTabCntRow8n37d .item span {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(8vw / var(--resizer) * 100);
+    text-align: center;
+    color: rgba(90, 83, 72, 1);
+}
+
+.actionTabCntRow6bs7c .item img {
+    width: calc(18vw / var(--resizer) * 100);
+    height: calc(18vw / var(--resizer) * 100);
+    align-self: center;
+}
+
+.actionTabCntRow6bs7c .item p {
+    margin: calc(2vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(8vw / var(--resizer) * 100);
+    text-align: center;
+    color: var(--gold);
+}
+
+.actionTabCntRow6bs7c .item span {
+    margin: calc(2vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: center;
+    color: rgba(90, 83, 72, 1);
+}
+
+.actionTabCntRow1ys7s {
+    display: grid;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    grid-template-columns: repeat(7, 1fr);
+    gap: calc(6vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow1ys7s .item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.actionTabCntRow1ys7s .item span {
+    width: 100%;
+    height: calc(20vw / var(--resizer) * 100);
+    border-radius: calc(4vw / var(--resizer) * 100);
+    background: rgba(34, 30, 26, 1);
+}
+
+.actionTabCntRow1ys7s .item.active span {
+    height: calc(30vw / var(--resizer) * 100);
+    background: var(--gold);
+}
+
+.actionTabCntRow1ys7s .item p {
+    margin: calc(2vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(8vw / var(--resizer) * 100);
+    text-align: center;
+    align-self: center;
+    color: rgba(90, 83, 72, 1);
+}
+
+.actionTabCntForm8s2id {
+    display: flex;
+    flex-direction: column;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    gap: calc(20vw / var(--resizer) * 100);
+}
+
+.actionTabCntForm8s2idRow {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: calc(4vw / var(--resizer) * 100);
+}
+
+.actionTabCntForm8s2idRow textarea {
+    padding: calc(4vw / var(--resizer) * 100) calc(4vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(4vw / var(--resizer) * 100);
+    background: rgba(34, 30, 26, 1);
+
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 400;
+    line-height: calc(10vw / var(--resizer) * 100);
+    width: 100%;
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+}
+
+.viewProductSameTab .actionTabWrapper {
+    overflow: auto;
+    padding-bottom: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabCntForm8s2idRowAction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.actionTabCntForm8s2idRowActionItem {
+    display: flex;
+    align-items: center;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabCntForm8s2idRowActionItem .item {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.actionTabCntForm8s2idRowActionItem .item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: calc(-5vw / var(--resizer) * 100);
+    height: 100%;
+    width: calc(0.5vw / var(--resizer) * 100);
+    opacity: .3;
+    background: var(--info);
+}
+
+.actionTabCntForm8s2idRowActionItem .item:last-child:after {
+    display: none;
+} 
+
+.actionTabCntForm8s2idRowActionItem img {
+    margin: 0 calc(4vw / var(--resizer) * 100) 0 0;
+    width: calc(9vw / var(--resizer) * 100);
+    height: calc(9vw / var(--resizer) * 100);
+}
+
+.actionTabCntForm8s2idRowActionItem p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 83, 72, 1);
+}
+
+.actionTabCntForm8s2idRowAction button {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: transparent;
+}
+
+.actionTabCntForm8s2idRowAction button img {
+    margin: 0 calc(3vw / var(--resizer) * 100) 0 0;
+    width: calc(10vw / var(--resizer) * 100);
+    height: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabCntForm8s2idRowAction button span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 400;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(205, 170, 125, 1);
+}
+
+.actionTabViewTabaccosList {
+    padding: 0 calc(10vw / var(--resizer) * 100);
+}
+
+.viewTabaccoDeactiveList .viewTabaccoDeactiveListWrapper,
+.viewMixesDeactiveList .viewTabaccoDeactiveListWrapper,
+.viewMixStoryTab .viewTabaccoDeactiveListWrapper {
+    padding: 0 calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabViewTabaccosList .actionTabViewOrderCard {
+    margin: 0 0 calc(10vw / var(--resizer) * 100) 0;
+}
+
+.actionTabViewTabaccosList .actionTabSearchSectionResult {
+    height: calc(375vw / var(--resizer) * 100);
+}
+
+.viewTabaccosList .actionTabViewTabaccosList {
+    overflow: auto;
+}
+
+.viewTabaccoDeactiveList .actionTabHistorySUV,
+.viewMixesDeactiveList .actionTabHistorySUV,
+.viewMixStoryTab .actionTabHistorySUV  {
+    gap: calc(5vw / var(--resizer) * 100);
+    border: none;
+}
+
+.viewTabaccoDeactiveList .--tabaccoAdd .actionTabHistoryItemCircle span,
+.viewMixesDeactiveList .--tabaccoAdd .actionTabHistoryItemCircle span,
+.viewMixStoryTab .--tabaccoAdd .actionTabHistoryItemCircle span {
+    background: var(--blue);
+}
+
+.viewTabaccoDeactiveList .--tabaccoRemove .actionTabHistoryItemCircle span,
+.viewMixesDeactiveList .--tabaccoRemove .actionTabHistoryItemCircle span,
+.viewMixStoryTab .--tabaccoRemove .actionTabHistoryItemCircle span {
+    background: rgba(255, 0, 0, 1);
+}
+
+.viewMixStoryTab .--tabaccoEdit .actionTabHistoryItemCircle span {
+    background: var(--gold);
+}
+
+.viewTabaccoDeactiveList .actionTabWrapper,
+.viewMixesDeactiveList .actionTabWrapper,
+.viewMixStoryTab .actionTabWrapper {
+    overflow: auto;
+    padding-bottom: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabViewTabaccosList .actionTabSearchSectionResult .ordersCardTop {
+    padding: calc(7vw / var(--resizer) * 100) calc(30vw / var(--resizer) * 100) calc(7vw / var(--resizer) * 100) calc(7vw / var(--resizer) * 100);
+}
+
+.actionTabViewTabaccosList .actionTabViewOrderProductListBody p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+}
+
+.--actionTabCnt04f2a {
+    gap: calc(7vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow0md23 {
+    display: flex;
+    flex-direction: column;
+    gap: calc(2vw / var(--resizer) * 100);
+}
+
+.actionTab.viewMix .actionTabViewOrderCardHide {
+    max-height: calc(40vw / var(--resizer) * 100);
+}
+
+.actionTab.viewMix .actionTabViewOrderCardShow {
+    max-height: calc(1000vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow0md23 p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+}
+
+.actionTabCntRow0md23 span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(76, 175, 118, 1);
+}
+
+.actionTab.viewMix .actionTabViewOrderCardHide .actionTabSearchSectionResult,
+.actionTab.viewMixEditTab .actionTabViewOrderCard .actionTabSearchSectionResult,
+.actionTab.createMix .actionTabViewOrderCard .actionTabSearchSectionResult {
+    display: flex;
+    flex-direction: column;
+    gap: calc(5vw / var(--resizer) * 100);
+    padding: calc(4vw / var(--resizer) * 100) calc(8vw / var(--resizer) * 100);
+    height: max-content;
+}
+
+.actionTabSearchSectionResultTitle {
+    font-size: calc(8vw / var(--resizer) * 100);
+    font-weight: 500;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 83, 72, 1);
+    text-transform: uppercase;
+}
+
+.actionTabSearchSectionResultText {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 500;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: var(--white);
+}
+
+.actionTabSearchSectionResultText.--deactive {
+    opacity: .1;
+}
+
+.actionTabSearchSectionResultText span {
+    color: var(--gold);
+}
+
+.--actionTabActions9f3d1 .actionTabActionsButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.--actionTabActions9f3d1 .actionTabActionsButton {
+    padding: calc(8vw / var(--resizer) * 100) calc(2vw / var(--resizer) * 100);
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+}
+
+.viewProductSameTab.viewMix .actionTabWrapper {
+    padding-bottom: 0;
+}
+
+.actionTab .--buttonPrimary {
+    background: var(--gold);
+}
+
+.actionTab .--buttonSecondary {
+    background: transparent;
+    color: var(--gold);
+    border: calc(1vw / var(--resizer) * 100) solid var(--gold);
+}
+
+.actionTabCnt6nsd5 .actionTabSection {
+    margin: 0 0 calc(10vw / var(--resizer) * 100) 0;
+}
+
+.actionTab.viewMixEditTab .actionTabSearchSectionResult,
+.actionTab.createMix .actionTabSearchSectionResult {
+    height: auto;
+}
+
+.actionTab.viewMixEditTab .actionTabViewOrderCardTop,
+.actionTab.createMix .actionTabViewOrderCardTop {
+    align-items: flex-start;
+}
+
+.actionTabSearchSectionResultHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.viewMixMainTabaccosList .actionTabWrapper {
+    overflow: auto;
+}
+
+.--actionTabViewOrderCard9k2sn {
+    width: max-content;
+    align-self: center;
+}
+
+.--actionTabViewOrderCard9k2sn .actionTabViewOrderCardTop {
+    border: none;
+}
+
+.--fx1 {
+    flex: 1;
+}
+
+.actionTabHistorySUV span.--isEdit {
+    color: var(--gold);
+}
+
+.guestsSection .ordersCard .ordersCardInfo .btnOpen {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+}
+
+main.guests .topNav .topNavRow0vd32,
+main.badges .topNav .topNavRow0vd32 {
+    display: flex;
+    gap: calc(8vw / var(--resizer) * 100);
+}
+
+main.guests .topNav .topNavRow0vd32 .headerStatsWrapperAction,
+main.badges .topNav .topNavRow0vd32 .headerStatsWrapperAction {
+    margin: 0;
+}
+
+main.guests .topNav .topNavRow0vd32 .headerStatsWrapperAction .headerStatsButtonPrimary,
+main.badges .topNav .topNavRow0vd32 .headerStatsWrapperAction .headerStatsButtonPrimary {
+    width: calc(70vw / var(--resizer) * 100);
+}
+
+main.guests .topNav .topNavRow0vd32 .search,
+main.badges .topNav .topNavRow0vd32 .search {
+    width: auto;
+    flex: 1;
+}
+
+.actionTabRow6u7d2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(5vw / var(--resizer) * 100);
+    padding: calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabRow6u7d2 .item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: calc(12vw / var(--resizer) * 100);
+    padding: calc(2vw / var(--resizer) * 100) calc(6vw / var(--resizer) * 100);
+}
+
+.actionTabRow6u7d2.--pos .item {
+    background: rgba(32, 42, 31, 1);
+}
+
+.actionTabRow6u7d2.--nei .item {
+    background: rgba(31, 35, 39, 1);
+}
+
+.actionTabRow6u7d2.--neg .item {
+    background: rgba(185, 46, 41, 1);
+}
+
+.actionTabRow6u7d2 .item span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: bold;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: center;
+}
+
+.actionTabRow6u7d2.--pos .item span {
+    color: rgba(76, 175, 118, 1);
+}
+
+.actionTabRow6u7d2.--nei .item span {
+    color: rgba(74, 111, 165, 1);
+}
+
+.actionTabRow6u7d2.--neg .item span {
+    color: #fff;
+}
+
+.actionTabCntRow3od21 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.viewProductSameTabHeadUserImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 calc(12vw / var(--resizer) * 100) 0 0;
+    width: calc(50vw / var(--resizer) * 100);
+    height: calc(50vw / var(--resizer) * 100);
+    border: calc(1.5vw / var(--resizer) * 100) solid rgba(90, 83, 72, 1);
+    border-radius: 100%;
+    background: rgba(34, 32, 25, 1);
+}
+
+.viewProductSameTabHeadUserImg span {
+    font-size: calc(22vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(22vw / var(--resizer) * 100);
+    text-align: center;
+    color: rgba(205, 170, 125, 1);
+}
+
+.viewGuest .viewProductSameTabHead {
+    align-items: flex-start;
+}
+
+.actionTabCntRow0vi43 {
+    display: flex;
+    align-items: center;
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow0vi43 span {
+    position: relative;
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(90, 83, 72, 1);
+}
+
+.actionTabCntRow0vi43 span::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: calc(-5vw / var(--resizer) * 100);
+    height: 100%;
+    width: calc(0.5vw / var(--resizer) * 100);
+    opacity: .3;
+    background: var(--info);
+}
+
+.actionTabCntRow0vi43 span:last-child::after {
+    display: none;
+}
+
+.actionTabCntRow9n3d2 {
+    display: flex;
+    align-items: center;
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+}
+
+.actionTabCntRow2nvj3 {
+    display: flex;
+    flex-direction: column;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    gap: calc(16vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow2nvj3 .row {
+    display: flex;
+    align-items: flex-start;
+}
+
+.actionTabCntRow2nvj3 .row img {
+    margin: 0 calc(5vw / var(--resizer) * 100) 0 0;
+    width: calc(15vw / var(--resizer) * 100);
+    height: calc(15vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow2nvj3 .row .body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow2nvj3 .row .body .item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: calc(2vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border-radius: calc(12vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow2nvj3 .row.--positive .body .item {
+    background: rgba(32, 42, 31, 1);
+}
+
+.actionTabCntRow2nvj3 .row.--neitral .body .item {
+    background: rgba(31, 35, 39, 1);
+}
+
+.actionTabCntRow2nvj3 .row.--negative .body .item {
+    background: rgba(46, 30, 25, 1);
+}
+
+.actionTabCntRow2nvj3 .row .body .item span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: center;
+}
+
+.actionTabCntRow2nvj3 .row.--positive .body .item span {
+    color: rgba(76, 175, 118, 1);
+}
+
+.actionTabCntRow2nvj3 .row.--neitral .body .item span {
+    color: rgba(74, 111, 165, 1);
+}
+
+.actionTabCntRow2nvj3 .row.--negative .body .item span {
+    color: rgba(192, 87, 74, 1);
+}
+
+.actionTabCntRow0dn32 {
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+}
+
+.actionTabCntRow0dn32 .--actionTabViewOrderCard9k2sn {
+    margin: 0;
+}
+
+.actionTabCntRow8b2j1 .item p {
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(12vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow6bs7c .item.active {
+    border: calc(1vw / var(--resizer) * 100) solid rgba(76, 175, 118, 1);
+    background: rgba(32, 42, 31, 1);
+}
+
+.actionTabCntRow6bs7c .item.active span {
+    color: var(--gold);
+}
+
+.actionTabCntRow8dn21 {
+    display: flex;
+    flex-direction: column;
+}
+
+.actionTabCntRow8dn21 .item {
+    display: flex;
+    align-items: center;
+    padding: calc(10vw / var(--resizer) * 100) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.actionTabCntRow8dn21 .item:last-child {
+    border-bottom: none;
+}
+
+.actionTabCntRow8dn21 .item .itemCount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 calc(9vw / var(--resizer) * 100) 0 0;
+    min-width: calc(15vw / var(--resizer) * 100);
+    height: calc(15vw / var(--resizer) * 100);
+    border-radius: calc(12vw / var(--resizer) * 100);
+    background: rgba(32, 42, 31, 1);
+    flex-shrink: 0;
+}
+
+.actionTabCntRow8dn21 .item .itemCount span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    color: rgba(76, 175, 118, 1);
+}
+
+.actionTabCntRow8dn21 .item .itemInfo {
+    display: flex;
+    align-items: center;
+    gap: calc(10vw / var(--resizer) * 100);
+    flex: 1;
+    min-width: 0;
+}
+
+.actionTabCntRow8dn21 .item .itemInfo p {
+    font-family: "Jura";
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    color: rgba(90, 83, 72, 1);
+    white-space: nowrap;
+}
+
+.actionTabCntRow8dn21 .item .btnOpen {
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.actionTabCntRow8dn21 .item .itemInfo p.itemPlace {
+    padding: 0 calc(2vw / var(--resizer) * 100) 0 0;
+    white-space: break-spaces;
+}
+
+.itemInfoTop {
+    display: flex;
+    align-items: center;
+    gap: calc(10vw / var(--resizer) * 100);
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+}
+
+.itemInfoBtm {
+    display: flex;
+    align-items: center;
+    gap: calc(10vw / var(--resizer) * 100);
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+}
+
+.itemInfoBtm .ordersCardStatus {
+    margin: 0;
+}
+
+.itemInfo0d3d2 {
+    flex-direction: column;
+}
+
+.actionTabCntRow8dn21 .item .itemInfo.itemInfo0d3d2 {
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.badgesSection {
+    display: flex;
+    flex-wrap: wrap;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.badgesSection .item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: calc(6vw / var(--resizer) * 100) calc(12vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: rgba(24, 22, 18, 1);
+}
+
+.badgesSection .item span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: var(--gold);
+}
+
+.actionTab.viewBadge .viewProductSameTabHead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.actionTab.viewBadge .ordersCard .btnOpen {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+}
+
+.settingsSection {
+    display: flex;
+    flex-direction: column;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.settingsSection .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: calc(10vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: rgba(24, 22, 18, 1);
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.settingsSection .itemInfo {
+    display: flex;
+    flex-direction: column;
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.settingsSection .itemInfo p {
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(12vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+}
+
+.settingsSection .itemInfo span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(205, 170, 125, 1);
+}
+
+.actionTabCntRow7vh31 {
+    display: flex;
+    flex-direction: column;
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow7vh31 .item {
+    display: flex;
+    align-items: center;
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow7vh31 .item span.title {
+    color: var(--white);
+    width: calc(32vw / var(--resizer) * 100);
+}
+
+.actionTabCnt6nsd5-2 .item span.title {
+    width: calc(65vw / var(--resizer) * 100);
+}
+
+.actionTabCntRow7vh31 .item span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(205, 170, 125, 1);
+}
+
+.actionTabCntRow3dwa1 {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+}
+
+.actionTabCnt6nsd5-3 .actionTabSection {
+    margin: 0;
+}
+
+.actionTabCnt4d21c .ordersCard .ordersCardUserInfoTop {
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.actionTabCnt4d21c .ordersCard .ordersCardUserInfoTop .ordersCardUserInfoUsername {
+    margin: calc(2vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabCnt4d21c .ordersCard .btnOpen {
+    margin: calc(2vw / var(--resizer) * 100) 0 0 0;
+}
+
+.ordersCardBtm8vh42 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.btnOpen.btnCancel {
+    color: rgba(192, 87, 74, 1);
+    background: rgba(46, 30, 25, 1);
+}
+
+.btnOpen.btnBlue {
+    color: rgba(74, 111, 165, 1);
+    background: rgba(33, 35, 39, 1);
+}
+
+.--actionTabActions9f3d1-2 {
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    padding: 0;
+    border: none;
+}
+
+.--actionTabActions9f3d1-2 .actionTabActionsButtons {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.actionTabHeader h3 span.--gold {
+    color: var(--gold);
+}
+
+.actionTabCnt1dvp1 {
+    display: flex;
+    flex-direction: column;
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabCnt1dvp1 .item {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: calc(10vw / var(--resizer) * 100);
+    gap: calc(5vw / var(--resizer) * 100);
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: rgba(24, 22, 18, 1);
+}
+
+.actionTabCnt1dvp1 .item .itemList {
+    display: flex;
+    flex-direction: column;
+    gap: calc(2vw / var(--resizer) * 100);
+}
+
+.actionTabCnt1dvp1 .item .itemList span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(10vw / var(--resizer) * 100);
+    color: var(--info);
+}
+
+.actionTabCnt1dvp1 .item .itemList p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 400;
+    line-height: calc(12vw / var(--resizer) * 100);
+    color: var(--white);
+}
+
+.settingsTab8 .actionTabCnt.settingsSection {
+    margin: 0;
+}
+
+.settingsTab8 .actionTabCnt.settingsSection.actionTabCnt1dvp1 .item {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.btnOpen.btnEdit {
+    color: rgba(212, 144, 58, 1);
+}
+
+.articleTabCnt {
+    padding: calc(10vw / var(--resizer) * 100);
+}
+
+.articleTabCnt h1 {
+    font-size: calc(18vw / var(--resizer) * 100);
+    line-height: calc(20vw / var(--resizer) * 100);
+    color: var(--gold);
+}
+
+.articleTabCnt h2 {
+    margin: calc(15vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(14vw / var(--resizer) * 100);
+    line-height: calc(16vw / var(--resizer) * 100);
+    color: var(--white);
+}
+
+.articleTabCnt h3 {
+    margin: calc(15vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(12vw / var(--resizer) * 100);
+    line-height: calc(14vw / var(--resizer) * 100);
+    color: var(--white);
+}
+
+.articleTabCnt p,
+.articleTabCnt li,
+.articleTabCnt td {
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(12vw / var(--resizer) * 100);
+    color: var(--white);
+}
+
+.articleTabCnt p {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+}
+
+.articleTabCnt ul,
+.articleTabCnt ol {
+    margin: 0 0 0 calc(10vw / var(--resizer) * 100);
+}
+
+.articleTabCnt table {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    width: 100%;
+}
+
+.articleTabCnt img {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    width: 100%;
+    height: auto;
+}
+
+.articleTab .actionTabWrapper {
+    overflow: auto;
+}
+
+.articleTab .row02c23 {
+    display: flex;
+    flex-direction: column;
+    margin: calc(15vw / var(--resizer) * 100) 0 0 0;
+}
+
+.articleTab .row02c23 .title {
+    font-size: calc(12vw / var(--resizer) * 100);
+    line-height: calc(12vw / var(--resizer) * 100);
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--info);
+}
+
+.articleTab .row02c23 .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: calc(5vw / var(--resizer) * 100) 0;
+    border-bottom: calc(1vw / var(--resizer) * 100) solid var(--border);
+}
+
+.articleTab .row02c23 .item p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+    color: var(--white);
+    font-weight: bold;
+}
+
+.articleTab .row02c23 .item span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+    font-weight: normal;
+    color: var(--info);
+}
+
+.articleTab .row02c23 {
+    
+}
+
+.defaultForm select.defaultSelect {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    color-scheme: dark; /* красит саму выпадашку (список опций) в тёмный */
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23CDAA7D' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: calc(10vw / var(--resizer) * 100);
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 400;
+    flex: 1;
+    width: 100%;
+    padding-right: calc(18vw / var(--resizer) * 100);
+    cursor: pointer;
+}
+
+.defaultForm select.defaultSelect:required:invalid {
+    color: var(--info); /* пока не выбран стол — текст серый, как плейсхолдер */
+}
+
+.defaultForm select.defaultSelect option {
+    background: var(--search);
+    color: var(--white);
+}
+
+.defaultForm select.defaultSelect option[disabled] {
+    color: var(--info);
+}
+
+.defaultForm input[type="time"] {
+    color-scheme: dark;
+}
+
+.defaultForm input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(70%) sepia(24%) saturate(482%) hue-rotate(357deg) brightness(96%) contrast(92%);
+    opacity: .85;
+    cursor: pointer;
+}
+
+.defaultForm input[type="time"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+.actionTabSearchSectionResult:empty {
+    display: none;
+    margin: 0;
+    border: none;
+    height: 0;
+    backdrop-filter: none;
+}
+
+/* ===== Общее для кастомных дропдаунов ===== */
+.customSelect,
+.customTime {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.customSelect.--open,
+.customTime.--open {
+    border-color: var(--gold);
+}
+
+.customSelectValue,
+.customTimeValue {
+    flex: 1;
+    font-size: calc(12vw / var(--resizer) * 100);
+    color: var(--info);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.customSelect.--filled .customSelectValue,
+.customTime.--filled .customTimeValue {
+    color: var(--white);
+}
+
+.customTimeValue {
+    display: flex;
+    gap: calc(3vw / var(--resizer) * 100);
+    letter-spacing: .05em;
+}
+
+.customSelectArrow,
+.customTimeIcon {
+    color: var(--info);
+    flex-shrink: 0;
+    width: calc(12vw / var(--resizer) * 100);
+    height: calc(12vw / var(--resizer) * 100);
+    margin-left: calc(6vw / var(--resizer) * 100);
+    transition: transform .3s, color .2s;
+}
+
+.customSelect.--open .customSelectArrow {
+    transform: rotate(180deg);
+    color: var(--gold);
+}
+
+.customTime.--open .customTimeIcon,
+.customTime.--filled .customTimeIcon {
+    color: var(--gold);
+}
+
+/* ===== Дропдаун-панель (общий вид) ===== */
+.customSelectDropdown,
+.customTimeDropdown {
+    position: absolute;
+    top: calc(100% + 6vw / var(--resizer) * 100);
+    left: 0;
+    border: calc(1vw / var(--resizer) * 100) solid var(--gold);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: #161410;
+    backdrop-filter: blur(calc(8vw / var(--resizer) * 100));
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: .22s ease;
+    overflow: hidden;
+}
+
+.customSelect.--open .customSelectDropdown,
+.customTime.--open .customTimeDropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    z-index: 9999999;
+}
+
+/* ===== Select (Стол) ===== */
+.customSelectDropdown {
+    right: 0;
+    max-height: calc(220vw / var(--resizer) * 100);
+    overflow-y: auto;
+}
+
+.customSelectGroupLabel {
+    padding: calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100) calc(4vw / var(--resizer) * 100);
+    font-size: calc(9vw / var(--resizer) * 100);
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    color: var(--info);
+}
+
+.customSelectOption {
+    padding: calc(10vw / var(--resizer) * 100);
+    font-size: calc(12vw / var(--resizer) * 100);
+    color: var(--white);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    transition: background .2s, color .2s;
+}
+
+.customSelectOption:last-child { border-bottom: none; }
+
+.customSelectOption:hover,
+.customSelectOption.--active {
+    background: rgba(56, 48, 39, 1);
+    color: var(--gold);
+}
+
+/* Подсветка невалидного стола при попытке сабмита */
+.customSelect.--invalid {
+    border-color: rgba(201, 90, 42, 1);
+}
+
+/* ===== Time (Время) ===== */
+.customTimeDropdown {
+    display: flex;
+    flex-direction: column;
+    width: calc(147vw / var(--resizer) * 100);
+}
+
+.customTimeCols {
+    display: flex;
+}
+
+.customTimeCol {
+    flex: 1;
+    max-height: calc(160vw / var(--resizer) * 100);
+    overflow-y: auto;
+    text-align: center;
+}
+
+.customTimeCol + .customTimeCol {
+    border-left: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+}
+
+.customTimeOption {
+    padding: calc(8vw / var(--resizer) * 100) 0;
+    font-size: calc(12vw / var(--resizer) * 100);
+    color: var(--white);
+    transition: background .2s, color .2s;
+}
+
+.customTimeOption:hover,
+.customTimeOption.--active {
+    background: rgba(56, 48, 39, 1);
+    color: var(--gold);
+}
+
+.customTimeConfirm {
+    width: 100%;
+    border: none;
+    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    background: rgba(205, 170, 125, 1);
+    color: rgba(22, 20, 16, 1);
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 600;
+    padding: calc(8vw / var(--resizer) * 100) 0;
+    cursor: pointer;
+}
+
+.customTime,
+.customSelect {
+    margin: calc(6vw / var(--resizer) * 100) 0 0 0;
+}
+
+.--createOrderSelectedGuestWrap .ordersCardTop.--actionTabSearchSectionResultActive {
+    padding: calc(10vw / var(--resizer) * 100);
+    border-radius: calc(8vw / var(--resizer) * 100);
+}
+
+#createOrderNewGuestToggleWrap {
+    display: flex;
+}
+
+.createOrderForm {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.analyticsCardLongGuestRow {
+    margin: calc(3vw / var(--resizer) * 100) 0 0 0;
+}
+
+.ordersSection .ordersCardTop::before,
+.ordersSection .ordersCardTop::after,
+.actionTabViewOrderCardBtm .ordersCardTop::before,
+.actionTabViewOrderCardBtm .ordersCardTop::after {
+    display: none;
+}
+
+.r0d21 {
+    padding: calc(10vw / var(--resizer) * 100);
+}
+
+.o042f {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.o042f span {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: rgba(205, 170, 125, 1);
+    text-align: center;
+}
+
+.o042f div {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: calc(7vw / var(--resizer) * 100) 0 0 0;
+    gap: calc(5vw / var(--resizer) * 100);
+    width: 100%;
+}
+
+.btnCancel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: calc(4vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border-radius: calc(6vw / var(--resizer) * 100);
+    text-decoration: none;
+    background: transparent;
+    color: var(--white);
+    border: calc(1vw / var(--resizer) * 100) solid var(--white);
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+    font-weight: 400;
+    text-align: center;
+}
+
+.btnConfirm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: calc(4vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border-radius: calc(6vw / var(--resizer) * 100);
+    background: var(--gold);
+    text-decoration: none;
+    color: var(--box);
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+    font-weight: 400;
+    text-align: center;
+    border: none;
+}
+
+.detachGuestConfirm {
+    display: none;
+    justify-content: center;
+    padding: calc(10vw / var(--resizer) * 100);
+    border-top: calc(1vw / var(--resizer) * 100) solid var(--border);
+}
+
+.detachGuestConfirm.active {
+    display: flex;
+}
+
+.removeItemForm {
+    position: relative;
+    display: none;
+    justify-content: center;
+    padding: calc(10vw / var(--resizer) * 100);
+    bottom: calc(2vw / var(--resizer) * 100);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid var(--border);
+    width: 100%;
+    background: rgba(24, 22, 18, 1);
+    z-index: 2;
+}
+
+.removeItemForm.active {
+    display: flex;
+}
+
+.t53d2 {
+    padding: 0 calc(5vw / var(--resizer) * 100) 0 0;
+}
+
+.v042as {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: transparent;
+}
+
+.v042as img {
+    margin: 0;
+    width: calc(10vw / var(--resizer) * 100);
+    height: calc(10vw / var(--resizer) * 100);
+}
+
+.masterChangeForm--c0d1q,
+.masterChangeForm--c0d2q {
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+    overflow: hidden;
+}
+
+.masterChangeForm--c0d1q .customSelectDropdown,
+.masterChangeForm--c0d2q .customSelectDropdown {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.customSelectDropdown--b0vd3 {
+    max-height: calc(109vw / var(--resizer) * 100);
+}
+
+.customSelectDropdown--b0vd4 {
+    max-height: calc(67vw / var(--resizer) * 100);
+}
+
+.customSelectDropdown--b0vd5 {
+    max-height: calc(67vw / var(--resizer) * 100);
+}
+
+.masterChangeForm--c0d1q .customTime, 
+.masterChangeForm--c0d1q .customSelect,
+.masterChangeForm--c0d2q .customSelect {
+    margin: 0;
+}
+
+.actionTabHistorySUV--0vd31 {
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.guestCommentDisplay {
+    padding: calc(5vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+}
+
+.v9ds {
+    padding: 0 calc(10vw / var(--resizer) * 100);
+}
+
+.v8ds {
+    padding: 0 calc(10vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+}
+
+.addItemOption.--alreadyAdded {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.addItemAlreadyBadge {
+    font-size: calc(10vw / var(--resizer) * 100);
+    color: var(--gold);
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.actionTabActions--0v31s {
+    border-top: none;
+    margin: 0;
+}
+
+.actionTabActions--0v31s .actionTabActionsButton {
+    padding: calc(10vw / var(--resizer) * 100);
+    font-size: calc(12vw / var(--resizer) * 100);
+    font-weight: 600;
+    line-height: calc(12vw / var(--resizer) * 100);
+}
+
+.analyticsCardLongGuestRow .ordersCardTop::after {
+    display: none;
+}
+
+main.tabaccos {
+    padding-bottom: 0;
+}
+
+.editTobaccoCheckboxHit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(34vw / var(--resizer) * 100);
+    height: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 9999;
+}
+
+.ordersCardTop {
+    position: relative;
+}
+
+.vs9d3 {
+    padding: calc(10vw / var(--resizer) * 100);
+}
+
+.viewTabaccosListInner {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding-bottom: calc(65vw / var(--resizer) * 100);
+}
+
+.editTobaccoCommentWrap {
+    padding: 0 calc(10vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+}
+
+.actionTab.viewTabaccosList .defaultForm input,
+.actionTab.viewTabaccosList .defaultForm input::placeholder {
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTab.viewTabaccosList .actionTabViewOrderCardTop {
+    border: none;
+}
+
+.actionTab.viewTabaccosList .actionTabActions {
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999999;
+    background: rgba(0, 0, 0, 1);
+}
+
+.editTobaccoBrandCard .actionTabSearchSectionResult {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    height: auto;
+}
+
+.editTobaccoBrandCard.actionTabViewOrderCardShow .actionTabSearchSectionResult {
+    grid-template-rows: 1fr;
+}
+
+.editTobaccoBrandCard .actionTabSearchSectionResult > * {
+    min-height: 0;
+    overflow: auto;
+}
+
+.actionTab.viewTabaccosList .actionTabViewOrderCardHide.actionTabViewOrderCardShow {
+    max-height: calc(400vw / var(--resizer) * 100);
+}
+
+.actionTabViewOrderCardAction--d032c {
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+}
+
+.actionTabViewOrderCardAction--d032c .actionTabViewOrderCardButton {
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+}
+
+.--actionTabActions7sd3d {
+    margin: 0;
+}
+
+button.--button-03f2d {
+    margin: 0 0 0 calc(3vw / var(--resizer) * 100);
+    border-radius: 100%;
+    background: rgba(34, 30, 26, 1);
+    border: none;
+    width: calc(15vw / var(--resizer) * 100);
+    height: calc(15vw / var(--resizer) * 100);
+}
+
+button.--button-03f2d img {
+    width: calc(8vw / var(--resizer) * 100);
+    height: calc(8vw / var(--resizer) * 100);
+}
+
+.--mixAltList-v03dw {
+    display: flex;
+    flex-direction: column;
+    gap: calc(5vw / var(--resizer) * 100);
+}
+
+.actionTab.viewMixEditTab .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-vc31f4,
+.actionTab.createMix .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-vc31f4,
+.actionTab.viewMixEditTab .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-7vc2,
+.actionTab.createMix .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-7vc2 {
+    display: flex;
+    flex-direction: column;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    height: calc(150vw / var(--resizer) * 100);
+    overflow: auto;
+    border-radius: calc(8vw / var(--resizer) * 100);
+}
+
+.actionTab.viewMixEditTab .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-vc31f4 .actionTabSearchSectionResult .ordersCardTop,
+.actionTab.createMix .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-vc31f4 .actionTabSearchSectionResult .ordersCardTop,
+.actionTab.viewMixEditTab .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-7vc2 .actionTabSearchSectionResult .ordersCardTop,
+.actionTab.createMix .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-7vc2 .actionTabSearchSectionResult .ordersCardTop {
+    padding: calc(5vw / var(--resizer) * 100);
+}
+
+.actionTab.viewMixEditTab .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-vc31f4 .actionTabViewOrderProductListBody p,
+.actionTab.createMix .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-vc31f4 .actionTabViewOrderProductListBody p,
+.actionTab.viewMixEditTab .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-7vc2 .actionTabViewOrderProductListBody p,
+.actionTab.createMix .actionTabViewOrderCard .actionTabSearchSectionResult.--actionTabSearchSectionResult-7vc2 .actionTabViewOrderProductListBody p {
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+}
+
+.mixIngredientSearchWrap {
+    padding: calc(10vw / var(--resizer) * 100);
+}
+
+.actionTabSearchSectionResult.--actionTabSearchSectionResult-vc31f4 .ordersCardTop,
+.actionTabSearchSectionResult.--actionTabSearchSectionResult-7vc2 .ordersCardTop {
+    padding: calc(5vw / var(--resizer) * 100) 0;;
+}
+
+.actionTabSearchSectionResult.--actionTabSearchSectionResult-vc31f4 .ordersCardTop::after,
+.actionTabSearchSectionResult.--actionTabSearchSectionResult-7vc2 .ordersCardTop::after {
+    display: none;
+}
+
+.--actionTabSearchSectionResult-v4v0d .actionTabSearchSectionResultTitle,
+.--actionTabSearchSectionResult-7vc2 .actionTabSearchSectionResultTitle {
+    font-size: calc(10vw / var(--resizer) * 100);
+}
+
+.--mixIngredientSearchWrap-4vs22 {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+    padding: 0;
+}
+
+.--defaultForm-3d91,
+.--defaultForm-v42d {
+    margin: calc(5vw / var(--resizer) * 100) 0 0 0;
+}
+
+.--actionTabActions5c2ds {
+    margin: 0;
+    padding-bottom: 0;
+}
+
+.--createMixInner form#createMixForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.--actionTabSearchSectionResultTitle-4ex23 {
+    font-size: calc(10vw / var(--resizer) * 100);
+}
+
+.--actionTabViewTabaccosList-8sz43 {
+    display: flex;
+    flex-direction: column;
+    padding: 0 calc(10vw / var(--resizer) * 100);
+    overflow: scroll;
+    height: calc(540vw / var(--resizer) * 100);
+}
+
+.--actionTabActions0v12v {
+    margin: 0;
+}
+
+.--actionTabActions0v12v .actionTabActionsButtons {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.--actionTabViewOrderCardActionButtons-n5c24 .actionTabViewOrderCardButton {
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+}
+
+.--actionTabActionsButton-pg4d2 {
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    padding: calc(10vw / var(--resizer) * 100);
+    font-size: calc(10vw / var(--resizer) * 100);
+    line-height: calc(10vw / var(--resizer) * 100);
+}
+
+.labelGuestAccordionCard {
+    display: flex;
+    flex-direction: column;
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-radius: calc(8vw / var(--resizer) * 100);
+    background: rgba(24, 22, 18, 1);
+}
+
+.labelGuestAccordionHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
+    border: none;
+    background: transparent;
+}
+
+.labelGuestAccordionHead span:first-child { 
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 700;
+    line-height: calc(10vw / var(--resizer) * 100);
+    text-align: left;
+    color: var(--gold);
+    text-transform: uppercase;
+}
+
+.labelGuestAccordionArrow { transition: transform .3s ease; }
+.labelGuestAccordionCard[data-open="1"] .labelGuestAccordionArrow { transform: rotate(180deg); }
+
+.labelGuestAccordionBody {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .3s ease;
+    padding: 0 calc(10vw / var(--resizer) * 100);
+    gap: calc(10vw / var(--resizer) * 100);
+}
+
+.labelGuestAccordionCard[data-open="1"] .labelGuestAccordionBody {
+    grid-template-rows: 1fr;
+    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    padding-bottom: calc(10vw / var(--resizer) * 100);
+}
+
+.labelGuestAccordionBody .ordersCardTop::after {
+    display: none;
+}
+
+.labelGuestAccordionBodyInner { 
+    max-height: calc(170vw / var(--resizer) * 100);
+    overflow: auto;
+}
+
+.badgesSection .item.--deac {
+    opacity: .2;
+}
+
+.--actionTabActionsButton-p42dx1 {
+    margin: calc(10vw / var(--resizer) * 100) 0 0 0;
+    font-size: calc(10vw / var(--resizer) * 100);
+    padding: calc(5vw / var(--resizer) * 100);
+}
+
+.--customTime-l2e30 {
+    width: auto;
+}
+
+.--removeTimeSlotBtn-o3c02 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: calc(6vw / var(--resizer) * 100) 0 0 0;
+    border-radius: 100%;
+    background: rgba(34, 30, 26, 1);
+    border: none;
+    width: calc(20vw / var(--resizer) * 100);
+    height: calc(20vw / var(--resizer) * 100);
+}
+
+.--removeTimeSlotBtn-o3c02 img {
+    width: calc(8vw / var(--resizer) * 100);
+    height: calc(8vw / var(--resizer) * 100);
+}
+
+.switchToggle {
+    display: inline-flex;
+    cursor: pointer;
+    position: relative;
+}
+
+.switchToggle input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switchToggleTrack {
+    width: calc(44vw / var(--resizer) * 100);
+    height: calc(26vw / var(--resizer) * 100);
+    border-radius: calc(999vw / var(--resizer) * 100);
+    background: var(--border, #444);
+    display: inline-block;
+    position: relative;
+    transition: background .2s ease;
+    flex-shrink: 0;
+}
+
+.switchToggleThumb {
+    position: absolute;
+    top: calc(2vw / var(--resizer) * 100);
+    left: calc(2vw / var(--resizer) * 100);
+    width: calc(22vw / var(--resizer) * 100);
+    height: calc(22vw / var(--resizer) * 100);
+    border-radius: 50%;
+    background: var(--white, #fff);
+    transition: transform .2s ease;
+    box-shadow: 0 calc(1vw / var(--resizer) * 100) calc(3vw / var(--resizer) * 100) rgba(0,0,0,0.3);
+}
+
+.switchToggle input:checked + .switchToggleTrack {
+    background: var(--gold, #c9a84c);
+}
+
+.switchToggle input:checked + .switchToggleTrack .switchToggleThumb {
+    transform: translateX(calc(18vw / var(--resizer) * 100));
+}
+
+.--actionTabCnt-w4d20 .ordersCard .btnCancel {
+    border: calc(1vw / var(--resizer) * 100) solid var(--gold);
+    color: var(--gold);
+    background: transparent;
+}
+
+.formErrorBox {
+    color: #e05a5a;
+    font-size: 13px;
+    padding: 8px 16px;
+}
+
+.settingsTab5 .ordersCardBtm8vh42 .btnCancel {
+    border: calc(1vw / var(--resizer) * 100) solid var(--gold);
+    color: var(--gold);
+    background: transparent;
+}
+
+.settingsTab6 .labelGuestAccordion .btnCancel {
+    border: calc(1vw / var(--resizer) * 100) solid var(--gold);
+    color: var(--gold);
+    background: transparent;
+}
+
+.settingsTab5 .ordersCardTop::after {
+    display: none;
+}
+
+.wiki-content h1 { font-size:26px; font-weight:bold; margin:24px 0 12px; }
+.wiki-content h2 { font-size:22px; font-weight:bold; margin:20px 0 10px; }
+.wiki-content h3 { font-size:18px; font-weight:bold; margin:16px 0 8px; }
+.wiki-content p  { margin:8px 0; line-height:1.7; font-size:15px; }
+.wiki-content ul, .wiki-content ol { margin:8px 0 8px 24px; line-height:1.7; }
+.wiki-content li { margin:4px 0; font-size:15px; }
+.wiki-content table { width:100%; border-collapse:collapse; margin:16px 0; }
+.wiki-content table th { background:#f8f8f8; padding:10px 12px; text-align:left; border:1px solid #ddd; font-size:14px; }
+.wiki-content table td { padding:10px 12px; border:1px solid #ddd; font-size:14px; }
+.wiki-content img { max-width:100%; border-radius:8px; margin:12px 0; }
+.wiki-content blockquote { border-left:4px solid #c9a84c; padding:8px 16px; margin:12px 0; background:#fffbe6; border-radius:0 6px 6px 0; }
+.wiki-content a { color:#c9a84c; text-decoration:underline; }
+
+.--actionTabViewOrderCardf3s13 {
+    margin: 0;
+    border-radius: calc(4vw / var(--resizer) * 100);
+}
+
+.--actionTabViewOrderCardf3s13 .actionTabViewOrderCardTop {
+    padding: calc(4vw / var(--resizer) * 100) calc(8vw / var(--resizer) * 100);
+}
+
+.--actionTabViewOrderCardf3s13 img {
+    display: none;
+}
+
+.x8s0s {
+    display: flex;
+    flex-direction: column;
+}
+
+.x8s0s span {
+    text-align: right;
+}
+
+.x8s0s span:last-child {
+    color: rgba(90, 83, 72, 1) !important;
+    font-size: calc(16vw / var(--resizer) * 100);
+}
+
+main._ordersShow .topNav .filters .filtersRow .customSelectValue, 
+main._ordersShow .topNav .filters .filtersRow .customSelectValue .customTimeValue,
+main._ordersShow .topNav .filters .filtersRow .customSelectOption {
+    font-size: calc(10vw / var(--resizer) * 100);
+    font-weight: 900;
+}
+
+main._ordersShow .topNav .filters .filtersRow .customSelectArrow,
+main._ordersShow .topNav .filters .filtersRow .customTimeIcon {
+    width: calc(8vw / var(--resizer) * 100);
+    height: calc(7vw / var(--resizer) * 100);
+}
+
+main._ordersShow .topNav .filters {
+    margin: 0;
+}
+
+main._ordersShow section.ordersSection .ordersCardUserInfoTop {
+    flex-wrap: wrap;
+}
+
+main._ordersShow section.ordersSection .ordersCardUserImg {
+    flex: 1 0 auto;
+}
+
+.c6xs9 {
+    display: flex;
+}
+
+.mixAltList .mixAltTag {
+    display: flex;
+    justify-content: space-between;
+}
+
+.actionTabSearchSectionResultText.mixAltTag span b {
+    color: var(--white);
+}
+
+main.guests #guestHeaderStats .headerStat {
+    min-width: calc(49vw / var(--resizer) * 100);
+}
+
+.ordersCardUserImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#addItemFormWrap .ordersCardUserImg {
+    border: none;
+}
+
+.headerUser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: calc(1vw / var(--resizer) * 100) solid var(--gold);
+}
