@@ -12,7 +12,7 @@
             <div class="ordersCardDetail"><img src="/assets/img/master-done.svg" alt=""><p>{{ $order->creator?->name ?? '—' }}</p></div>
         </div>
     </div>
-    <button type="button" onclick="openOrderSheet({{ $order->id }})" class="btnOpen">Открыть</button>
+    <button type="button" onclick="openOrderFromGuest({{ $order->id }})" class="btnOpen">Открыть</button>
 </div>
 @endforeach
 

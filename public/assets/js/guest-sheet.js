@@ -236,3 +236,10 @@ function openGuestHistorySheet(id, name) {
         .then(html => { document.getElementById('guestHistoryInner').innerHTML = html; })
         .catch(() => { document.getElementById('guestHistoryInner').innerHTML = '<p style="padding:20px; color:var(--info); text-align:center;">Не удалось загрузить</p>'; });
 }
+function openOrderFromGuest(orderId) {
+    ['viewGuestsVisitHistory', 'viewGuest'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.classList.contains('active')) closeSheet(id);
+    });
+    openOrderSheet(orderId);
+}

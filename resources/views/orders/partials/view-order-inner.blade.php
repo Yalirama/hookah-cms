@@ -144,7 +144,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ route('guests.show', $g) }}" class="btnOpen" target="_blank">Открыть</a>
+            <button type="button" class="btnOpen" onclick="openGuestSheet({{ $g->id }})">Открыть</button>
         </div>
 
         {{-- Панель подтверждения открепления --}}
