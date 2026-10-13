@@ -16,7 +16,11 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $query = Order::with([
-            'creator', 'table', 'guest',
+            'creator', 'table',
+            'guest' => fn($q) => $q->withCount([
+                'orders as closed_orders_count' => fn($q) => $q->where('status', 'closed'),
+                'orders as visit_orders_count'  => fn($q) => $q->whereIn('status', ['closed', 'redo', 'cancelled']),
+            ]),
             'items' => fn($q) => $q->withTrashed(),
             'items.itemable' => fn($q) => $q->morphWith([
                 Tobacco::class => ['brand'],

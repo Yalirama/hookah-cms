@@ -83,7 +83,9 @@ class Guest extends Model
             return $this->status_override;
         }
 
-        $visits = $this->orders()->whereIn('status', ['closed'])->count();
+        $visits = array_key_exists('closed_orders_count', $this->attributes)
+            ? (int) $this->attributes['closed_orders_count']
+            : $this->orders()->whereIn('status', ['closed'])->count();
 
         $vipThreshold       = (int) Setting::get('guest_vip_threshold', 400);
         $permanentThreshold = (int) Setting::get('guest_permanent_threshold', 50);
@@ -105,10 +107,11 @@ class Guest extends Model
         ][$this->status] ?? '—';
     }
 
-    // Статистика
     public function getVisitsCountAttribute(): int
     {
-        return $this->orders()->whereIn('status', ['closed', 'redo', 'cancelled'])->count();
+        return array_key_exists('visit_orders_count', $this->attributes)
+            ? (int) $this->attributes['visit_orders_count']
+            : $this->orders()->whereIn('status', ['closed', 'redo', 'cancelled'])->count();
     }
 
     public function getLastVisitDaysAttribute(): ?int
