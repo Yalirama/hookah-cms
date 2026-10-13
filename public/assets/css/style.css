@@ -4317,3 +4317,12 @@ main.guests #guestHeaderStats .headerStat {
     align-items: center;
     border: calc(1vw / var(--resizer) * 100) solid var(--gold);
 }
+
+main.tabaccos #viewTabaccosInner,
+#viewGuestInner,
+#guestHistoryInner,
+#guestVisitHistoryInner {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}

@@ -7,7 +7,7 @@
     <title>{{ config('app.name') }}</title>
 
     {{-- Стили мобильного приложения (там же описаны .menu, .menuItem и т.д.) --}}
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1.005">
 
     <!-- <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }

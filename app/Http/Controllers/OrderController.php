@@ -18,7 +18,10 @@ class OrderController extends Controller
         $query = Order::with([
             'creator', 'table', 'guest',
             'items' => fn($q) => $q->withTrashed(),
-            'items.itemable', // без .brand и .ingredients — догрузим ниже
+            'items.itemable' => fn($q) => $q->morphWith([
+                Tobacco::class => ['brand'],
+                Mix::class => ['ingredients.tobacco.brand'],
+            ]),
         ]);
 
         if ($search = $request->get('search')) {
@@ -46,16 +49,8 @@ class OrderController extends Controller
         } elseif ($request->get('with_guest') === '0') {
             $query->whereNull('guest_id');
         }
-
-        $orders = $query->latest()->get();
-
-        $orders->flatMap(fn($o) => $o->items)->each(function ($item) {
-            if ($item->itemable instanceof Tobacco) {
-                $item->itemable->load('brand');
-            } elseif ($item->itemable instanceof Mix) {
-                $item->itemable->load('ingredients.tobacco.brand');
-            }
-        });
+        
+        $orders = $query->latest()->limit(150)->get();
 
         $stats = [
             'today'  => Order::whereDate('created_at', today())->count(),
