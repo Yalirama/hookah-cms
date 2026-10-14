@@ -2754,6 +2754,7 @@ main.tabaccos .filters {
 
 .actionTab .--buttonPrimary {
     background: var(--gold);
+    color: var(--box);
 }
 
 .actionTab .--buttonSecondary {
