@@ -62,10 +62,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/',              [TobaccoController::class, 'index'])->name('index');
         Route::get('/edit-venue',    [TobaccoController::class, 'edit'])->name('edit');
         Route::get('/edit-venue/sheet', [TobaccoController::class, 'editSheet'])->name('edit-venue.sheet');
+        Route::get('/edit-venue/brand/{brand}', [TobaccoController::class, 'editBrandRows'])->name('edit-venue.brand');
+        Route::get('/edit-venue/search',        [TobaccoController::class, 'editSearch'])->name('edit-venue.search');
         Route::post('/update-venue', [TobaccoController::class, 'updateVenue'])->name('update-venue');
         Route::post('/update-venue-bulk', [TobaccoController::class, 'updateVenueBulk'])->name('update-venue-bulk');
         Route::get('/brands/{brand}', [TobaccoController::class, 'showBrand'])->name('brands.show');
         Route::get('/stats-partial', [TobaccoController::class, 'statsPartial'])->name('stats-partial');
+        Route::get('/list-partial', [TobaccoController::class, 'listPartial'])->name('list-partial');
         Route::get('/deactivation-log/sheet', [TobaccoController::class, 'deactivationLogSheet'])->name('deactivation-log.sheet');
         Route::get('/deactivation-log/more', [TobaccoController::class, 'deactivationLogMore'])->name('deactivation-log.more');
         Route::get('/{tobacco}',     [TobaccoController::class, 'show'])->name('show');

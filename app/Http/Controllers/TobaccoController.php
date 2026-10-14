@@ -20,10 +20,7 @@ class TobaccoController extends Controller
     {
         $tab = $request->get('tab', 'tobaccos');
 
-        $tobaccos = Tobacco::whereHas('venueTobacco')
-            ->with('brand', 'flavorTags', 'venueTobacco.deactivatedBy')
-            ->orderBy('name')
-            ->get();
+        $tobaccos = $this->venueTobaccosList();
 
         $stats = [
             'total'    => Tobacco::whereHas('venueTobacco', fn($q) => $q->where('is_active', true))->count(),
@@ -319,11 +316,42 @@ class TobaccoController extends Controller
     {
         if (!auth()->user()->hasRole('admin')) abort(403);
 
-        $brands = TobaccoBrand::with(['tobaccos' => function ($q) {
-            $q->with('venueTobacco')->orderBy('name');
-        }])->orderBy('name')->get();
+        $brands = TobaccoBrand::withCount([
+            'tobaccos',
+            'tobaccos as active_count' => fn($q) => $q->whereHas('venueTobacco', fn($v) => $v->where('is_active', true)),
+        ])->orderBy('name')->get();
 
         return view('tobaccos.partials.edit-list', compact('brands'));
+    }
+
+    public function editBrandRows(TobaccoBrand $brand)
+    {
+        if (!auth()->user()->hasRole('admin')) abort(403);
+
+        $tobaccos = $brand->tobaccos()->with('venueTobacco')->orderBy('name')->get();
+
+        return view('tobaccos.partials.edit-rows', compact('tobaccos'));
+    }
+
+    public function editSearch(Request $request)
+    {
+        if (!auth()->user()->hasRole('admin')) abort(403);
+
+        $q = trim((string) $request->get('q'));
+        $limit = 80;
+
+        $found = Tobacco::with(['brand', 'venueTobacco'])
+            ->where(fn($w) => $w->where('name', 'like', "%$q%")
+                ->orWhere('alt_name', 'like', "%$q%")
+                ->orWhereHas('brand', fn($b) => $b->where('name', 'like', "%$q%")))
+            ->orderBy('name')
+            ->limit($limit + 1)
+            ->get();
+
+        $truncated = $found->count() > $limit;
+        $groups = $found->take($limit)->groupBy('brand_id')->sortBy(fn($g) => $g->first()->brand->name);
+
+        return view('tobaccos.partials.edit-search-results', compact('groups', 'truncated', 'limit'));
     }
 
     public function updateVenueBulk(Request $request)
@@ -377,6 +405,19 @@ class TobaccoController extends Controller
         }
 
         return response()->json(['message' => 'Список обновлён']);
+    }
+
+    private function venueTobaccosList()
+    {
+        return Tobacco::whereHas('venueTobacco')
+            ->with('brand', 'flavorTags.category', 'venueTobacco.deactivatedBy')
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function listPartial()
+    {
+        return view('tobaccos.partials.list-items', ['tobaccos' => $this->venueTobaccosList()]);
     }
 
     public function statsPartial()

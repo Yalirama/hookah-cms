@@ -82,6 +82,7 @@ function openTobaccoEditSheet() {
 }
 
 function loadTobaccoEditSheet() {
+    tobaccoListChanges = {};
     fetch('/tobaccos/edit-venue/sheet')
         .then(r => r.text())
         .then(html => {
@@ -96,57 +97,98 @@ function loadTobaccoEditSheet() {
 }
 
 let tobaccoListChanges = {};
+let editTobaccoSearchTimer;
 
-function toggleEditTobaccoCheckbox(id) {
-    const row = document.querySelector(`.editTobaccoRow[data-tobacco-id="${id}"]`);
-    const commentWrap = document.getElementById('editTobaccoCommentWrap' + id);
-    if (!row || !commentWrap) return;
+function syncEditTobaccoRow(row) {
+    const change = tobaccoListChanges[row.dataset.tobaccoId];
+    const active = change ? change.active : row.dataset.originalActive === '1';
+    row.classList.toggle('--actionTabSearchSectionResultActive', active);
+    row.querySelector('.editTobaccoCommentWrap').style.display = change ? 'block' : 'none';
+    row.querySelector('.editTobaccoComment').value = change ? change.comment : '';
+}
 
-    const originalActive = row.dataset.originalActive === '1';
-    const isNowActive = row.classList.toggle('--actionTabSearchSectionResultActive');
+function syncEditTobaccoRows(scope) {
+    scope.querySelectorAll('.editTobaccoRow').forEach(syncEditTobaccoRow);
+}
 
-    if (isNowActive === originalActive) {
+function toggleEditBrand(top) {
+    const card = top.closest('.editTobaccoBrandCard');
+    card.classList.toggle('actionTabViewOrderCardShow');
+    if (card.dataset.loaded === '1' || !card.classList.contains('actionTabViewOrderCardShow')) return;
+
+    card.dataset.loaded = '1';
+    const inner = card.querySelector('.editTobaccoRowsInner');
+    inner.innerHTML = '<p style="padding:12px; color:var(--info); text-align:center;">Загрузка...</p>';
+
+    fetch(`/tobaccos/edit-venue/brand/${card.dataset.brandId}`)
+        .then(r => r.text())
+        .then(html => {
+            inner.innerHTML = html;
+            syncEditTobaccoRows(inner);
+        })
+        .catch(() => {
+            card.dataset.loaded = '0';
+            inner.innerHTML = '<p style="padding:12px; color:var(--info); text-align:center;">Не удалось загрузить</p>';
+        });
+}
+
+function toggleEditTobaccoCheckbox(btn) {
+    const row = btn.closest('.editTobaccoRow');
+    const id = row.dataset.tobaccoId;
+    const isNowActive = !row.classList.contains('--actionTabSearchSectionResultActive');
+
+    if (isNowActive === (row.dataset.originalActive === '1')) {
         delete tobaccoListChanges[id];
-        commentWrap.style.display = 'none';
     } else {
-        tobaccoListChanges[id] = { active: isNowActive, comment: '' };
-        commentWrap.style.display = 'block';
+        tobaccoListChanges[id] = { active: isNowActive, comment: tobaccoListChanges[id]?.comment || '' };
     }
+
+    syncEditTobaccoRow(row);
+}
+
+function runEditTobaccoSearch(q) {
+    const list = document.getElementById('editTobaccoBrandList');
+    const results = document.getElementById('editTobaccoSearchResults');
+
+    if (!q) {
+        results.style.display = 'none';
+        results.innerHTML = '';
+        list.style.display = '';
+        syncEditTobaccoRows(list);
+        return;
+    }
+
+    fetch(`/tobaccos/edit-venue/search?q=${encodeURIComponent(q)}`)
+        .then(r => r.text())
+        .then(html => {
+            if (document.getElementById('editTobaccoListSearch').value.trim() !== q) return;
+            list.style.display = 'none';
+            results.style.display = '';
+            results.innerHTML = html;
+            syncEditTobaccoRows(results);
+            requestAnimationFrame(() => results.querySelectorAll('.editTobaccoBrandCard').forEach(c => c.classList.add('--collapseReady')));
+        })
+        .catch(() => {});
 }
 
 document.addEventListener('input', function (e) {
-    if (e.target && e.target.id && e.target.id.startsWith('editTobaccoComment')) {
-        const id = e.target.id.replace('editTobaccoComment', '');
-        if (tobaccoListChanges[id]) {
-            tobaccoListChanges[id].comment = e.target.value;
-        }
+    if (!e.target) return;
+
+    if (e.target.classList && e.target.classList.contains('editTobaccoComment')) {
+        const change = tobaccoListChanges[e.target.closest('.editTobaccoRow').dataset.tobaccoId];
+        if (change) change.comment = e.target.value;
     }
 
-    if (e.target && e.target.id === 'editTobaccoListSearch') {
-        const q = e.target.value.trim().toLowerCase();
-
-        document.querySelectorAll('#editTobaccoListWrap .editTobaccoBrandCard').forEach(card => {
-            const rows = card.querySelectorAll('.editTobaccoRow');
-            let visibleCount = 0;
-
-            rows.forEach(row => {
-                const show = !q || row.dataset.search.includes(q);
-                row.style.display = show ? '' : 'none';
-                if (show) visibleCount++;
-            });
-
-            card.style.display = visibleCount === 0 ? 'none' : '';
-
-            if (q && visibleCount > 0) {
-                card.classList.add('actionTabViewOrderCardShow');
-            } else if (!q) {
-                card.classList.remove('actionTabViewOrderCardShow');
-            }
-        });
+    if (e.target.id === 'editTobaccoListSearch') {
+        clearTimeout(editTobaccoSearchTimer);
+        editTobaccoSearchTimer = setTimeout(() => runEditTobaccoSearch(e.target.value.trim()), 250);
     }
 });
 
 function saveTobaccoListChanges() {
+    const errorEl = document.getElementById('editTobaccoSaveError');
+    errorEl.style.display = 'none';
+
     const changes = Object.keys(tobaccoListChanges).map(id => ({
         tobacco_id: parseInt(id),
         active: tobaccoListChanges[id].active,
@@ -175,7 +217,10 @@ function saveTobaccoListChanges() {
             closeSheet('viewTabaccosList');
             loadTobaccoList();
         })
-        .catch(err => alert(err.message || 'Ошибка при сохранении'));
+        .catch(err => {
+            errorEl.textContent = err.message || 'Ошибка при сохранении';
+            errorEl.style.display = '';
+        });
 }
 
 
@@ -190,6 +235,17 @@ function loadTobaccoList() {
         .then(html => {
             const el = document.getElementById('tobaccoHeaderStats');
             if (el) el.innerHTML = html;
+        })
+        .catch(() => {});
+
+    fetch('/tobaccos/list-partial')
+        .then(r => r.text())
+        .then(html => {
+            const el = document.getElementById('tobaccoList');
+            if (el) {
+                el.innerHTML = html;
+                filterTobaccoList();
+            }
         })
         .catch(() => {});
 }
