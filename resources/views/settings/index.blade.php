@@ -9,8 +9,14 @@
     <div class="headerTop">
         <h1>Настройки</h1>
 
+        @include('partials.shift-toggle')
+
         @role('admin')
         <a href="{{ route('settings.index') }}" class="headerUser">
+            <img src="/assets/img/brands/mix.svg" alt="">
+        </a>
+        @else
+        <a href="{{ route('wiki.index') }}" class="headerUser">
             <img src="/assets/img/brands/mix.svg" alt="">
         </a>
         @endrole

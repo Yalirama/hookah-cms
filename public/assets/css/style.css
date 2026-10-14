@@ -4328,3 +4328,8 @@ main.tabaccos #viewTabaccosInner,
     flex-direction: column;
     overflow: auto;
 }
+
+.shiftToggle{display:flex;align-items:center;gap:8px;margin-left:auto;margin-right:12px;padding:8px 12px;border-radius:20px;background:#1a1916;border:1px solid #2a2824;color:#8a8478;font:inherit;font-size:12px}
+.shiftToggle.--on{color:#d4b483;border-color:#d4b483}
+.shiftToggleDot{width:8px;height:8px;border-radius:50%;background:#5a554c}
+.shiftToggle.--on .shiftToggleDot{background:#4caf50}

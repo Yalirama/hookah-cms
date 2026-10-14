@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/push/subscribe',   [\App\Http\Controllers\PushController::class, 'subscribe'])->name('push.subscribe');
     Route::post('/push/unsubscribe', [\App\Http\Controllers\PushController::class, 'unsubscribe'])->name('push.unsubscribe');
+    Route::post('/shift/toggle', [\App\Http\Controllers\PushController::class, 'toggleShift'])->name('shift.toggle');
 
     // Tobaccos
     Route::prefix('tobaccos')->name('tobaccos.')->group(function () {

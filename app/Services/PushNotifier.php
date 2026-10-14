@@ -10,6 +10,7 @@ class PushNotifier
     public static function toAllExcept(?int $exceptId, array $payload): void
     {
         $ids = User::where('is_active', true)
+            ->where('on_shift', true)
             ->when($exceptId, fn($q) => $q->where('id', '!=', $exceptId))
             ->pluck('id');
 

@@ -111,6 +111,7 @@ document.addEventListener('click', function (e) {
 <header class="defaultFixed">
     <div class="headerTop">
         <h1>Аналитика</h1>
+        @include('partials.shift-toggle')
 
         @role('admin')
         <a href="{{ route('settings.index') }}" class="headerUser">

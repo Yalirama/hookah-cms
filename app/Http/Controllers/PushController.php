@@ -36,4 +36,12 @@ class PushController extends Controller
 
         return response()->json(['ok' => true]);
     }
+
+    public function toggleShift(Request $request)
+    {
+        $user = $request->user();
+        $user->forceFill(['on_shift' => $request->boolean('on')])->save();
+
+        return response()->json(['on' => (bool) $user->on_shift]);
+    }
 }

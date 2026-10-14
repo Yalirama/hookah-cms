@@ -75,3 +75,26 @@
         });
     }
 })();
+
+window.toggleShift = function (btn) {
+    if (btn.dataset.busy) return;
+    btn.dataset.busy = 1;
+    const on = btn.dataset.on !== '1';
+    fetch('/shift/toggle', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ on })
+    })
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(d => {
+            btn.dataset.on = d.on ? 1 : 0;
+            btn.classList.toggle('--on', d.on);
+            btn.querySelector('.shiftToggleText').textContent = d.on ? 'На смене' : 'Не на смене';
+        })
+        .catch(() => {})
+        .finally(() => { delete btn.dataset.busy; });
+};
