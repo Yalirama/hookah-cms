@@ -535,12 +535,18 @@ class GuestController extends Controller
         $maxSlot = max($slotCounts) ?: 1;
         $maxDay  = max($dayCounts) ?: 1;
 
+        $shortOrders = Order::where('guest_id', $guest->id)
+            ->with('table', 'creator')
+            ->orderByDesc('id')
+            ->limit(5)
+            ->get();
+
         return compact(
             'timeSlots', 'slotCounts', 'dayCounts', 'maxSlot', 'maxDay',
             'totalOrders', 'visitsCount', 'redoCount', 'lastVisitDays',
             'avgSession', 'avgServiced',
             'topMixes', 'topTobaccos', 'topBrands', 'topMasters',
-            'favTables', 'totalTableVisits'
+            'favTables', 'totalTableVisits', 'shortOrders'
         );
     }
 

@@ -100,7 +100,7 @@ document.addEventListener('click', function (e) {
         $greeting = 'Доброй ночи';
     }
 
-    $roleLabel = auth()->user()->hasRole('admin') ? 'администратор' : 'мастер';
+    $roleLabel = auth()->user()->hasRole('admin') ? 'админ' : 'мастер';
 
     $surnameInitial = auth()->user()->surname
         ? mb_strtoupper(mb_substr(auth()->user()->surname, 0, 1, 'UTF-8'), 'UTF-8') . '.'

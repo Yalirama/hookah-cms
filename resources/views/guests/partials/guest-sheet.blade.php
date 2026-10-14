@@ -126,8 +126,9 @@
 <div class="actionTabCnt" id="guestVisitHistoryShort">
     <p class="analyticsCardTitle">ИСТОРИЯ ВИЗИТОВ</p>
     <div class="actionTabCntRow8dn21" id="guestVisitHistoryShortRows">
-        <p style="color:var(--info); text-align:center; padding:10px;">Загрузка...</p>
+        @include('guests.partials.visit-history-rows', ['orders' => $shortOrders, 'hasMore' => false])
     </div>
+    @if($totalOrders > 5)
     <div class="actionTabViewOrderCard --actionTabViewOrderCard9k2sn">
         <div class="actionTabViewOrderCardTop">
             <button type="button" onclick="openGuestVisitHistorySheet({{ $guest->id }}, '{{ addslashes($guest->name) }}')">
@@ -136,6 +137,7 @@
             </button>
         </div>
     </div>
+    @endif
 </div>
 
 <div class="actionTabCnt guestNotesBox" data-user="{{ auth()->user()->name }}">

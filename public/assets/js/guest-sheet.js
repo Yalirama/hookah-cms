@@ -101,22 +101,22 @@ function loadGuestSheet(id) {
         .then(html => {
             document.getElementById('viewGuestInner').innerHTML = html;
             initAllCustomSelects(document.getElementById('viewGuestInner'));
-            loadGuestVisitHistoryShort(id);
+            // loadGuestVisitHistoryShort(id);
         })
         .catch(() => { document.getElementById('viewGuestInner').innerHTML = '<p style="padding:20px; color:var(--info); text-align:center;">Не удалось загрузить</p>'; });
 }
 
-function loadGuestVisitHistoryShort(id) {
-    fetch(`/guests/${id}/visit-history/sheet`)
-        .then(r => r.text())
-        .then(html => {
-            const temp = document.createElement('div');
-            temp.innerHTML = html;
-            const rows = temp.querySelector('#guestVisitHistoryFullRows') || temp;
-            const rowsEl = document.getElementById('guestVisitHistoryShortRows');
-            if (rowsEl) rowsEl.innerHTML = rows.innerHTML;
-        });
-}
+// function loadGuestVisitHistoryShort(id) {
+//     fetch(`/guests/${id}/visit-history/sheet`)
+//         .then(r => r.text())
+//         .then(html => {
+//             const temp = document.createElement('div');
+//             temp.innerHTML = html;
+//             const rows = temp.querySelector('#guestVisitHistoryFullRows') || temp;
+//             const rowsEl = document.getElementById('guestVisitHistoryShortRows');
+//             if (rowsEl) rowsEl.innerHTML = rows.innerHTML;
+//         });
+// }
 
 document.addEventListener('submit', function (e) {
     const form = e.target;

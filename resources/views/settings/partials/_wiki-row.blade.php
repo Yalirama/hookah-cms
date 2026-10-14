@@ -5,7 +5,7 @@
     </div>
 
     @unless($page->is_published)
-        <span class="badge" style="background:#e2e3e5; color:#383d41;">Скрыта</span>
+        <span class="badge" style="color:rgba(192, 87, 74, 1);font-size: calc(12vw / var(--resizer) * 100);line-height: calc(12vw / var(--resizer) * 100);">Скрыта</span>
     @endunless
 
     <button type="button" onclick="openWikiViewSheet({{ $page->id }})" class="btnOpen">Открыть</button>

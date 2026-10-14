@@ -36,7 +36,7 @@ class CreateAdmin extends Command
 
         $user->assignRole('admin');
 
-        $this->info("Администратор {$name} ({$login}) создан.");
+        $this->info("Админ {$name} ({$login}) создан.");
         return 0;
     }
 }
