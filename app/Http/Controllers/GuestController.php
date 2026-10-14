@@ -18,13 +18,20 @@ class GuestController extends Controller
 {
     public function index(Request $request)
     {
-        $guests = Guest::withCount([
-            'orders as visits_count' => fn($q) => $q->whereIn('status', ['closed', 'redo', 'cancelled']),
-        ])->latest()->get();
+        $guests = $this->guestsList();
 
         $stats = $this->buildGuestStats();
 
         return view('guests.index', compact('guests', 'stats'));
+    }
+
+    private function guestsList()
+    {
+        return Guest::withCount([
+            'orders as visits_count'        => fn($q) => $q->whereIn('status', ['closed', 'redo', 'cancelled']),
+            'orders as closed_orders_count' => fn($q) => $q->where('status', 'closed'),
+            'orders as visit_orders_count'  => fn($q) => $q->whereIn('status', ['closed', 'redo', 'cancelled']),
+        ])->latest()->get();
     }
 
     private function buildGuestStats(): array
@@ -46,9 +53,7 @@ class GuestController extends Controller
 
     public function listPartial()
     {
-        $guests = Guest::withCount([
-            'orders as visits_count' => fn($q) => $q->whereIn('status', ['closed', 'redo', 'cancelled']),
-        ])->latest()->get();
+        $guests = $this->guestsList();
 
         return view('guests.partials.list-items', compact('guests'));
     }
