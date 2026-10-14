@@ -13,7 +13,7 @@ class AnalyticsController extends Controller
 {
     public function index(Request $request)
     {
-        $access = Setting::where('key', 'analytics_access')->value('value') ?? 'admin';
+        $access = Setting::where('key', 'analytics_access')->value('value') ?? 'all';
         if ($access === 'admin' && !auth()->user()->hasRole('admin')) {
             abort(403);
         }
@@ -26,7 +26,7 @@ class AnalyticsController extends Controller
 
     public function contentPartial(Request $request)
     {
-        $access = Setting::where('key', 'analytics_access')->value('value') ?? 'admin';
+        $access = Setting::where('key', 'analytics_access')->value('value') ?? 'all';
         if ($access === 'admin' && !auth()->user()->hasRole('admin')) {
             abort(403);
         }
@@ -248,7 +248,7 @@ class AnalyticsController extends Controller
 
     public function inactiveGuestsPartial(Request $request)
     {
-        $access = Setting::where('key', 'analytics_access')->value('value') ?? 'admin';
+        $access = Setting::where('key', 'analytics_access')->value('value') ?? 'all';
         if ($access === 'admin' && !auth()->user()->hasRole('admin')) {
             abort(403);
         }

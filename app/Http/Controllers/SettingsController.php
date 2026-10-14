@@ -63,7 +63,7 @@ class SettingsController extends Controller
             }
         }
         Setting::set('time_slots', json_encode($slots));
-        Setting::set('analytics_access', $request->input('analytics_access', 'admin'));
+        Setting::set('analytics_access', $request->input('analytics_access', 'all'));
 
         return response()->json(['ok' => true]);
     }

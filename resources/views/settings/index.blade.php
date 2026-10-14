@@ -101,7 +101,7 @@
             </div>
         </div>
 
-        <div class="actionTabCnt actionTabCnt6nsd5">
+        <div class="actionTabCnt --flex1 actionTabCnt6nsd5">
             <p class="analyticsCardTitle">Временные слоты для аналитики</p>
             <div class="actionTabCntRow7vh31" id="time-slots-list">
                 @foreach($timeSlots as $key => $slot)
@@ -141,16 +141,16 @@
             </div>
         </div>
 
-        <div class="actionTabCnt --flex1">
+        <div class="actionTabCnt --flex1" style="display:none">
             <p class="analyticsCardTitle">Доступ к аналитике</p>
             <div class="actionTabCntRow3dwa1">
-                @php $analyticsAccess = $settings->get('analytics_access')?->value ?? 'admin'; @endphp
+                @php $analyticsAccess = 'all'; @endphp
                 <div class="defaultForm customSelect" id="analytics-access-select">
                     <div class="customSelectValue" data-placeholder="Выберите">{{ $analyticsAccess === 'all' ? 'Все' : 'Только админ' }}</div>
                     <svg class="customSelectArrow" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M1 1l4 4 4-4"></path>
                     </svg>
-                    <input type="hidden" id="analytics-access" value="{{ $analyticsAccess }}">
+                    <input type="hidden" id="analytics-access" value="all">
                     <div class="customSelectDropdown">
                         <div class="customSelectOption {{ $analyticsAccess === 'admin' ? '--active' : '' }}" data-value="admin">Только админ</div>
                         <div class="customSelectOption {{ $analyticsAccess === 'all' ? '--active' : '' }}" data-value="all">Все</div>
