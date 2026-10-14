@@ -4349,3 +4349,7 @@ main.tabaccos #viewTabaccosInner,
     align-items: center;
     gap: calc(6vw / var(--resizer) * 100);
 }
+
+.actionTabCnt#masters-list {
+    overflow: auto;
+}
