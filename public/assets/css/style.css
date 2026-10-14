@@ -4391,3 +4391,7 @@ main.tabaccos #viewTabaccosInner,
 .--createOrderSelectedGuestWrap .ordersCardTop.--actionTabSearchSectionResultActive::after {
     background: rgba(205, 170, 125, 1);
 }
+
+#createOrderNewGuestForm .actionTabSectionRow {
+    grid-template-columns: repeat(1, 1fr);
+}
