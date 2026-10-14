@@ -4377,3 +4377,17 @@ main.tabaccos #viewTabaccosInner,
     font-weight: 500;
     line-height: calc(14vw / var(--resizer) * 100);
 }
+
+.--createOrderSelectedGuestWrap .ordersCardTop.--actionTabSearchSectionResultActive {
+    backdrop-filter: blur(calc(8vw / var(--resizer) * 100));
+    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    background: rgba(24, 22, 18, 0.24);
+}
+
+.--createOrderSelectedGuestWrap .ordersCardTop.--actionTabSearchSectionResultActive::before {
+    opacity: 1;
+}
+
+.--createOrderSelectedGuestWrap .ordersCardTop.--actionTabSearchSectionResultActive::after {
+    background: rgba(205, 170, 125, 1);
+}
