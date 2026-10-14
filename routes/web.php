@@ -18,9 +18,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->midd
 Route::middleware('auth')->group(function () {
     Route::get('/', fn() => redirect()->route('orders.index'))->name('dashboard');
 
-    // Guest search — вне prefix группы
     Route::get('/orders/guests/search', [OrderController::class, 'searchGuests'])->name('orders.guests.search');
-    Route::get('/orders/service-alerts', [OrderController::class, 'serviceAlerts'])->name('orders.service-alerts');
 
     Route::get('/orders/{order}/sheet', [OrderController::class, 'sheet'])->name('orders.sheet');
     Route::get('/orders/{order}/card', [OrderController::class, 'cardPartial'])->name('orders.card');

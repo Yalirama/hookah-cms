@@ -278,7 +278,6 @@ class OrderController extends Controller
         ]);
 
         $this->safeBroadcast(fn() => broadcast(new \App\Events\OrderUpdated($order))->toOthers());
-        $this->safeBroadcast(fn() => broadcast(new \App\Events\ServiceReminderCheck()));
 
         return $this->sheetOrDone($order, 'Обслуживание зафиксировано');
     }
@@ -369,7 +368,6 @@ class OrderController extends Controller
         ]);
 
         $this->broadcastOrder($order);
-        $this->safeBroadcast(fn() => broadcast(new \App\Events\ServiceReminderCheck()));
 
         OrderLog::create([
             'order_id'   => $order->id,
@@ -563,45 +561,6 @@ class OrderController extends Controller
         $this->broadcastOrder($order);
 
         return $this->done('Мастер действия обновлён');
-    }
-
-    public function serviceAlerts()
-    {
-        $enabled = \App\Models\Setting::where('key', 'service_reminder_enabled')->value('value');
-        if ($enabled !== '1') {
-            return response()->json([]);
-        }
-
-        $interval = (int) (\App\Models\Setting::where('key', 'service_reminder_interval')->value('value') ?? 20);
-
-        $orders = \App\Models\Order::where('status', 'served')
-            ->with(['logs' => fn($q) => $q->whereIn('action', ['status_changed', 'serviced'])->latest('created_at')])
-            ->get();
-
-        $alerts = [];
-        foreach ($orders as $order) {
-            $lastEvent = $order->logs->sortByDesc('created_at')->first(function($log) {
-                if ($log->action === 'serviced') return true;
-                if ($log->action === 'status_changed' && ($log->new_value['status'] ?? '') === 'served') return true;
-                return false;
-            });
-
-            if (!$lastEvent) continue;
-
-            $minutesSince = $lastEvent->created_at->diffInMinutes(now());
-
-            if ($minutesSince >= $interval) {
-                $alerts[] = [
-                    'order_id'      => $order->id,
-                    'order_name'    => $order->name,
-                    'minutes'       => (int) $minutesSince,
-                    'url'           => route('orders.show', $order),
-                    'last_event_ts' => $lastEvent->created_at->timestamp,
-                ];
-            }
-        }
-
-        return response()->json($alerts);
     }
 
     public function sheet(Order $order)
