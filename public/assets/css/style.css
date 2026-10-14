@@ -4360,7 +4360,10 @@ main.tabaccos #viewTabaccosInner,
 #deactivationLogRows,
 #viewMixesDeactiveListInner,
 #viewMixStoryInner,
-#editMixForm {
+#editMixForm,
+#guestHistoryInner,
+#viewBadge-body,
+#labelHistoryInner {
     overflow: auto;
 }
 
