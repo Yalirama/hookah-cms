@@ -73,15 +73,18 @@ function openOrderSheet(orderId) {
     initOrderSheetEcho(orderId);
 }
 
+function renderOrderSheet(html) {
+    const el = document.getElementById('viewOrderInner');
+    el.innerHTML = html;
+    initAllCustomSelects(el);
+    initAllCustomTimes(el);
+    tickTimers(el);
+}
+
 function loadOrderSheet(orderId) {
     fetch(`/orders/${orderId}/sheet`)
         .then(r => r.text())
-        .then(html => {
-            document.getElementById('viewOrderInner').innerHTML = html;
-            initAllCustomSelects(document.getElementById('viewOrderInner'));
-            initAllCustomTimes(document.getElementById('viewOrderInner'));
-            tickTimers(document.getElementById('viewOrderInner'));
-        })
+        .then(renderOrderSheet)
         .catch(() => { document.getElementById('viewOrderInner').innerHTML = '<p style="padding:20px; color:var(--info); text-align:center;">Не удалось загрузить заказ</p>'; });
 }
 
@@ -89,7 +92,10 @@ let orderSheetEchoBound = null;
 function initOrderSheetEcho(orderId) {
     if (orderSheetEchoBound) window.Echo.leave('order.' + orderSheetEchoBound);
     orderSheetEchoBound = orderId;
-    window.Echo.channel('order.' + orderId).listen('.order.updated', () => loadOrderSheet(orderId));
+    window.Echo.channel('order.' + orderId).listen('.order.updated', () => {
+        if (Date.now() < (window._orderSheetSkipUntil || 0)) return;
+            loadOrderSheet(orderId);
+    });
 }
 
 document.addEventListener('submit', function (e) {
@@ -102,6 +108,7 @@ document.addEventListener('submit', function (e) {
     if (submitter && submitter.name) fd.set(submitter.name, submitter.value);
     const url = (submitter && submitter.hasAttribute('formaction')) ? submitter.formAction : form.action;
     form.dataset.busy = '1';
+    window._orderSheetSkipUntil = Date.now() + 2500;
     const btns = [...form.querySelectorAll('button:not([disabled])')];
     btns.forEach(b => { b.disabled = true; });
 
@@ -113,8 +120,9 @@ document.addEventListener('submit', function (e) {
                 err.status = r.status;
                 throw err;
             }
+            return (r.headers.get('Content-Type') || '').includes('text/html') ? r.text() : null;
         })
-        .then(() => loadOrderSheet(currentOrderSheetId))
+        .then(html => html ? renderOrderSheet(html) : loadOrderSheet(currentOrderSheetId))
         .catch(err => {
             if (err.status === 409) { loadOrderSheet(currentOrderSheetId); return; }
             let el = form.querySelector('.formInlineError');

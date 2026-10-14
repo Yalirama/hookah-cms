@@ -272,7 +272,7 @@ class OrderController extends Controller
         $this->safeBroadcast(fn() => broadcast(new \App\Events\OrderUpdated($order))->toOthers());
         $this->safeBroadcast(fn() => broadcast(new \App\Events\ServiceReminderCheck()));
 
-        return $this->done('Обслуживание зафиксировано');
+        return $this->sheetOrDone($order, 'Обслуживание зафиксировано');
     }
 
     public function liveData(Order $order)
@@ -373,7 +373,7 @@ class OrderController extends Controller
             'created_at' => now(),
         ]);
 
-        return $this->done('Статус обновлён');
+        return $this->sheetOrDone($order, 'Статус обновлён');
     }
 
     public function rollbackStatus(Request $request, Order $order)
@@ -410,7 +410,7 @@ class OrderController extends Controller
 
         $this->broadcastOrder($order);
 
-        return $this->done('Статус откатен');
+        return $this->sheetOrDone($order, 'Статус откатен');
     }
 
     public function changeTable(Request $request, Order $order)
@@ -605,6 +605,11 @@ class OrderController extends Controller
         });
 
         return view('orders.partials.order-card', compact('order'));
+    }
+
+    private function sheetOrDone(Order $order, string $message)
+    {
+        return request()->ajax() ? $this->sheet($order) : back()->with('success', $message);
     }
 
     private function done(string $message)
