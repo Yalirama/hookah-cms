@@ -120,17 +120,94 @@ function loadGuestVisitHistoryShort(id) {
 
 document.addEventListener('submit', function (e) {
     const form = e.target;
-    if (form.closest('#viewGuestInner')) {
-        e.preventDefault();
-        const fd = new FormData(form);
-        fetch(form.action, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-            .then(r => {
-                if (!r.ok) return;
-                loadGuestSheet(currentGuestSheetId);
-                loadGuestList();
-            });
-    }
+    if (!form.closest('#viewGuestInner')) return;
+    e.preventDefault();
+
+    if (form.classList.contains('guestNoteForm')) return addGuestNote(form);
+    if (form.classList.contains('guestNoteDeleteForm')) return deleteGuestNote(form);
+
+    if (form.dataset.busy) return;
+    form.dataset.busy = '1';
+    const fd = new FormData(form);
+    const btns = [...form.querySelectorAll('button:not([disabled])')];
+    btns.forEach(b => { b.disabled = true; });
+
+    fetch(form.action, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(r => {
+            if (!r.ok) return;
+            loadGuestSheet(currentGuestSheetId);
+            loadGuestList();
+        })
+        .finally(() => {
+            delete form.dataset.busy;
+            btns.forEach(b => { b.disabled = false; });
+        });
 });
+
+function buildGuestNoteItem(box, text, token) {
+    const d = new Date();
+    const p = n => String(n).padStart(2, '0');
+    const item = document.createElement('div');
+    item.className = 'actionTabCntForm8s2id guestNoteItem';
+    item.innerHTML = `
+        <div class="actionTabCntForm8s2idRow">
+            <textarea readonly rows="3"></textarea>
+            <div class="actionTabCntForm8s2idRowAction">
+                <div class="actionTabCntForm8s2idRowActionItem">
+                    <div class="item"><img src="/assets/img/master-done.svg" alt=""><p class="noteUser"></p></div>
+                    <div class="item"><img src="/assets/img/time-icon.svg" alt=""><p class="noteDate"></p></div>
+                </div>
+                <form method="POST" action="" class="guestNoteDeleteForm">
+                    <input type="hidden" name="_token">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit"><img src="/assets/img/close-icon.svg" alt=""><span>Удалить</span></button>
+                </form>
+            </div>
+        </div>`;
+    item.querySelector('textarea').value = text;
+    item.querySelector('.noteUser').textContent = box.dataset.user;
+    item.querySelector('.noteDate').textContent = `${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}`;
+    item.querySelector('input[name="_token"]').value = token;
+    return item;
+}
+
+function addGuestNote(form) {
+    const ta = form.querySelector('textarea[name="note"]');
+    const text = ta.value.trim();
+    if (!text || form.dataset.busy) return;
+    form.dataset.busy = '1';
+
+    const fd = new FormData(form);
+    const item = buildGuestNoteItem(form.closest('.guestNotesBox'), text, fd.get('_token'));
+    form.after(item);
+    ta.value = '';
+
+    fetch(form.action, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(async r => {
+            if (!r.ok) throw new Error();
+            return r.json();
+        })
+        .then(data => { item.querySelector('.guestNoteDeleteForm').action = data.delete_url; })
+        .catch(() => { item.remove(); ta.value = text; })
+        .finally(() => { delete form.dataset.busy; });
+}
+
+function deleteGuestNote(form) {
+    if (form.dataset.busy || !form.getAttribute('action')) return;
+    form.dataset.busy = '1';
+
+    const item = form.closest('.guestNoteItem');
+    const fd = new FormData(form);
+    item.style.display = 'none';
+
+    fetch(form.action, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(r => {
+            if (!r.ok) throw new Error();
+            item.remove();
+        })
+        .catch(() => { item.style.display = ''; })
+        .finally(() => { delete form.dataset.busy; });
+}
 
 function expandTopList(btn) {
     const row = btn.closest('.topListRow');
@@ -186,39 +263,49 @@ function filterGuestLabels(q) {
     });
 }
 
-function toggleGuestLabel(guestId, labelId, type, currentAssignmentId, isActiveHere) {
-    if (isActiveHere) {
-        fetch(`/guests/${guestId}/labels/${currentAssignmentId}`, {
+function toggleGuestLabel(row) {
+    const ACTIVE = '--actionTabSearchSectionResultActive';
+    const guestId = row.dataset.guestId;
+    const labelId = row.dataset.labelId;
+    const rows = [...document.querySelectorAll(`#guestLabelsListWrap .guestLabelRow[data-label-id="${labelId}"]`)];
+    if (rows.some(r => r.dataset.busy)) return;
+
+    const wasActive = row.classList.contains(ACTIVE);
+    const assignment = row.dataset.assignment;
+    const prev = rows.map(r => [r, r.classList.contains(ACTIVE), r.dataset.assignment || '']);
+    const token = document.querySelector('meta[name="csrf-token"]').content;
+
+    rows.forEach(r => { r.classList.remove(ACTIVE); r.dataset.busy = '1'; });
+    if (!wasActive) row.classList.add(ACTIVE);
+
+    let req;
+    if (wasActive) {
+        req = fetch(`/guests/${guestId}/labels/${assignment}`, {
             method: 'POST',
-            headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content, 'X-HTTP-Method-Override': 'DELETE' },
-        }).then(() => refreshGuestLabelsSheet(guestId));
+            headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-TOKEN': token, 'X-HTTP-Method-Override': 'DELETE' },
+        });
     } else {
         const fd = new FormData();
         fd.append('label_id', labelId);
-        fd.append('type', type);
-        fd.append('_token', document.querySelector('meta[name="csrf-token"]').content);
-        fetch(`/guests/${guestId}/labels`, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-            .then(() => refreshGuestLabelsSheet(guestId));
+        fd.append('type', row.dataset.type);
+        fd.append('_token', token);
+        req = fetch(`/guests/${guestId}/labels`, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } });
     }
-}
 
-function refreshGuestLabelsSheet(guestId) {
-    const openIndexes = Array.from(document.querySelectorAll('#guestLabelsListWrap .guestLabelBrandCard'))
-        .map((card, i) => card.classList.contains('actionTabViewOrderCardShow') ? i : null)
-        .filter(i => i !== null);
-
-    fetch(`/guests/${guestId}/labels/sheet`)
-        .then(r => r.text())
-        .then(html => {
-            document.getElementById('guestLabelsInner').innerHTML = html;
-
-            const cards = document.querySelectorAll('#guestLabelsListWrap .guestLabelBrandCard');
-            cards.forEach((card, i) => {
-                card.classList.toggle('actionTabViewOrderCardShow', openIndexes.includes(i));
-            });
-
-            loadGuestSheet(guestId);
-        });
+    req.then(async r => {
+            if (!r.ok) throw new Error();
+            return r.json().catch(() => ({}));
+        })
+        .then(data => {
+            const id = wasActive ? '' : (data.id || '');
+            rows.forEach(r => { r.dataset.assignment = id; });
+            clearTimeout(window._guestCardRefresh);
+            window._guestCardRefresh = setTimeout(() => loadGuestSheet(guestId), 800);
+        })
+        .catch(() => {
+            prev.forEach(([r, was, asg]) => { r.classList.toggle(ACTIVE, was); r.dataset.assignment = asg; });
+        })
+        .finally(() => rows.forEach(r => { delete r.dataset.busy; }));
 }
 
 function toggleGuestFormSubmit(input) {

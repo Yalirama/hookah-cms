@@ -22,9 +22,13 @@
                     $isActiveHere = $current && $current->type === $type;
                 @endphp
                 <div class="ordersCardTop guestLabelRow {{ $isActiveHere ? '--actionTabSearchSectionResultActive' : '' }}"
-                     data-label-name="{{ mb_strtolower($label->name, 'UTF-8') }}"
-                     onclick="toggleGuestLabel({{ $guest->id }}, {{ $label->id }}, '{{ $type }}', {{ $current?->id ?? 'null' }}, {{ $isActiveHere ? 'true' : 'false' }})">
-                    <div class="ordersCardUser">
++                     data-label-name="{{ mb_strtolower($label->name, 'UTF-8') }}"
++                     data-guest-id="{{ $guest->id }}"
++                     data-label-id="{{ $label->id }}"
++                     data-type="{{ $type }}"
++                     data-assignment="{{ $current?->id }}"
++                     onclick="toggleGuestLabel(this)">
+                     <div class="ordersCardUser">
                         <div class="ordersCardUserInfo">
                             <div class="actionTabViewOrderProductListBody"><p>{{ $label->name }}</p></div>
                         </div>

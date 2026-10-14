@@ -94,27 +94,42 @@ function initOrderSheetEcho(orderId) {
 
 document.addEventListener('submit', function (e) {
     const form = e.target;
-    if (form.closest('#viewOrderInner') || form.id === 'viewOrderAttachGuestForm') {
-        e.preventDefault();
-        const submitter = e.submitter;
-        const fd = new FormData(form);
-        if (submitter && submitter.name) {
-            fd.set(submitter.name, submitter.value);
-        }
-        const url = (submitter && submitter.hasAttribute('formaction'))
-            ? submitter.formAction
-            : form.action;
-        fetch(url, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-            .then(async r => {
-                if (!r.ok) {
-                    const data = await r.json().catch(() => ({}));
-                    throw new Error(data.message || 'Ошибка при сохранении');
-                }
-                return r;
-            })
-            .then(() => loadOrderSheet(currentOrderSheetId))
-            .catch((err) => alert(err.message || 'Ошибка при сохранении'));
-    }
+    if (!(form.closest('#viewOrderInner') || form.id === 'viewOrderAttachGuestForm')) return;
+    e.preventDefault();
+    if (form.dataset.busy) return;
+    const submitter = e.submitter;
+    const fd = new FormData(form);
+    if (submitter && submitter.name) fd.set(submitter.name, submitter.value);
+    const url = (submitter && submitter.hasAttribute('formaction')) ? submitter.formAction : form.action;
+    form.dataset.busy = '1';
+    const btns = [...form.querySelectorAll('button:not([disabled])')];
+    btns.forEach(b => { b.disabled = true; });
+
+    fetch(url, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(async r => {
+            if (!r.ok) {
+                const data = await r.json().catch(() => ({}));
+                const err = new Error(data.message || 'Ошибка при сохранении');
+                err.status = r.status;
+                throw err;
+            }
+        })
+        .then(() => loadOrderSheet(currentOrderSheetId))
+        .catch(err => {
+            if (err.status === 409) { loadOrderSheet(currentOrderSheetId); return; }
+            let el = form.querySelector('.formInlineError');
+            if (!el) {
+                el = document.createElement('p');
+                el.className = 'formInlineError';
+                el.style.cssText = 'color:#e5484d; font-size:13px; margin:8px 0 0;';
+                form.appendChild(el);
+            }
+            el.textContent = err.message || 'Ошибка при сохранении';
+        })
+        .finally(() => {
+            delete form.dataset.busy;
+            btns.forEach(b => { b.disabled = false; });
+        });
 });
 
 // Аккордеоны (сменить стол / мастер / история)

@@ -88,6 +88,7 @@
 
         <form method="POST" action="{{ route('orders.status', $order) }}" class="actionTabViewOrderCardAction">
             @csrf
+            <input type="hidden" name="from" value="{{ $order->status }}">
             <div class="defaultForm"><input type="text" name="comment" placeholder="Добавить комментарий"></div>
             <div class="actionTabViewOrderCardActionButtons">
                 @if($nextStatus)

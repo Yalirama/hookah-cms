@@ -221,7 +221,7 @@ class OrderController extends Controller
 
         $this->broadcastOrder($order);
 
-        return back()->with('success', 'Позиции добавлены');
+        return $this->done('Позиции добавлены');
     }
 
     public function removeItem(Request $request, Order $order, OrderItem $item)
@@ -250,7 +250,7 @@ class OrderController extends Controller
 
         $this->broadcastOrder($order);
 
-        return back()->with('success', 'Позиция удалена');
+        return $this->done('Позиция удалена');
     }
 
     public function logService(Request $request, Order $order)
@@ -272,7 +272,7 @@ class OrderController extends Controller
         $this->safeBroadcast(fn() => broadcast(new \App\Events\OrderUpdated($order))->toOthers());
         $this->safeBroadcast(fn() => broadcast(new \App\Events\ServiceReminderCheck()));
 
-        return back()->with('success', 'Обслуживание зафиксировано');
+        return $this->done('Обслуживание зафиксировано');
     }
 
     public function liveData(Order $order)
@@ -334,11 +334,18 @@ class OrderController extends Controller
     public function changeStatus(Request $request, Order $order)
     {
         $request->validate([
-            'status'  => 'required|in:in_progress,ready,served,redo,closed,cancelled',
-            'comment' => 'nullable|string|max:500',
-        ]);
+             'status'  => 'required|in:in_progress,ready,served,redo,closed,cancelled',
+             'comment' => 'nullable|string|max:500',
+            'from'    => 'nullable|string',
+         ]);
 
-        if ($request->status !== 'cancelled' && $order->items()->whereNull('deleted_at')->doesntExist()) {
+        if ($request->filled('from') && $request->from !== $order->status) {
+            return $request->ajax()
+                ? response()->json(['message' => 'Статус уже изменён'], 409)
+                : back()->withErrors(['status' => 'Статус уже изменён']);
+        }
+ 
+         if ($request->status !== 'cancelled' && $order->items()->whereNull('deleted_at')->doesntExist()) {
             if ($request->ajax()) {
                 return response()->json(['message' => 'Нельзя изменить статус — состав заказа пуст.'], 422);
             }
@@ -366,7 +373,7 @@ class OrderController extends Controller
             'created_at' => now(),
         ]);
 
-        return back()->with('success', 'Статус обновлён');
+        return $this->done('Статус обновлён');
     }
 
     public function rollbackStatus(Request $request, Order $order)
@@ -403,7 +410,7 @@ class OrderController extends Controller
 
         $this->broadcastOrder($order);
 
-        return back()->with('success', 'Статус откатен');
+        return $this->done('Статус откатен');
     }
 
     public function changeTable(Request $request, Order $order)
@@ -442,7 +449,7 @@ class OrderController extends Controller
 
         $this->broadcastOrder($order);
 
-        return back()->with('success', 'Стол изменён');
+        return $this->done('Стол изменён');
     }
 
     public function searchGuests(Request $request)
@@ -490,7 +497,7 @@ class OrderController extends Controller
             'created_at' => now(),
         ]);
 
-        return back()->with('success', 'Гость привязан');
+        return $this->done('Гость привязан');
     }
 
     public function detachGuest(Request $request, Order $order)
@@ -508,7 +515,7 @@ class OrderController extends Controller
             'created_at' => now(),
         ]);
 
-        return back()->with('success', 'Гость откреплён');
+        return $this->done('Гость откреплён');
     }
 
     public function updateLogMaster(Request $request, Order $order, OrderLog $log)
@@ -537,7 +544,7 @@ class OrderController extends Controller
 
         $this->broadcastOrder($order);
 
-        return back()->with('success', 'Мастер действия обновлён');
+        return $this->done('Мастер действия обновлён');
     }
 
     public function serviceAlerts()
@@ -598,6 +605,13 @@ class OrderController extends Controller
         });
 
         return view('orders.partials.order-card', compact('order'));
+    }
+
+    private function done(string $message)
+    {
+        return request()->ajax()
+            ? response()->json(['message' => $message])
+            : back()->with('success', $message);
     }
 
     private function broadcastOrder(Order $order): void
@@ -679,6 +693,6 @@ class OrderController extends Controller
 
         $this->broadcastOrder($order);
 
-        return back()->with('success', 'Комментарий гостя обновлён');
+        return $this->done('Комментарий гостя обновлён');
     }
 }

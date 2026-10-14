@@ -138,9 +138,9 @@
     </div>
 </div>
 
-<div class="actionTabCnt">
+<div class="actionTabCnt guestNotesBox" data-user="{{ auth()->user()->name }}">
     <p class="analyticsCardTitle">Заметки</p>
-    <form method="POST" action="{{ route('guests.notes.store', $guest) }}" class="actionTabCntForm8s2id">
+    <form method="POST" action="{{ route('guests.notes.store', $guest) }}" class="actionTabCntForm8s2id guestNoteForm">
         @csrf
         <div class="actionTabCntForm8s2idRow">
             <textarea name="note" placeholder="Добавить заметку" rows="3"></textarea>
@@ -151,7 +151,7 @@
     </form>
 
     @foreach($guest->notes->whereNull('deleted_at') as $note)
-    <div class="actionTabCntForm8s2id">
+    <div class="actionTabCntForm8s2id guestNoteItem">
         <div class="actionTabCntForm8s2idRow">
             <textarea readonly rows="3">{{ $note->note }}</textarea>
             <div class="actionTabCntForm8s2idRowAction">
@@ -160,7 +160,7 @@
                     <div class="item"><img src="/assets/img/time-icon.svg" alt=""><p>{{ $note->created_at->format('d.m.Y H:i') }}</p></div>
                 </div>
                 @if($note->user_id === auth()->id() || auth()->user()->hasRole('admin'))
-                <form method="POST" action="{{ route('guests.notes.destroy', [$guest, $note]) }}">
+                <form method="POST" action="{{ route('guests.notes.destroy', [$guest, $note]) }}" class="guestNoteDeleteForm">
                     @csrf @method('DELETE')
                     <button type="submit"><img src="/assets/img/close-icon.svg" alt=""><span>Удалить</span></button>
                 </form>

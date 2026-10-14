@@ -274,7 +274,7 @@ class GuestController extends Controller
             return response()->json(['message' => 'Данные гостя обновлены']);
         }
 
-        return back()->with('success', 'Данные гостя обновлены');
+        return $this->done('Данные гостя обновлены');
     }
 
     public function setStatus(Request $request, Guest $guest)
@@ -297,14 +297,21 @@ class GuestController extends Controller
             'created_at' => now(),
         ]);
 
-        return back()->with('success', 'Статус гостя обновлён');
+        return $this->done('Статус гостя обновлён');
+    }
+
+    private function done(string $message)
+    {
+        return request()->ajax()
+            ? response()->json(['message' => $message])
+            : back()->with('success', $message);
     }
 
     public function storeNote(Request $request, Guest $guest)
     {
         $request->validate(['note' => 'required|string|max:1000']);
 
-        GuestNote::create([
+        $note = GuestNote::create([
             'guest_id' => $guest->id,
             'user_id'  => auth()->id(),
             'note'     => $request->note,
@@ -318,7 +325,9 @@ class GuestController extends Controller
             'created_at' => now(),
         ]);
 
-        return back()->with('success', 'Заметка добавлена');
+        return request()->ajax()
+        ? response()->json(['message' => 'Заметка добавлена', 'delete_url' => route('guests.notes.destroy', [$guest, $note])])
+        : back()->with('success', 'Заметка добавлена');
     }
 
     public function destroyNote(Guest $guest, GuestNote $note)
@@ -336,7 +345,7 @@ class GuestController extends Controller
         ]);
 
         $note->delete();
-        return back()->with('success', 'Заметка удалена');
+        return $this->done('Заметка удалена');
     }
 
     public function addLabel(Request $request, Guest $guest)
@@ -357,7 +366,9 @@ class GuestController extends Controller
             $oldType = $existing->type;
 
             if ($oldType === $request->type) {
-                return back()->with('error', 'Этот ярлык уже добавлен в эту категорию');
+                return request()->ajax()
+                    ? response()->json(['message' => 'Этот ярлык уже добавлен в эту категорию'], 422)
+                    : back()->with('error', 'Этот ярлык уже добавлен в эту категорию');
             }
 
             $existing->update([
@@ -365,15 +376,14 @@ class GuestController extends Controller
                 'removed_at' => now(),
             ]);
 
-            \App\Models\GuestLabel::create([
-                'guest_id'  => $guest->id,
-                'label_id'  => $request->label_id,
-                'type'      => $request->type,
-                'added_by'  => auth()->id(),
-                'added_at'  => now(),
+            $new = \App\Models\GuestLabel::create([
+                'guest_id' => $guest->id,
+                'label_id' => $request->label_id,
+                'type'     => $request->type,
+                'added_by' => auth()->id(),
+                'added_at' => now(),
             ]);
 
-            // Смена категории
             GuestLog::create([
                 'guest_id'   => $guest->id,
                 'user_id'    => auth()->id(),
@@ -383,16 +393,15 @@ class GuestController extends Controller
                 'created_at' => now(),
             ]);
 
-            return back()->with('success', 'Категория ярлыка изменена');
+            return $this->labelAdded($new, 'Категория ярлыка изменена');
         }
 
-        // Новый тег
-        \App\Models\GuestLabel::create([
-            'guest_id'  => $guest->id,
-            'label_id'  => $request->label_id,
-            'type'      => $request->type,
-            'added_by'  => auth()->id(),
-            'added_at'  => now(),
+        $new = \App\Models\GuestLabel::create([
+            'guest_id' => $guest->id,
+            'label_id' => $request->label_id,
+            'type'     => $request->type,
+            'added_by' => auth()->id(),
+            'added_at' => now(),
         ]);
 
         GuestLog::create([
@@ -404,7 +413,14 @@ class GuestController extends Controller
             'created_at' => now(),
         ]);
 
-        return back()->with('success', 'Ярлык добавлен');
+        return $this->labelAdded($new, 'Ярлык добавлен');
+    }
+
+    private function labelAdded(\App\Models\GuestLabel $new, string $message)
+    {
+        return request()->ajax()
+            ? response()->json(['message' => $message, 'id' => $new->id])
+            : back()->with('success', $message);
     }
 
     public function removeLabel(Request $request, Guest $guest, \App\Models\GuestLabel $guestLabel)
@@ -426,7 +442,7 @@ class GuestController extends Controller
             'created_at' => now(),
         ]);
 
-        return back()->with('success', 'Ярлык снят');
+        return $this->done('Ярлык снят');
     }
 
     public function sheet(Guest $guest)
