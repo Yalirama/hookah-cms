@@ -139,5 +139,5 @@
 @endsection
 
 @push('scripts')
-<script src="/assets/js/mixes.js"></script>
+<script src="/assets/js/mixes.js?v={{ filemtime(public_path('/assets/js/mixes.js')) }}"></script>
 @endpush

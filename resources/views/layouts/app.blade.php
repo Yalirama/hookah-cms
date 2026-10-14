@@ -259,8 +259,8 @@ setTimeout(initServiceAlerts, 1000);
 </script>
 @endauth
 
-<script src="/assets/js/app.js"></script>
-<script src="/assets/js/order-sheet.js"></script>
+<script src="/assets/js/app.js?v={{ filemtime(public_path('/assets/js/app.js')) }}"></script>
+<script src="/assets/js/order-sheet.js?v={{ filemtime(public_path('/assets/js/order-sheet.js')) }}"></script>
 @stack('scripts')
 @vite(['resources/js/app.js'])
 </body>

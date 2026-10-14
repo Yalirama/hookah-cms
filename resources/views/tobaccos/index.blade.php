@@ -110,5 +110,5 @@
 @endsection
 
 @push('scripts')
-<script src="/assets/js/tobaccos.js"></script>
+<script src="/assets/js/tobaccos.js?v={{ filemtime(public_path('/assets/js/tobaccos.js')) }}"></script>
 @endpush

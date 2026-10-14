@@ -22,7 +22,7 @@
 @endpush
 
 @push('scripts')
-<script src="/assets/js/guest-sheet.js"></script>
+<script src="/assets/js/guest-sheet.js?v={{ filemtime(public_path('/assets/js/guest-sheet.js')) }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     var welcomeP = document.querySelector('.headerTopWelcome p');

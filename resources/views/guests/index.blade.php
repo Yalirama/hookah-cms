@@ -53,5 +53,5 @@
 @endsection
 
 @push('scripts')
-<script src="/assets/js/guest-sheet.js"></script>
+<script src="/assets/js/guest-sheet.js?v={{ filemtime(public_path('/assets/js/guest-sheet.js')) }}"></script>
 @endpush

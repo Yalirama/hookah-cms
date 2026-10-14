@@ -93,7 +93,7 @@
 
 @push('scripts')
 @include('partials.guest-sheets')
-<script src="/assets/js/guest-sheet.js"></script>
+<script src="/assets/js/guest-sheet.js?v={{ filemtime(public_path('/assets/js/guest-sheet.js')) }}"></script>
 <script>
 (function () {
     let activeStatus = '', activeGuest = '', activeGuestStatus = '';
