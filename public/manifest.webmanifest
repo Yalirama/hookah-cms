@@ -1,6 +1,6 @@
 {
-  "name": "Hookah CRM",
-  "short_name": "Hookah CRM",
+  "name": "Hookah CRM Test",
+  "short_name": "Hookah CRM Test",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

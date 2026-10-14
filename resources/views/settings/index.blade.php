@@ -447,9 +447,7 @@
                     </svg>
                     <input type="hidden" id="new-table-type">
                     <div class="customSelectDropdown">
-                        @foreach($tableTypes->whereNull('deleted_at') as $type)
-                            <div class="customSelectOption" data-value="{{ $type->id }}">{{ $type->name }}</div>
-                        @endforeach
+                        @include('settings.partials._type-options')
                     </div>
                 </div>
             </div>
@@ -463,42 +461,7 @@
         <div class="actionTabCnt actionTabCnt4d21c" id="tables-list">
             <p class="analyticsCardTitle">Все столы</p>
             <div class="labelGuestAccordion">
-                @php $tablesByType = $tables->groupBy('type_id'); @endphp
-                @foreach($tableTypes->whereNull('deleted_at') as $type)
-                    @php $typeTables = $tablesByType->get($type->id, collect()); @endphp
-                    <div class="labelGuestAccordionCard" data-open="0" data-type-key="{{ $type->id }}">
-                        <button type="button" class="labelGuestAccordionHead" onclick="toggleGuestAccordion(this)">
-                            <span>{{ $type->name }} ({{ $typeTables->count() }})</span>
-                            <img src="/assets/img/arrow-down.svg" class="labelGuestAccordionArrow" alt="">
-                        </button>
-                        <div class="labelGuestAccordionBody">
-                            <div class="labelGuestAccordionBodyInner" data-tables-group="{{ $type->id }}">
-                                @forelse($typeTables as $table)
-                                    @include('settings.partials._table-row', ['table' => $table])
-                                @empty
-                                    <p style="color:var(--info); font-size:13px; padding:12px 0;">Нет столов</p>
-                                @endforelse
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-
-                @php $noTypeTables = $tablesByType->get(null, collect()); @endphp
-                <div class="labelGuestAccordionCard" data-open="0" data-type-key="none">
-                    <button type="button" class="labelGuestAccordionHead" onclick="toggleGuestAccordion(this)">
-                        <span>Без типа ({{ $noTypeTables->count() }})</span>
-                        <img src="/assets/img/arrow-down.svg" class="labelGuestAccordionArrow" alt="">
-                    </button>
-                    <div class="labelGuestAccordionBody">
-                        <div class="labelGuestAccordionBodyInner" data-tables-group="none">
-                            @forelse($noTypeTables as $table)
-                                @include('settings.partials._table-row', ['table' => $table])
-                            @empty
-                                <p style="color:var(--info); font-size:13px; padding:12px 0;">Нет столов</p>
-                            @endforelse
-                        </div>
-                    </div>
-                </div>
+                @include('settings.partials._tables-accordion')
             </div>
         </div>
     </div>
@@ -525,9 +488,7 @@
                     </svg>
                     <input type="hidden" id="edit-table-type">
                     <div class="customSelectDropdown">
-                        @foreach($tableTypes->whereNull('deleted_at') as $type)
-                            <div class="customSelectOption" data-value="{{ $type->id }}">{{ $type->name }}</div>
-                        @endforeach
+                        @include('settings.partials._type-options')
                     </div>
                 </div>
             </div>
@@ -837,6 +798,7 @@ function submitCreateTableType() {
             document.getElementById('table-types-list').insertAdjacentHTML('beforeend', data.row);
             document.getElementById('new-type-name').value = '';
             document.getElementById('new-type-description').value = '';
+            refreshTablesPanel();
         }
     }).catch(err => showFormError('settingsTab5', err.message));
 }
@@ -856,6 +818,7 @@ function submitEditTableType() {
         description: document.getElementById('edit-type-description').value,
     }).then(data => {
         replaceRow('table-types-list', editingTypeId, 'data-type-id', data.row);
+        refreshTablesPanel();
         closeSheet('editTableType');
     }).catch(err => showFormError('editTableType', err.message));
 }
@@ -872,8 +835,36 @@ function submitTableTypeToggle() {
     clearFormError('tableTypeToggleConfirm');
     postJson(`/settings/table-types/${toggleTypeId}/toggle`, {}).then(data => {
         replaceRow('table-types-list', toggleTypeId, 'data-type-id', data.row);
+        refreshTablesPanel();
         closeSheet('tableTypeToggleConfirm');
     }).catch(err => showFormError('tableTypeToggleConfirm', err.message));
+}
+
+function refreshTablesPanel() {
+    fetch('{{ route("settings.tables-panel") }}', { headers: { 'Accept': 'application/json' } })
+        .then(r => r.json())
+        .then(data => {
+            const box = document.querySelector('#tables-list .labelGuestAccordion');
+            const open = [...box.querySelectorAll('.labelGuestAccordionCard[data-open="1"]')].map(c => c.dataset.typeKey);
+            box.innerHTML = data.accordion;
+            open.forEach(k => {
+                const head = box.querySelector(`.labelGuestAccordionCard[data-type-key="${k}"] .labelGuestAccordionHead`);
+                if (head) toggleGuestAccordion(head);
+            });
+            ['new-table-type-select', 'edit-table-type-select'].forEach(id => {
+                const select = document.getElementById(id);
+                select.querySelector('.customSelectDropdown').innerHTML = data.options;
+                const v = select.querySelector('input[type="hidden"]').value;
+                if (!v) return;
+                const opt = select.querySelector(`.customSelectOption[data-value="${v}"]`);
+                if (opt) {
+                    select.querySelector('.customSelectValue').textContent = opt.textContent;
+                    opt.classList.add('--active');
+                } else {
+                    select.resetCustom();
+                }
+            });
+        });
 }
 
 function submitCreateTable() {

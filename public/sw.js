@@ -52,7 +52,7 @@ self.addEventListener('fetch', e => {
 
 self.addEventListener('push', e => {
     const d = e.data ? e.data.json() : {};
-    e.waitUntil(self.registration.showNotification(d.title || 'Hookah CRM', {
+    e.waitUntil(self.registration.showNotification(d.title || 'Hookah CRM Test', {
         body: d.body || '',
         icon: '/assets/img/icons/icon-192.png',
         badge: '/assets/img/icons/icon-192.png',

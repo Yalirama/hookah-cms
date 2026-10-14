@@ -206,4 +206,15 @@ class SettingsController extends Controller
 
         return view('settings.partials._journal-rows', compact('logs'));
     }
+
+    public function tablesPanel()
+    {
+        $tableTypes = TableType::withTrashed()->orderBy('name')->get();
+        $tables     = Table::with('type')->orderBy('name')->get();
+
+        return response()->json([
+            'accordion' => view('settings.partials._tables-accordion', compact('tableTypes', 'tables'))->render(),
+            'options'   => view('settings.partials._type-options', compact('tableTypes'))->render(),
+        ]);
+    }
 }

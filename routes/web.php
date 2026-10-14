@@ -175,6 +175,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/table-types/{tableType}', [SettingsController::class, 'updateTableType'])->name('table-types.update');
         Route::post('/table-types/{tableType}/toggle', [SettingsController::class, 'toggleTableType'])->name('table-types.toggle');
 
+        Route::get('/tables-panel', [SettingsController::class, 'tablesPanel'])->name('tables-panel');
         Route::post('/tables', [SettingsController::class, 'storeTable'])->name('tables.store');
         Route::put('/tables/{table}', [SettingsController::class, 'updateTable'])->name('tables.update');
         Route::post('/tables/{table}/toggle', [SettingsController::class, 'toggleTable'])->name('tables.toggle');

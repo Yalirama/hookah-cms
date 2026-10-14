@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#0F0E0C">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Hookah CRM">
+    <meta name="apple-mobile-web-app-title" content="Hookah CRM Test">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon" href="/assets/img/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/icons/icon-192.png">
