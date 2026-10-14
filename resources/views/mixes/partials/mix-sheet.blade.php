@@ -2,7 +2,8 @@
     $strengthLabels = ['light' => 'Лёгкий', 'medium' => 'Средний', 'strong' => 'Крепкий'];
     $mainIngredient = $mix->ingredients->first();
     $mainTobacco = $mainIngredient?->tobacco;
-    $categories = $mainTobacco?->flavorTags->map(fn($t) => $t->category)->filter()->unique('id') ?? collect();
+    $flavorTags = $mix->ingredients->flatMap(fn($i) => $i->tobacco?->flavorTags ?? collect())->unique('id')->values();
+    $categories = $flavorTags->map(fn($t) => $t->category)->filter()->unique('id');
     $totalSlotCount = array_sum($slotCounts) ?: 1;
     $dayOrder = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
     $maxDayCount = max(array_values($dayCounts) ?: [1]) ?: 1;
@@ -32,9 +33,9 @@
     </div>
     @endif
 
-    @if($mainTobacco?->flavorTags->count())
+    @if($flavorTags->count())
     <div class="actionTabCntRow0s2fp">
-        @foreach($mainTobacco->flavorTags as $tag)
+        @foreach($flavorTags as $tag)
         <span>{{ $tag->name }}</span>
         @endforeach
     </div>

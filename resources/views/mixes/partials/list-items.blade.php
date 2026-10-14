@@ -3,7 +3,8 @@
         $strengthLabels = ['light' => 'Лёгкая', 'medium' => 'Средняя', 'strong' => 'Крепкая'];
         $mainIngredient = $mix->ingredients->first();
         $mainTobacco = $mainIngredient?->tobacco;
-        $categories = $mainTobacco?->flavorTags->map(fn($t) => $t->category)->filter()->unique('id') ?? collect();
+        $flavorTags = $mix->ingredients->flatMap(fn($i) => $i->tobacco?->flavorTags ?? collect())->unique('id')->values();
+        $categories = $flavorTags->map(fn($t) => $t->category)->filter()->unique('id');
         $searchData = mb_strtolower(implode(' ', array_filter([
             $mix->name,
             $mix->description_short,
@@ -11,7 +12,7 @@
             $mainTobacco?->name,
             $mainTobacco?->brand?->name,
             $categories->pluck('name')->implode(' '),
-            $mainTobacco?->flavorTags->pluck('name')->implode(' '),
+            $flavorTags->pluck('name')->implode(' '),
         ])), 'UTF-8');
     @endphp
     <div class="productListItem"
@@ -42,9 +43,9 @@
         </div>
         @endif
 
-        @if($mainTobacco?->flavorTags->count())
+        @if($flavorTags->count())
         <div class="productListItemTastes">
-            @foreach($mainTobacco->flavorTags as $tag)
+            @foreach($flavorTags as $tag)
             <div class="productListItemTastesItem">
                 <span>{{ $tag->name }}</span>
             </div>

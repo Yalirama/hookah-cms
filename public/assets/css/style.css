@@ -1514,6 +1514,7 @@ main._ordersShow .topNav .filters .filtersRow {
 
 .actionTabViewOrderCardButton.--orderDone {
     background: rgba(76, 175, 118, 1);
+    color: var(--box);
 }
 
 .actionTabViewOrderCardButton.--orderActive {
@@ -4354,7 +4355,12 @@ main.tabaccos #viewTabaccosInner,
 .actionTabCnt#table-types-list,
 .actionTabCnt#tables-list,
 .actionTabCnt#journal-list,
-.actionTabCnt#wiki-list {
+.actionTabCnt#wiki-list,
+#guestLabelsListWrap,
+#deactivationLogRows,
+#viewMixesDeactiveListInner,
+#viewMixStoryInner,
+#editMixForm {
     overflow: auto;
 }
 
