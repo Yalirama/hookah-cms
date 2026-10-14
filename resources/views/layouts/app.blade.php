@@ -23,7 +23,7 @@
     <script src="/assets/js/push.js?v={{ filemtime(public_path('/assets/js/push.js')) }}" defer></script>
 
     {{-- Стили мобильного приложения (там же описаны .menu, .menuItem и т.д.) --}}
-    <link rel="stylesheet" href="/assets/css/style.css?v=1.011">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1.012">
 
     <!-- <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }

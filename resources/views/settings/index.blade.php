@@ -226,18 +226,27 @@
             <p class="analyticsCardTitle">Пороги для статусов</p>
             <div class="actionTabCntRow7vh31 actionTabCntRow0xze1">
                 <div class="item defaultForm">
-                    <span class="title">Регулярный</span><span>от</span>
-                    <input type="number" id="threshold-regular" value="{{ $settings->get('guest_regular_threshold')?->value ?? 100 }}">
+                    <div class="row0vea1">
+                        <span class="title">Регулярный</span><span>от</span>
+                        <input type="number" id="threshold-regular" value="{{ $settings->get('guest_regular_threshold')?->value ?? 100 }}">
+                    </div>
+                    
                     <span>посещений</span>
                 </div>
                 <div class="item defaultForm">
-                    <span class="title">Постоянный</span><span>от</span>
-                    <input type="number" id="threshold-permanent" value="{{ $settings->get('guest_permanent_threshold')?->value ?? 50 }}">
+                    <div class="row0vea1">
+                        <span class="title">Постоянный</span><span>от</span>
+                        <input type="number" id="threshold-permanent" value="{{ $settings->get('guest_permanent_threshold')?->value ?? 50 }}">
+                    </div>
+                    
                     <span>посещений</span>
                 </div>
                 <div class="item defaultForm">
-                    <span class="title">VIP</span><span>от</span>
-                    <input type="number" id="threshold-vip" value="{{ $settings->get('guest_vip_threshold')?->value ?? 400 }}">
+                    <div class="row0vea1">
+                         <span class="title">VIP</span><span>от</span>
+                        <input type="number" id="threshold-vip" value="{{ $settings->get('guest_vip_threshold')?->value ?? 400 }}">                    
+                    </div>
+
                     <span>посещений</span>
                 </div>
             </div>

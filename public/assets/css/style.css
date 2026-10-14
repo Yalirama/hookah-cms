@@ -4334,7 +4334,16 @@ main.tabaccos #viewTabaccosInner,
 .shiftToggleDot{width:calc(8vw / var(--resizer) * 100);height:calc(8vw / var(--resizer) * 100);border-radius:50%;background:#5a554c}
 .shiftToggle.--on .shiftToggleDot{background:#4caf50}
 
+.actionTabCntRow0xze1 .defaultForm {
+    justify-content: space-between;
+}
+
 .actionTabCntRow0xze1 .defaultForm input {
-    width: calc(400vw / var(--resizer) * 100) solid var(--gold);
     flex: auto;
+}
+
+.actionTabCntRow0xze1 .defaultForm .row0vea1 {
+    display: flex;
+    align-items: center;
+    gap: calc(6vw / var(--resizer) * 100);
 }
