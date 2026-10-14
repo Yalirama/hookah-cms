@@ -176,6 +176,14 @@ class OrderController extends Controller
 
         $this->broadcastOrder($order);
 
+        $order->load('table');
+        \App\Services\PushNotifier::toAllExcept(auth()->id(), [
+            'title' => 'Новый заказ #' . $order->id,
+            'body'  => $order->table?->name ?? '',
+            'url'   => route('orders.index', ['open' => $order->id], false),
+            'tag'   => 'order-new-' . $order->id,
+        ]);
+
         return redirect()->route('orders.index')->with('success', 'Заказ #' . $order->id . ' создан');
     }
 
@@ -372,6 +380,16 @@ class OrderController extends Controller
             'comment'    => $request->comment,
             'created_at' => now(),
         ]);
+
+        if ($newStatus === 'ready') {
+            $order->load('table');
+            \App\Services\PushNotifier::toAllExcept(auth()->id(), [
+                'title' => 'Заказ #' . $order->id . ' готов',
+                'body'  => $order->table?->name ?? '',
+                'url'   => route('orders.index', ['open' => $order->id], false),
+                'tag'   => 'order-ready-' . $order->id,
+            ]);
+        }
 
         return $this->sheetOrDone($order, 'Статус обновлён');
     }

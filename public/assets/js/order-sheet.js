@@ -254,3 +254,8 @@ function tickTimers(scope = document) {
     });
 }
 setInterval(() => tickTimers(), 1000);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const id = parseInt(new URLSearchParams(location.search).get('open'), 10);
+    if (id && document.getElementById('viewOrder')) openOrderSheet(id);
+});

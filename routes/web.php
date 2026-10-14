@@ -56,6 +56,8 @@ Route::middleware('auth')->group(function () {
         Route::patch('/{order}/logs/{log}/master', [OrderController::class, 'updateLogMaster'])->name('logs.master');
     });
 
+    Route::post('/push/subscribe',   [\App\Http\Controllers\PushController::class, 'subscribe'])->name('push.subscribe');
+    Route::post('/push/unsubscribe', [\App\Http\Controllers\PushController::class, 'unsubscribe'])->name('push.unsubscribe');
 
     // Tobaccos
     Route::prefix('tobaccos')->name('tobaccos.')->group(function () {

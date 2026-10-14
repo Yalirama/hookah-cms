@@ -49,3 +49,27 @@ self.addEventListener('fetch', e => {
         }))
     );
 });
+
+self.addEventListener('push', e => {
+    const d = e.data ? e.data.json() : {};
+    e.waitUntil(self.registration.showNotification(d.title || 'Hookah CRM', {
+        body: d.body || '',
+        icon: '/assets/img/icons/icon-192.png',
+        badge: '/assets/img/icons/icon-192.png',
+        tag: d.tag,
+        data: { url: d.url || '/' },
+    }));
+});
+
+self.addEventListener('notificationclick', e => {
+    e.notification.close();
+    const url = (e.notification.data && e.notification.data.url) || '/';
+    e.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+            for (const c of list) {
+                if ('focus' in c && 'navigate' in c) return c.navigate(url).then(() => c.focus());
+            }
+            return clients.openWindow(url);
+        })
+    );
+});
