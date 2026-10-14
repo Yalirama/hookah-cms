@@ -4333,3 +4333,8 @@ main.tabaccos #viewTabaccosInner,
 .shiftToggle.--on{color:#d4b483;border-color:#d4b483}
 .shiftToggleDot{width:calc(8vw / var(--resizer) * 100);height:calc(8vw / var(--resizer) * 100);border-radius:50%;background:#5a554c}
 .shiftToggle.--on .shiftToggleDot{background:#4caf50}
+
+.actionTabCntRow0xze1 .defaultForm input {
+    width: calc(400vw / var(--resizer) * 100) solid var(--gold);
+    flex: auto;
+}

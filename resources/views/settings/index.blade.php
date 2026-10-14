@@ -224,7 +224,7 @@
 
         <div class="actionTabCnt actionTabCnt6nsd5 actionTabCnt6nsd5-2">
             <p class="analyticsCardTitle">Пороги для статусов</p>
-            <div class="actionTabCntRow7vh31">
+            <div class="actionTabCntRow7vh31 actionTabCntRow0xze1">
                 <div class="item defaultForm">
                     <span class="title">Регулярный</span><span>от</span>
                     <input type="number" id="threshold-regular" value="{{ $settings->get('guest_regular_threshold')?->value ?? 100 }}">
