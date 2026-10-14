@@ -589,13 +589,14 @@ main._ordersShow .topNav .filters .filtersRow {
 
 .menu {
     position: fixed;
-    bottom: calc(7vw / var(--resizer) * 100);
+    bottom: 0;
     left: 0;
     display: flex;
     align-items: center;
     justify-content: space-around;
     width: 100%;
     z-index: 9999;
+    padding: calc(2vw / var(--resizer) * 100) calc(4vw / var(--resizer) * 100) calc(7vw / var(--resizer) * 100) calc(4vw / var(--resizer) * 100);
     border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
     backdrop-filter: blur(calc(22vw / var(--resizer) * 100));
     background: rgba(24, 22, 18, 0.12);
