@@ -4339,6 +4339,7 @@ main.tabaccos #viewTabaccosInner,
 }
 
 .actionTabCntRow0xze1 .defaultForm input {
+    width: 28%;
     flex: auto;
 }
 
