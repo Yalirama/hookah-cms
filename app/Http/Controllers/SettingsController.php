@@ -73,7 +73,6 @@ class SettingsController extends Controller
         Setting::set('notifications_enabled', $request->boolean('notifications_enabled') ? '1' : '0');
         Setting::set('service_reminder_enabled', $request->boolean('service_reminder_enabled') ? '1' : '0');
         Setting::set('service_reminder_interval', $request->input('service_reminder_interval', 20));
-        Setting::set('order_status_notifications', $request->boolean('order_status_notifications') ? '1' : '0');
 
         return response()->json(['ok' => true]);
     }

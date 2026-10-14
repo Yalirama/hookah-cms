@@ -195,17 +195,6 @@
             </div>
         </div>
 
-        {{-- Включить уведомления об смене статуса заказа --}}
-        <div class="actionTabCnt --flex1">
-            <p class="analyticsCardTitle">Включить уведомления об смене статуса заказа</p>
-            <div class="actionTabCntRow7vh31">
-                <label class="switchToggle">
-                    <input type="checkbox" id="order-status-notifications" {{ $settings->get('order_status_notifications')?->value == '1' ? 'checked' : '' }}>
-                    <span class="switchToggleTrack"><span class="switchToggleThumb"></span></span>
-                </label>
-            </div>
-        </div>
-
         <div class="actionTabActions --actionTabActions9f3d1">
             <div class="actionTabActionsButtons">
                 <button type="button" onclick="submitNotifications()" class="actionTabActionsButton --buttonPrimary">Сохранить</button>
@@ -749,7 +738,6 @@ function submitNotifications() {
     postJson('{{ route("settings.notifications") }}', {
         service_reminder_enabled: document.getElementById('service-reminder-enabled').checked,
         service_reminder_interval: document.getElementById('service-reminder-interval').value,
-        order_status_notifications: document.getElementById('order-status-notifications').checked,
     }).then(() => closeSheet('settingsTab2'));
 }
 
