@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход — Hookah CMS</title>
+    <title>Вход</title>
+    <link rel="apple-touch-icon" href="/assets/img/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/icons/icon-192.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: sans-serif; background: #1a1a1a; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .login-box { background: #2a2a2a; border-radius: 12px; padding: 40px; width: 360px; }
-        .login-box h1 { color: #c9a84c; font-size: 22px; margin-bottom: 8px; }
-        .login-box p { color: #999; font-size: 14px; margin-bottom: 28px; }
+        body { font-family: sans-serif; background: #0F0E0C; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .login-box { background: #181612; border-radius: 12px; padding: 40px; width: 360px; border: 1px solid #231F18; }
+        .login-box h1 { color: #fff; font-size: 22px;display: flex;flex-direction:column;}
+        .login-box p { color: #999; font-size: 14px; margin-bottom: 12px; }
+        .login-box h1 span {font-size: 14px; color: #CDAA7D; margin-bottom: 12px;}
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; color: #ccc; font-size: 13px; margin-bottom: 6px; }
-        .form-group input { width: 100%; padding: 10px 14px; background: #333; border: 1px solid #444; border-radius: 6px; color: #fff; font-size: 14px; outline: none; }
+        .form-group input { width: 100%; padding: 10px 14px; background: #221E1A; border: 1px solid #231F18; border-radius: 6px; color: #fff; font-size: 14px; outline: none; }
         .form-group input:focus { border-color: #c9a84c; }
         .btn { width: 100%; padding: 12px; background: #c9a84c; color: #fff; border: none; border-radius: 6px; font-size: 15px; cursor: pointer; margin-top: 8px; }
         .btn:hover { background: #b8943d; }
@@ -21,7 +24,7 @@
 </head>
 <body>
     <div class="login-box">
-        <h1>🪔 Hookah CMS</h1>
+        <h1>Hookah CRM<span>by Your Solutions</span></h1>
         <p>Войдите в систему</p>
 
         @if($errors->any())

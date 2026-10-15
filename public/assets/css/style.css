@@ -4396,3 +4396,7 @@ main.tabaccos #viewTabaccosInner,
 #createOrderNewGuestForm .actionTabSectionRow {
     grid-template-columns: repeat(1, 1fr);
 }
+
+.settingsSection .btnOpen.btnCancel {
+    border-color: rgba(192, 87, 74, 1);
+}

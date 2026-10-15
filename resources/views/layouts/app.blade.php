@@ -22,54 +22,7 @@
     <meta name="vapid-key" content="{{ config('webpush.public_key') }}">
     <script src="/assets/js/push.js?v={{ filemtime(public_path('/assets/js/push.js')) }}" defer></script>
 
-    {{-- Стили мобильного приложения (там же описаны .menu, .menuItem и т.д.) --}}
-    <link rel="stylesheet" href="/assets/css/style.css?v=1.020">
-
-    <!-- <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: sans-serif; background: #f4f4f4; color: #222; }
-        .main { min-height: 100vh; }
-        .page-header { margin-bottom: 24px; }
-        .page-header h1 { font-size: 24px; }
-        .page-header p { color: #666; margin-top: 4px; }
-        .card { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-        .stat-card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .stat-card .label { font-size: 13px; color: #666; }
-        .stat-card .value { font-size: 32px; font-weight: bold; margin-top: 4px; }
-        .btn { display: inline-block; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 14px; text-decoration: none; }
-        .btn-primary { background: #c9a84c; color: #fff; }
-        .btn-secondary { background: #eee; color: #333; }
-        .btn-danger { background: #c95a2a; color: #fff; }
-        .btn-success { background: #4caf74; color: #fff; }
-        table { width: 100%; border-collapse: collapse; }
-        table th { text-align: left; padding: 10px 12px; background: #f8f8f8; font-size: 13px; color: #666; border-bottom: 2px solid #eee; }
-        table td { padding: 12px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
-        table tr:hover td { background: #fafafa; }
-        .badge { display: inline-block; padding: 3px 8px; border-radius: 20px; font-size: 12px; font-weight: 500; }
-        .badge-pending     { background: #fff3cd; color: #856404; }
-        .badge-in_progress { background: #cce5ff; color: #004085; }
-        .badge-ready       { background: #d4edda; color: #155724; }
-        .badge-served      { background: #d1ecf1; color: #0c5460; }
-        .badge-service     { background: #e2d9f3; color: #4a235a; }
-        .badge-redo        { background: #f8d7da; color: #721c24; }
-        .badge-closed      { background: #e2e3e5; color: #383d41; }
-        .badge-cancelled   { background: #f8d7da; color: #721c24; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 8px 12px; border: 1px solid #ddd;
-            border-radius: 6px; font-size: 14px; outline: none;
-        }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: #c9a84c;
-        }
-        .alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
-        .alert-danger { background: #f8d7da; color: #721c24; }
-        .alert-success { background: #d4edda; color: #155724; }
-        .search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
-        .search-bar input { flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
-    </style> -->
+    <link rel="stylesheet" href="/assets/css/style.css?v=1.021">
     @stack('styles')
 </head>
 <body>
@@ -85,8 +38,6 @@
     @yield('content')
 </main>
 
-{{-- Памятка / Настройки / Аналитика (как отдельный пункт) в это меню пока не выведены —
-     добавим их отдельным шагом, когда решим, как и куда именно (профиль/ещё-меню и т.п.) --}}
 <nav class="menu">
     <a href="{{ route('analytics.index') }}" class="menuItem {{ request()->routeIs('analytics.*') ? 'active' : '' }}">
         <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
