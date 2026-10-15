@@ -87,6 +87,8 @@
         </div>
         <button type="button" onclick="openSheet('settingsTab8')" class="btnOpen">Открыть</button>
     </div>
+
+    @include('partials.logout-item')
 </section>
 
 {{-- Общие настройки --}}

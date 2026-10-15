@@ -98,3 +98,25 @@ window.toggleShift = function (btn) {
         .catch(() => {})
         .finally(() => { delete btn.dataset.busy; });
 };
+
+window.logoutApp = async function (btn) {
+    if (btn.dataset.busy) return;
+    btn.dataset.busy = 1;
+    const unsubscribe = (async () => {
+        const reg = await navigator.serviceWorker?.getRegistration();
+        const sub = await reg?.pushManager.getSubscription();
+        if (!sub) return;
+        await fetch('/push/unsubscribe', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ endpoint: sub.endpoint })
+        });
+        await sub.unsubscribe();
+    })().catch(() => {});
+    await Promise.race([unsubscribe, new Promise(r => setTimeout(r, 3000))]);
+    btn.form.submit();
+};

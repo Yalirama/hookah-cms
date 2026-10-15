@@ -40,6 +40,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        $request->user()?->forceFill(['on_shift' => false])->save();
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

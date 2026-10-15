@@ -73,6 +73,10 @@
     </div>
 </div>
 
+<section class="settingsSection">
+    @include('partials.logout-item')
+</section>
+
 @endsection
 
 @push('scripts')
