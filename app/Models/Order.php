@@ -78,4 +78,12 @@ class Order extends Model
     {
         return $this->hasMany(OrderStatusHistory::class)->orderBy('started_at');
     }
+
+    public function readyLog()
+    {
+        return $this->hasOne(OrderLog::class)
+            ->where('action', 'status_changed')
+            ->where('new_value->status', 'ready')
+            ->latest('id');
+    }
 }

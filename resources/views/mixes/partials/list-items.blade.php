@@ -56,7 +56,7 @@
         <div class="productListItemBottom">
             <div class="productListItemLeft">
                 <div class="productListItemLeftItem">
-                    <img src="/assets/img/master-done.svg" alt="">
+                    <img src="/assets/img/master-create.svg" alt="">
                     <span>{{ $mix->creator?->name ?? '—' }}</span>
                 </div>
             </div>

@@ -93,9 +93,15 @@
                 <p>{{ $order->table?->name ?? '—' }}</p>
             </div>
             <div class="ordersCardDetail">
-                <img src="/assets/img/master-done.svg" alt="">
+                <img src="/assets/img/master-create.svg" alt="">
                 <p>{{ $order->creator?->name ?? '—' }}</p>
             </div>
+            @if($order->readyLog?->user && in_array($order->status, ['ready', 'served', 'closed']))
+                <div class="ordersCardDetail">
+                    <img src="/assets/img/master-done.svg" alt="">
+                    <p>{{ $order->readyLog->user->name }}</p>
+                </div>
+            @endif
         </div>
         <button type="button" class="btnOpen" onclick="openOrderSheet({{ $order->id }})">Открыть</button>
     </div>

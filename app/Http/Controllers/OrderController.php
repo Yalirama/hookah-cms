@@ -379,6 +379,8 @@ class OrderController extends Controller
             'created_at' => now(),
         ]);
 
+        $this->broadcastOrder($order);
+
         if ($newStatus === 'ready') {
             $order->load('table');
             \App\Services\PushNotifier::toAllExcept(auth()->id(), [
@@ -575,7 +577,7 @@ class OrderController extends Controller
 
     public function cardPartial(Order $order)
     {
-        $order->load(['creator', 'table', 'guest', 'items.itemable']);
+        $order->load(['creator', 'table', 'guest', 'items.itemable', 'readyLog.user']);
 
         $order->items->each(function ($item) {
             if ($item->itemable instanceof Tobacco) {

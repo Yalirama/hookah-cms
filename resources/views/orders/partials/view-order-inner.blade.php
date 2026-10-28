@@ -62,7 +62,7 @@
                 <p>{{ $order->table?->name ?? '—' }}</p>
             </div>
             <div class="actionTabViewOrderTopBodyItem">
-                <img src="/assets/img/master-done.svg" alt="">
+                <img src="/assets/img/master-create.svg" alt="">
                 <p>{{ $order->creator?->name ?? '—' }}</p>
             </div>
             @if($readyLog)
