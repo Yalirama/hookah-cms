@@ -143,14 +143,16 @@
             } else {
                 const emptyState = document.getElementById('ordersEmptyState');
                 if (emptyState) emptyState.remove();
-                let group = document.querySelector('.ordersDayGroup');
+                const isToday = g => g.querySelector('.ordersSectionDay')?.textContent.trim().startsWith('Сегодня');
+                let group = [...document.querySelectorAll('.ordersDayGroup')].find(isToday);
                 if (!group) {
+                    document.querySelectorAll('.ordersSectionDay.active').forEach(h => h.classList.remove('active'));
                     group = document.createElement('div');
                     group.className = 'ordersDayGroup';
                     group.innerHTML = '<h2 class="ordersSectionDay active">Сегодня</h2>';
                     document.getElementById('ordersSection').prepend(group);
                 }
-                group.insertAdjacentHTML('beforeend', html);
+                group.querySelector('.ordersSectionDay').insertAdjacentHTML('afterend', html);
             }
             filterOrders();
         });
