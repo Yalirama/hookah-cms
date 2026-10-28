@@ -354,9 +354,9 @@ class OrderController extends Controller
  
         if ($request->status !== 'cancelled' && $order->items()->whereNull('deleted_at')->doesntExist()) {
             if ($request->ajax()) {
-                return response()->json(['message' => 'Нельзя изменить статус — состав заказа пуст.', 'field' => 'items'], 422);
+                return response()->json(['message' => 'Выберите состав заказа', 'field' => 'items'], 422);
             }
-            return back()->withErrors(['status' => 'Нельзя изменить статус — состав заказа пуст.']);
+            return back()->withErrors(['status' => 'Выберите состав заказа']);
         }
 
         $oldStatus = $order->status;

@@ -137,7 +137,6 @@ document.addEventListener('submit', function (e) {
             if (!el) {
                 el = document.createElement('p');
                 el.className = 'formInlineError';
-                el.style.cssText = 'color:#e5484d; font-size:13px; margin:8px 0 0;';
                 form.appendChild(el);
             }
             el.textContent = err.message || 'Ошибка при сохранении';

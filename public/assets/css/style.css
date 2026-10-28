@@ -4415,3 +4415,8 @@ main.tabaccos #viewTabaccosInner,
 
 .customSelect.--error { border-color: #e5484d; }
 .actionTabViewOrderCard.--error { border-color: #e5484d; }
+
+.formInlineError {
+    color: #e5484d;
+    font-size: calc(12vw / var(--resizer) * 100);
+}
