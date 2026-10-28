@@ -663,7 +663,7 @@ class OrderController extends Controller
         $newComment = $request->guest_comment ?: null;
 
         if ($oldComment === $newComment) {
-            return back();
+            return $this->done('Без изменений');
         }
 
         $order->update(['guest_comment' => $newComment]);
