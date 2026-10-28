@@ -16,7 +16,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $query = Order::with([
-            'creator', 'table',
+            'creator', 'table', 'readyLog.user',
             'guest' => fn($q) => $q->withCount([
                 'orders as closed_orders_count' => fn($q) => $q->where('status', 'closed'),
                 'orders as visit_orders_count'  => fn($q) => $q->whereIn('status', ['closed', 'redo', 'cancelled']),
@@ -352,9 +352,9 @@ class OrderController extends Controller
                 : back()->withErrors(['status' => 'Статус уже изменён']);
         }
  
-         if ($request->status !== 'cancelled' && $order->items()->whereNull('deleted_at')->doesntExist()) {
+        if ($request->status !== 'cancelled' && $order->items()->whereNull('deleted_at')->doesntExist()) {
             if ($request->ajax()) {
-                return response()->json(['message' => 'Нельзя изменить статус — состав заказа пуст.'], 422);
+                return response()->json(['message' => 'Нельзя изменить статус — состав заказа пуст.', 'field' => 'items'], 422);
             }
             return back()->withErrors(['status' => 'Нельзя изменить статус — состав заказа пуст.']);
         }
@@ -366,8 +366,6 @@ class OrderController extends Controller
             'status'    => $newStatus,
             'closed_at' => in_array($newStatus, ['closed', 'cancelled', 'redo']) ? now() : $order->closed_at,
         ]);
-
-        $this->broadcastOrder($order);
 
         OrderLog::create([
             'order_id'   => $order->id,

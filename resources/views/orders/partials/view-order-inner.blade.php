@@ -194,7 +194,7 @@
 </div>
 
 {{-- Состав --}}
-<div class="actionTabViewOrderCard">
+<div class="actionTabViewOrderCard" data-section="items">
     <div class="actionTabViewOrderCardTop">
         <p class="actionTabTitle">состав</p>
         @if($canEdit)

@@ -22,7 +22,7 @@
     <meta name="vapid-key" content="{{ config('webpush.public_key') }}">
     <script src="/assets/js/push.js?v={{ filemtime(public_path('/assets/js/push.js')) }}" defer></script>
 
-    <link rel="stylesheet" href="/assets/css/style.css?v=1.023">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1.024">
     @stack('styles')
 </head>
 <body>

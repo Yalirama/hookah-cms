@@ -118,14 +118,22 @@ document.addEventListener('submit', function (e) {
                 const data = await r.json().catch(() => ({}));
                 const err = new Error(data.message || 'Ошибка при сохранении');
                 err.status = r.status;
+                err.field = data.field;
                 throw err;
             }
             return (r.headers.get('Content-Type') || '').includes('text/html') ? r.text() : null;
         })
         .then(html => html ? renderOrderSheet(html) : loadOrderSheet(currentOrderSheetId))
         .catch(err => {
-            if (err.status === 409) { loadOrderSheet(currentOrderSheetId); return; }
-            let el = form.querySelector('.formInlineError');
+        if (err.status === 409) { loadOrderSheet(currentOrderSheetId); return; }
+        if (err.field === 'items') {
+            const box = document.querySelector('#viewOrderInner [data-section="items"]');
+            if (box) {
+                box.classList.add('--error');
+                box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+        let el = form.querySelector('.formInlineError');
             if (!el) {
                 el = document.createElement('p');
                 el.className = 'formInlineError';
