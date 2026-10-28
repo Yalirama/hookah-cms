@@ -78,6 +78,10 @@
         @endif
     </div>
 
+    @if($order->guest_comment)
+        <p class="ordersCardComment">{{ $order->guest_comment }}</p>
+    @endif
+
     <div class="ordersCardDetails">
         <div class="ordersCardDetailsl">
             <div class="ordersCardDetail">
