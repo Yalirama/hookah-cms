@@ -513,6 +513,8 @@ class OrderController extends Controller
             'created_at' => now(),
         ]);
 
+        $this->broadcastOrder($order);
+
         return $this->done('Гость привязан');
     }
 
@@ -530,6 +532,8 @@ class OrderController extends Controller
             'new_value'  => null,
             'created_at' => now(),
         ]);
+
+        $this->broadcastOrder($order);
 
         return $this->done('Гость откреплён');
     }
