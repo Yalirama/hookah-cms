@@ -67,6 +67,7 @@
                                 <path d="M1 1l4 4 4-4"></path>
                             </svg>
                             <input type="hidden" name="table_id" id="createOrderTable">
+                            <input type="hidden" name="started_at" id="createOrderStartedAt">
 
                             <div class="customSelectDropdown">
                                 @foreach(($tables ?? collect())->groupBy(fn($t) => $t->type?->name ?? 'Без типа') as $typeName => $group)
@@ -320,20 +321,22 @@
     if (tableSelectRoot) initCustomSelect(tableSelectRoot);
     if (timePickerRoot)  initCustomTime(timePickerRoot);
 
-    // Комбинируем время + сегодняшняя дата в started_at, валидируем стол перед сабмитом
-    document.addEventListener('submit', function (e) {
-        if (e.target && e.target.id === 'createOrderForm') {
-            const timeVal = document.getElementById('createOrderTime').value;
-            const startedAtInput = document.getElementById('createOrderStartedAt');
-            startedAtInput.value = timeVal ? `${new Date().toISOString().slice(0, 10)}T${timeVal}` : '';
+    tableSelectRoot.addEventListener('customselect:change', () => tableSelectRoot.classList.remove('--invalid'));
 
-            const tableInput = document.getElementById('createOrderTable');
-            if (!tableInput.value) {
-                e.preventDefault();
-                tableSelectRoot.classList.add('--invalid');
-                tableSelectRoot.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+    document.addEventListener('submit', function (e) {
+        if (!e.target || e.target.id !== 'createOrderForm') return;
+
+        if (!document.getElementById('createOrderTable').value) {
+            e.preventDefault();
+            tableSelectRoot.classList.add('--invalid');
+            tableSelectRoot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
         }
+
+        const t = document.getElementById('createOrderTime').value;
+        const d = new Date();
+        const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        document.getElementById('createOrderStartedAt').value = t ? `${today}T${t}` : '';
     });
 })();
 </script>
