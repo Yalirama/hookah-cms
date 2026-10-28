@@ -92,7 +92,7 @@
             <div class="defaultForm"><input type="text" name="comment" placeholder="Добавить комментарий"></div>
             <div class="actionTabViewOrderCardActionButtons">
                 @if($nextStatus)
-                <button type="submit" name="status" value="{{ $nextStatus }}" class="actionTabViewOrderCardButton --orderDone" {{ $activeItems->isEmpty() ? 'disabled title="Добавьте состав перед сменой статуса"' : '' }}>{{ $nextLabel }}</button>
+                <button type="submit" name="status" value="{{ $nextStatus }}" class="actionTabViewOrderCardButton --orderDone{{ $activeItems->isEmpty() ? ' --noItems' : '' }}">{{ $nextLabel }}</button>
                 @endif
 
                 @if($order->status === 'served')
