@@ -5,7 +5,7 @@
 
     $compositionLines = $order->items->flatMap(function ($item) {
         if ($item->itemable instanceof \App\Models\Mix) {
-            return $item->itemable->ingredients->map(fn($ing) => ($ing->tobacco?->brand?->name ?? '—') . ' - ' . ($ing->tobacco?->name ?? '—'));
+            return collect(['MiX - ' . $item->itemable->name]);
         }
         if ($item->itemable instanceof \App\Models\Tobacco) {
             return collect([($item->itemable->brand?->name ?? '—') . ' - ' . $item->itemable->name]);
