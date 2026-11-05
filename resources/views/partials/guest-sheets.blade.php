@@ -4,9 +4,11 @@
         <div class="actionTabHeader">
             <h3>Карточка гостя</h3>
             <div class="actionTabHeaderBtns">
+                @role('admin')
                 <button type="button" onclick="openGuestEditSheetFromCard()" class="actionTabHeaderBtn --tabBtnClose">
                     <img src="/assets/img/edit-icon-gold-lg.svg" alt="">
                 </button>
+                @endrole
                 <button onclick="closeSheet('viewGuest')" class="actionTabHeaderBtn --tabBtnClose">
                     <img src="/assets/img/close-icon.svg" alt="">
                 </button>

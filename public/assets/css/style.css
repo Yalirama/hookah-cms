@@ -4427,3 +4427,8 @@ main.tabaccos #viewTabaccosInner,
     text-decoration: line-through;
     color: var(--white);
 }
+
+#guestList .ordersCardTop::after,
+#guestList .ordersCardTop::before {
+    display: none;
+} 
