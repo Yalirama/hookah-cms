@@ -273,3 +273,9 @@ function loadMoreDeactivationLogs(lastId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => filterTobaccoList());
+
+function initTobaccosEcho() {
+    window.Echo.channel('tobaccos').listen('.tobaccos.changed', loadTobaccoList);
+}
+if (window.Echo) initTobaccosEcho();
+else window.addEventListener('echo-ready', initTobaccosEcho);
