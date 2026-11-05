@@ -54,7 +54,7 @@
 <div class="actionTab viewProductSameTab viewGuestsVisitHistory" id="viewGuestsVisitHistory">
     <div class="actionTabWrapper">
         <div class="actionTabHeader">
-            <h3>История визитов</h3>
+            <h3>История заказов</h3>
             <div class="actionTabHeaderBtns">
                 <button onclick="closeSheet('viewGuestsVisitHistory')" class="actionTabHeaderBtn --tabBtnClose">
                     <img src="/assets/img/close-icon.svg" alt="">

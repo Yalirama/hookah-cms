@@ -7,7 +7,7 @@
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">ИСТОРИЯ ВИЗИТОВ</p>
+    <p class="analyticsCardTitle">ИСТОРИЯ заказов</p>
     <div class="actionTabCntRow8dn21" id="guestVisitHistoryFullRows" data-guest-id="{{ $guest->id }}">
         @include('guests.partials.visit-history-rows', ['orders' => $orders, 'hasMore' => $hasMore])
     </div>
