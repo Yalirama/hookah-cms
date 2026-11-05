@@ -58,14 +58,14 @@ function filterTobaccoList() {
     const activeFilterBtn = document.querySelector('.filtersBtn[data-status].active');
     const status = activeFilterBtn ? activeFilterBtn.dataset.status : 'all';
     const searchInput = document.getElementById('tobaccoSearch');
-    const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    const words = searchInput ? searchInput.value.toLowerCase().split(/\s+/).filter(Boolean) : [];
 
     const items = document.querySelectorAll('#tobaccoList .productListItem');
     let visible = 0;
 
     items.forEach(item => {
         const matchStatus = status === 'all' || item.dataset.status === status;
-        const matchSearch = !q || item.dataset.search.includes(q);
+        const matchSearch = words.every(w => item.dataset.search.includes(w));
         const show = matchStatus && matchSearch;
         item.style.display = show ? '' : 'none';
         if (show) visible++;

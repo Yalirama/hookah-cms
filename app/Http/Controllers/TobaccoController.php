@@ -340,10 +340,19 @@ class TobaccoController extends Controller
         $q = trim((string) $request->get('q'));
         $limit = 80;
 
+        $words = preg_split('/\s+/u', mb_strtolower($q), -1, PREG_SPLIT_NO_EMPTY);
+
         $found = Tobacco::with(['brand', 'venueTobacco'])
-            ->where(fn($w) => $w->where('name', 'like', "%$q%")
-                ->orWhere('alt_name', 'like', "%$q%")
-                ->orWhereHas('brand', fn($b) => $b->where('name', 'like', "%$q%")))
+            ->where(function ($w) use ($words) {
+                foreach ($words as $word) {
+                    $like = "%$word%";
+                    $w->where(fn($x) => $x->where('name', 'like', $like)
+                        ->orWhere('alt_name', 'like', $like)
+                        ->orWhereHas('brand', fn($b) => $b->where('name', 'like', $like))
+                        ->orWhereHas('flavorTags', fn($t) => $t->where('name', 'like', $like)
+                            ->orWhereHas('category', fn($c) => $c->where('name', 'like', $like))));
+                }
+            })
             ->orderBy('name')
             ->limit($limit + 1)
             ->get();

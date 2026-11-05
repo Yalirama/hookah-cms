@@ -5,9 +5,10 @@
         $categories = $tobacco->flavorTags->map(fn($t) => $t->category)->filter()->unique('id');
         $isActive = (bool) $tobacco->venueTobacco?->is_active;
         $searchData = mb_strtolower(implode(' ', array_filter([
-            $tobacco->name,
             $tobacco->brand?->name,
-            $tobacco->description_short,
+            $tobacco->name,
+            $tobacco->alt_name,
+            $categories->pluck('name')->implode(' '),
             $tobacco->flavorTags->pluck('name')->implode(' '),
         ])), 'UTF-8');
     @endphp
