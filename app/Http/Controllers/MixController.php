@@ -229,7 +229,7 @@ class MixController extends Controller
         }
 
         $oldIngredients = $mix->ingredients()->with('tobacco.brand', 'alternatives.tobacco.brand')->get()
-            >mapWithKeys(fn($i) => [$i->tobacco_id => $i]);
+            ->mapWithKeys(fn($i) => [$i->tobacco_id => $i]);    
 
         $newIngredients = collect($request->ingredients)->keyBy(fn($i) => (int) $i['tobacco_id']);
 
