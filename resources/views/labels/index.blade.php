@@ -33,11 +33,13 @@
             <img src="/assets/img/search-icon.svg" alt="">
             <input type="text" id="labels-search" placeholder="Название, описание...">
         </div>
+        @role('admin')
         <div class="headerStatsWrapperAction">
             <button type="button" onclick="openSheet('createBadge')" class="headerStatsButtonPrimary">
                 <span>Создать</span>
             </button>
         </div>
+        @endrole
     </div>
 </form>
 
@@ -54,9 +56,11 @@
         <div class="actionTabHeader">
             <h3>Карточка ярлыка</h3>
             <div class="actionTabHeaderBtns">
+                @role('admin')
                 <button onclick="openEditBadge()" class="actionTabHeaderBtn --tabBtnClose">
                     <img src="/assets/img/edit-icon-gold-lg.svg" alt="">
                 </button>
+                @endrole
                 <button onclick="closeSheet('viewBadge')" class="actionTabHeaderBtn --tabBtnClose">
                     <img src="/assets/img/close-icon.svg" alt="">
                 </button>
