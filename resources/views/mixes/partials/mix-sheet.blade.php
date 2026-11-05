@@ -61,7 +61,7 @@
     @foreach($mix->ingredients as $ing)
     <div class="actionTabViewOrderCard actionTabViewOrderCardHide">
         <div class="actionTabViewOrderCardTop" onclick="toggleCollapse(this)">
-            <div class="actionTabCntRow0md23">
+            <div class="actionTabCntRow0md23{{ $ing->tobacco?->isInVenue() ? '' : ' --inactive' }}">
                 <p>{{ $ing->tobacco?->brand?->name ?? '—' }}</p>
                 <span>{{ $ing->tobacco?->name ?? '—' }}</span>
             </div>
@@ -74,7 +74,7 @@
         <div class="actionTabSearchSectionResult">
             <p class="actionTabSearchSectionResultTitle --actionTabSearchSectionResultTitle-4ex23">АЛЬТЕРНАТИВЫ</p>
             @foreach($ing->alternatives as $alt)
-            <p class="actionTabSearchSectionResultText">{{ $alt->tobacco?->brand?->name ?? '—' }} - <span>{{ $alt->tobacco?->name ?? '—' }}</span></p>
+            <p class="actionTabSearchSectionResultText{{ $alt->tobacco?->isInVenue() ? '' : ' --inactive' }}">{{ $alt->tobacco?->brand?->name ?? '—' }} - <span>{{ $alt->tobacco?->name ?? '—' }}</span></p>
             @endforeach
         </div>
         @endif

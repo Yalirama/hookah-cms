@@ -203,7 +203,7 @@ function addMixIngredient(formId) {
                     <img src="/assets/img/search-icon.svg" alt="">
                     <input type="text" placeholder="Бренд, название, вкус, тег..." oninput="filterMixTobaccoOptions('${rowId}', 'main', this.value)">
                 </div>
-                <div class="actionTabSearchSectionResult mixTobaccoOptions" id="${rowId}_options_main"></div>
+                <div class="actionTabSearchSectionResult mixTobaccoOptions --actionTabSearchSectionResult-vc31f4" id="${rowId}_options_main"></div>
             </div>
 
             <div class="actionTabSearchSectionResult">
@@ -219,7 +219,7 @@ function addMixIngredient(formId) {
                         <img src="/assets/img/search-icon.svg" alt="">
                         <input type="text" placeholder="Бренд, название, вкус, тег..." oninput="filterMixTobaccoOptions('${rowId}', 'alt', this.value)">
                     </div>
-                    <div class="actionTabSearchSectionResult mixTobaccoOptions" id="${rowId}_options_alt"></div>
+                    <div class="actionTabSearchSectionResult mixTobaccoOptions --actionTabSearchSectionResult-vc31f4" id="${rowId}_options_alt"></div>
                 </div>
                 <div class="mixAltList" id="${rowId}_alts"></div>
             </div>

@@ -4420,3 +4420,9 @@ main.tabaccos #viewTabaccosInner,
     color: #e5484d;
     font-size: calc(12vw / var(--resizer) * 100);
 }
+
+.actionTabCntRow0md23.--inactive,
+.actionTabSearchSectionResultText.--inactive { 
+    opacity: .3;
+    text-decoration: line-through;
+}

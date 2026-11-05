@@ -190,21 +190,34 @@ class OrderController extends Controller
     public function addItem(Request $request, Order $order)
     {
         $request->validate([
-            'items'           => 'required|array|min:1',
-            'items.*.type'    => 'required|in:mix,tobacco',
-            'items.*.id'      => 'required|integer',
-            'items.*.grams'   => 'nullable|string|max:50',
-            'comment'         => 'nullable|string|max:500',
+            'items'         => 'required|array|min:1',
+            'items.*.type'  => 'required|in:mix,tobacco',
+            'items.*.id'    => 'required|integer',
+            'items.*.grams' => 'nullable|string|max:50',
+            'comment'       => 'nullable|string|max:500',
         ]);
 
         if (!auth()->user()->hasRole('admin') && !$order->isActive()) {
             abort(403, 'Заказ закрыт');
         }
 
-        foreach ($request->items as $itemData) {
+        $items = collect($request->items)->map(function ($itemData) {
             $itemableType = $itemData['type'] === 'mix' ? Mix::class : Tobacco::class;
             $itemable     = $itemableType::findOrFail($itemData['id']);
 
+            if ($itemData['type'] === 'mix') {
+                $itemable->load('ingredients.tobacco.venueTobacco', 'ingredients.alternatives.tobacco.venueTobacco');
+                if (!$itemable->isAvailable()) {
+                    abort(response()->json([
+                        'message' => 'Микс «' . $itemable->name . '» недоступен: нет активных табаков',
+                    ], 422));
+                }
+            }
+
+            return [$itemData, $itemableType, $itemable];
+        });
+
+        foreach ($items as [$itemData, $itemableType, $itemable]) {
             OrderItem::create([
                 'order_id'      => $order->id,
                 'added_by'      => auth()->id(),
@@ -647,8 +660,12 @@ class OrderController extends Controller
                 fn($a, $b) => $a->name <=> $b->name,
             ])
             ->values();
-        $mixes    = Mix::where('is_active', true)->get();
-        $tobaccos = Tobacco::whereHas('venueTobacco', fn($q) => $q->where('is_active', true))->with('brand')->orderBy('name')->get();
+        $mixes = Mix::where('is_active', true)
+            ->with('ingredients.tobacco.venueTobacco', 'ingredients.alternatives.tobacco.venueTobacco')
+            ->get()
+            ->filter->isAvailable()
+            ->values();
+                $tobaccos = Tobacco::whereHas('venueTobacco', fn($q) => $q->where('is_active', true))->with('brand')->orderBy('name')->get();
 
         return [$order, $tables, $mixes, $tobaccos, $masters];
     }

@@ -65,4 +65,12 @@ class Mix extends Model
     {
         return $this->hasMany(MixLog::class);
     }
+
+    public function isAvailable(): bool
+    {
+        return $this->ingredients->isNotEmpty() && $this->ingredients->every(
+            fn($ing) => $ing->tobacco?->isInVenue()
+                || $ing->alternatives->contains(fn($alt) => $alt->tobacco?->isInVenue())
+        );
+    }
 }
