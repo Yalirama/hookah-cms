@@ -92,7 +92,7 @@ $statusColors = [
                                         <div class="ordersCardUserInfoStatus {{ $statusColors[$guest->status] ?? '' }}">
                                             <span>{{ $guest->status_label }}</span>
                                         </div>
-                                        <p class="ordersCardUserInfoVisit">{{ $guest->visits_count }} визитов</p>
+                                        <p class="ordersCardUserInfoVisit">{{ $guest->visits_count }} {{ trans_choice('заказ|заказа|заказов', $guest->visits_count) }}</p>
                                     </div>
                                 </div>
                             </div>

@@ -30,10 +30,9 @@
 <div class="actionTabCnt">
     <p class="analyticsCardTitle">ОБЩАЯ СТАТИСТИКА</p>
     <div class="actionTabCntRow8n37d">
-        <div class="item"><p>{{ $visitsCount }}</p><span>Визиты</span></div>
+        <div class="item"><p>{{ $totalOrders }}</p><span>Всего заказов</span></div>
         <div class="item"><p>{{ $avgSession ? gmdate('H\ч i\м', round($avgSession * 60)) : '—' }}</p><span>Средняя сессия</span></div>
         <div class="item"><p>{{ $avgServiced }}</p><span>Обслуживаний за сессию</span></div>
-        <div class="item"><p>{{ $totalOrders }}</p><span>Всего заказов</span></div>
         <div class="item"><p>{{ $lastVisitDays ?? '—' }}</p><span>Дней с последнего</span></div>
         <div class="item"><p>{{ $redoCount }}</p><span>Запросов на переделку</span></div>
     </div>
@@ -124,7 +123,7 @@
 @endif
 
 <div class="actionTabCnt" id="guestVisitHistoryShort">
-    <p class="analyticsCardTitle">ИСТОРИЯ ВИЗИТОВ</p>
+    <p class="analyticsCardTitle">ИСТОРИЯ заказов</p>
     <div class="actionTabCntRow8dn21" id="guestVisitHistoryShortRows">
         @include('guests.partials.visit-history-rows', ['orders' => $shortOrders, 'hasMore' => false])
     </div>

@@ -1,3 +1,8 @@
+function pluralOrders(n) {
+    const m = n % 100, d = n % 10;
+    return m > 10 && m < 20 ? 'заказов' : d === 1 ? 'заказ' : d > 1 && d < 5 ? 'заказа' : 'заказов';
+}
+
 function openSheet(id) {
     const overlay = document.getElementById(id);
     const sheet = overlay.querySelector('.actionTabWrapper');

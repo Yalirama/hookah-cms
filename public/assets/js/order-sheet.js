@@ -231,7 +231,7 @@ document.addEventListener('input', function (e) {
                                     </div>
                                     <div class="ordersCardUserInfoBtm">
                                         <div class="ordersCardUserInfoStatus ${cls}"><span>${g.status_label}</span></div>
-                                        <p class="ordersCardUserInfoVisit">${g.visits_count} визита</p>
+                                        <p class="ordersCardUserInfoVisit">${g.visits_count} ${pluralOrders(g.visits_count)}</p>
                                     </div>
                                 </div>
                             </div>

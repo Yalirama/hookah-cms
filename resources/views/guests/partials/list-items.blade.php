@@ -18,7 +18,7 @@
                             @if($guest->status === 'vip')<img src="/assets/img/star-gold.svg" alt="">@endif
                             <span>{{ $guest->status_label }}</span>
                         </div>
-                        <p class="ordersCardUserInfoVisit">{{ $guest->visits_count }} визита</p>
+                        <p class="ordersCardUserInfoVisit">{{ $guest->visits_count }} {{ trans_choice('заказ|заказа|заказов', $guest->visits_count) }}</p>
                     </div>
                 </div>
             </div>

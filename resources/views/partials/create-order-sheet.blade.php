@@ -187,7 +187,7 @@
                             ${vipStar}
                             <span>${g.status_label}</span>
                         </div>
-                        <p class="ordersCardUserInfoVisit">${g.visits_count} визита</p>
+                        <p class="ordersCardUserInfoVisit">${g.visits_count} ${pluralOrders(g.visits_count)}</p>
                     </div>
                 </div>
             </div>

@@ -140,7 +140,8 @@
                                 @if($g->status === 'vip')<img src="/assets/img/star-gold.svg" alt="">@endif
                                 <span>{{ $g->status_label }}</span>
                             </div>
-                            <p class="ordersCardUserInfoVisit">{{ $g->visits_count ?? 0 }} визита</p>
+                            @php $n = $g->visits_count ?? 0; @endphp
+                            <p class="ordersCardUserInfoVisit">{{ $n }} {{ trans_choice('заказ|заказа|заказов', $n) }}</p>
                         </div>
                     </div>
                 </div>
