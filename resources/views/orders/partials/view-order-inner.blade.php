@@ -255,7 +255,7 @@
             <div class="actionTabSearchSectionResult" id="addItemResults">
                 @foreach($mixes as $mix)
                     @php $mixAlreadyAdded = $activeItemKeys->contains('mix_' . $mix->id); @endphp
-                    <div class="ordersCardTop addItemOption {{ $mixAlreadyAdded ? '--alreadyAdded' : '' }}" data-name="{{ mb_strtolower($mix->name . ' ' . $mix->ingredients->pluck('tobacco.name')->filter()->join(' '), 'UTF-8') }}" @if(!$mixAlreadyAdded) onclick="toggleItemSelect(this, 'mix', {{ $mix->id }}, '{{ addslashes($mix->name) }}')" @endif>
+                    <div class="ordersCardTop addItemOption {{ $mixAlreadyAdded ? '--alreadyAdded' : '' }}" data-key="mix_{{ $mix->id }}" data-name="{{ mb_strtolower($mix->name . ' ' . $mix->ingredients->pluck('tobacco.name')->filter()->join(' '), 'UTF-8') }}" @if(!$mixAlreadyAdded) onclick="toggleItemSelect(this, 'mix', {{ $mix->id }}, '{{ addslashes($mix->name) }}')" @endif>
                         <div class="ordersCardUser">
                             <div class="ordersCardUserImg"><img src="/assets/img/brands/mix.svg" alt=""></div>
                             <div class="ordersCardUserInfo">
@@ -272,7 +272,7 @@
                 @endforeach
                 @foreach($tobaccos as $tobacco)
                     @php $tobaccoAlreadyAdded = $activeItemKeys->contains('tobacco_' . $tobacco->id); @endphp
-                    <div class="ordersCardTop addItemOption {{ $tobaccoAlreadyAdded ? '--alreadyAdded' : '' }}" data-name="{{ mb_strtolower(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name, 'UTF-8') }}" @if(!$tobaccoAlreadyAdded) onclick="toggleItemSelect(this, 'tobacco', {{ $tobacco->id }}, '{{ addslashes(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name) }}')" @endif>
+                    <div class="ordersCardTop addItemOption {{ $tobaccoAlreadyAdded ? '--alreadyAdded' : '' }}" data-key="tobacco_{{ $tobacco->id }}" data-name="{{ mb_strtolower(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name, 'UTF-8') }}" @if(!$tobaccoAlreadyAdded) onclick="toggleItemSelect(this, 'tobacco', {{ $tobacco->id }}, '{{ addslashes(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name) }}')" @endif>
                         <div class="ordersCardUser">
                             <div class="ordersCardUserImg"><img src="{{ $tobacco->brand?->image_url ?? '/assets/img/brands/product-img.svg' }}" alt=""></div>
                             <div class="ordersCardUserInfo">

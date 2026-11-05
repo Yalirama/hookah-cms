@@ -128,6 +128,8 @@ class TobaccoController extends Controller
             );
         }
 
+        $this->broadcastTobaccos();
+
         return redirect()->route('tobaccos.index')->with('success', 'Список табаков обновлён');
     }
 
@@ -175,6 +177,8 @@ class TobaccoController extends Controller
             'comment'          => $request->comment,
         ]);
 
+        $this->broadcastTobaccos();
+
         return back()->with('success', 'Табак деактивирован');
     }
 
@@ -198,6 +202,8 @@ class TobaccoController extends Controller
             'action'           => 'activated',
             'comment'          => $request->comment,
         ]);
+
+        $this->broadcastTobaccos();
 
         return back()->with('success', 'Табак активирован');
     }
@@ -413,6 +419,8 @@ class TobaccoController extends Controller
             }
         }
 
+        $this->broadcastTobaccos();
+
         return response()->json(['message' => 'Список обновлён']);
     }
 
@@ -438,5 +446,14 @@ class TobaccoController extends Controller
         ];
 
         return view('tobaccos.partials.header-stats', compact('stats'));
+    }
+
+    private function broadcastTobaccos(): void
+    {
+        try {
+            broadcast(new \App\Events\TobaccosChanged())->toOthers();
+        } catch (\Throwable $e) {
+            report($e);
+        }
     }
 }

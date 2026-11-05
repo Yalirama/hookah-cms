@@ -157,7 +157,9 @@ function toggleCollapse(btn) {
 // Состав — показать/скрыть форму добавления
 function toggleAddItemForm(btn) {
     const wrap = document.getElementById('addItemFormWrap');
-    wrap.style.display = wrap.style.display === 'none' ? 'block' : 'none';
+    const show = wrap.style.display === 'none';
+    wrap.style.display = show ? 'block' : 'none';
+    if (show) refreshAddItemResults();
 }
 
 function toggleRemoveItemForm(itemId) {
@@ -266,3 +268,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const id = parseInt(new URLSearchParams(location.search).get('open'), 10);
     if (id && document.getElementById('viewOrder')) openOrderSheet(id);
 });
+
+function refreshAddItemResults() {
+    const box = document.getElementById('addItemResults');
+    if (!box || !currentOrderSheetId) return;
+    fetch(`/orders/${currentOrderSheetId}/sheet`)
+        .then(r => r.text())
+        .then(html => {
+            const fresh = new DOMParser().parseFromString(html, 'text/html').getElementById('addItemResults');
+            if (!fresh) return;
+            box.innerHTML = fresh.innerHTML;
+            Object.keys(selectedAddItems).forEach(key => {
+                const el = box.querySelector(`.addItemOption[data-key="${key}"]:not(.--alreadyAdded)`);
+                if (el) el.classList.add('--actionTabSearchSectionResultActive');
+                else delete selectedAddItems[key];
+            });
+            renderSelectedAddItems();
+            document.getElementById('addItemSearch')?.dispatchEvent(new Event('input'));
+        });
+}
+
+function initTobaccosEcho() {
+    window.Echo.channel('tobaccos').listen('.tobaccos.changed', refreshAddItemResults);
+}
+if (window.Echo) initTobaccosEcho();
+else window.addEventListener('echo-ready', initTobaccosEcho);
