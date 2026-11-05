@@ -4425,4 +4425,5 @@ main.tabaccos #viewTabaccosInner,
 .actionTabSearchSectionResultText.--inactive { 
     opacity: .3;
     text-decoration: line-through;
+    color: var(--white);
 }

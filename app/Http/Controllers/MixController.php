@@ -228,24 +228,47 @@ class MixController extends Controller
             }
         }
 
-        $oldIngredients = $mix->ingredients()->with('tobacco.brand')->get()
-            ->mapWithKeys(fn($i) => [$i->tobacco_id => $i]);
+        $oldIngredients = $mix->ingredients()->with('tobacco.brand', 'alternatives.tobacco.brand')->get()
+            >mapWithKeys(fn($i) => [$i->tobacco_id => $i]);
 
-        $newTobaccoIds = collect($request->ingredients)->pluck('tobacco_id')->map(fn($id) => (int) $id);
-        $tobaccoNames = Tobacco::whereIn('id', $newTobaccoIds)->with('brand')->get()->keyBy('id');
+        $newIngredients = collect($request->ingredients)->keyBy(fn($i) => (int) $i['tobacco_id']);
+
+        $allIds = $newIngredients->keys()
+            ->merge($newIngredients->flatMap(fn($i) => collect($i['alternatives'] ?? [])->pluck('tobacco_id')->filter()->map(fn($id) => (int) $id)))
+            ->unique();
+
+        $tobaccoNames = Tobacco::whereIn('id', $allIds)->with('brand')->get()->keyBy('id');
+        $label = fn($t) => trim(($t?->brand?->name ?? '') . ': ' . ($t?->name ?? '—'));
 
         foreach ($oldIngredients as $tobaccoId => $ing) {
-            if (!$newTobaccoIds->contains($tobaccoId)) {
-                $name = trim(($ing->tobacco?->brand?->name ?? '') . ': ' . ($ing->tobacco?->name ?? '—'));
-                $changes[] = ['type' => 'removed', 'label' => 'Состав', 'value' => $name];
+            if (!$newIngredients->has($tobaccoId)) {
+                $changes[] = ['type' => 'removed', 'label' => 'Состав', 'value' => $label($ing->tobacco)];
             }
         }
 
-        foreach ($newTobaccoIds as $tobaccoId) {
-            if (!$oldIngredients->has($tobaccoId)) {
-                $t = $tobaccoNames[$tobaccoId] ?? null;
-                $name = trim(($t?->brand?->name ?? '') . ': ' . ($t?->name ?? '—'));
-                $changes[] = ['type' => 'added', 'label' => 'Состав', 'value' => $name];
+        foreach ($newIngredients as $tobaccoId => $newIng) {
+            $old = $oldIngredients->get($tobaccoId);
+
+            if (!$old) {
+                $changes[] = ['type' => 'added', 'label' => 'Состав', 'value' => $label($tobaccoNames[$tobaccoId] ?? null)];
+                continue;
+            }
+
+            $oldAlt = $old->alternatives->pluck('tobacco_id')->map(fn($id) => (int) $id);
+            $newAlt = collect($newIng['alternatives'] ?? [])->pluck('tobacco_id')->filter()->map(fn($id) => (int) $id);
+            $groupLabel = 'Альтернативы: ' . $label($old->tobacco);
+
+            foreach ($oldAlt->diff($newAlt) as $id) {
+                $changes[] = ['type' => 'removed', 'label' => $groupLabel, 'value' => $label($old->alternatives->firstWhere('tobacco_id', $id)?->tobacco)];
+            }
+            foreach ($newAlt->diff($oldAlt) as $id) {
+                $changes[] = ['type' => 'added', 'label' => $groupLabel, 'value' => $label($tobaccoNames[$id] ?? null)];
+            }
+
+            $oldGrams = $old->grams !== null ? (float) $old->grams : null;
+            $newGrams = ($newIng['grams'] ?? '') !== '' ? (float) $newIng['grams'] : null;
+            if ($oldGrams !== $newGrams) {
+                $changes[] = ['type' => 'edit', 'label' => 'Граммовка: ' . $label($old->tobacco), 'old' => $oldGrams ?? '—', 'new' => $newGrams ?? '—'];
             }
         }
 
