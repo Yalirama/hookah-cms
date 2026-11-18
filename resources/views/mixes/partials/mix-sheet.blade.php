@@ -194,7 +194,9 @@
 
 <div class="actionTabActions --actionTabActions9f3d1 --actionTabActions7sd3d">
     <div class="actionTabActionsButtons">
+        @role('admin')
         <button type="button" onclick="openMixEditSheet({{ $mix->id }})" class="actionTabActionsButton --buttonPrimary">Редактировать</button>
+        @endrole
         <button type="button" onclick="openMixHistorySheet({{ $mix->id }}, '{{ addslashes($mix->name) }}')" class="actionTabActionsButton --buttonSecondary">Журнал изменений</button>
     </div>
 </div>
