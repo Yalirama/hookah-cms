@@ -197,6 +197,12 @@
 
     function initOrdersEcho() {
         window.Echo.channel('orders').listen('.order.updated', (data) => upsertOrderCard(data.id));
+        let wasDown = false;
+        window.Echo.connector.pusher.connection.bind('state_change', ({current}) => {
+            if (current === 'connected' && wasDown) { wasDown = false; reloadList(); }
+            else if (current !== 'connected') wasDown = true;
+        });
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) reloadList(); });
     }
     if (window.Echo) initOrdersEcho();
     else window.addEventListener('echo-ready', initOrdersEcho);
