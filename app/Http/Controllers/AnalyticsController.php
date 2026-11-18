@@ -19,9 +19,7 @@ class AnalyticsController extends Controller
         }
 
         $period = $request->get('period', 'today');
-        $data = $this->buildAnalyticsData($request, $period);
-
-        return view('analytics.index', array_merge(['period' => $period], $data));
+        return view('analytics.index', ['period' => $period, 'contentHtml' => $this->renderedContent($request, $period)]);
     }
 
     public function contentPartial(Request $request)
@@ -32,9 +30,19 @@ class AnalyticsController extends Controller
         }
 
         $period = $request->get('period', 'today');
-        $data = $this->buildAnalyticsData($request, $period);
+        return response($this->renderedContent($request, $period));
+    }
 
-        return view('analytics.partials.content', array_merge(['period' => $period], $data));
+    public function renderedContent(Request $request, string $period): string
+    {
+        $ttl = match ($period) { 'today' => 15, 'week', 'month' => 60, default => 180 };
+        $status = (string) $request->get('inactive_status', 'all');
+
+        return \Illuminate\Support\Facades\Cache::remember(
+            "analytics:html:{$period}:{$status}",
+            $ttl,
+            fn () => view('analytics.partials.content', array_merge(['period' => $period], $this->buildAnalyticsData($request, $period)))->render()
+        );
     }
 
     private function buildAnalyticsData(Request $request, string $period): array

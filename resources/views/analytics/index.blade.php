@@ -132,7 +132,7 @@ document.addEventListener('click', function (e) {
 </header>
 
 <section class="analytics defaultFixed" id="analytics-content">
-    @include('analytics.partials.content')
+    {!! $contentHtml !!}
 </section>
 
 @include('partials.guest-sheets')
