@@ -22,8 +22,8 @@
     <meta name="vapid-key" content="{{ config('webpush.public_key') }}">
     <script src="/assets/js/push.js?v={{ filemtime(public_path('/assets/js/push.js')) }}" defer></script>
 
-    <link rel="stylesheet" href="/assets/css/style.css?v=2.029">
-    <link rel="stylesheet" href="/assets/css/theme-peach.css?v=2.029">
+    <link rel="stylesheet" href="/assets/css/style.css?v={{ filemtime(public_path('/assets/css/style.css')) }}">
+    <link rel="stylesheet" href="/assets/css/theme-peach.css?v={{ filemtime(public_path('/assets/css/theme-peach.css')) }}">
     @stack('styles')
 </head>
 <body>
