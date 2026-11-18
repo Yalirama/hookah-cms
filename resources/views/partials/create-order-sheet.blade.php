@@ -22,7 +22,7 @@
 
             <div class="actionTabInner --flex1">
                 <div class="actionTabSection">
-                    <label class="actionTabTitle">НАЗВАНИЕ ЗАКАЗА</label>
+                    <label class="actionTabTitle">Название заказа</label>
                     <div class="defaultForm">
                         <input name="name" type="text" placeholder="Классика (по умолчанию)">
                     </div>
@@ -30,7 +30,7 @@
 
                 <div class="actionTabSectionRow _mt10">
                     <div class="actionTabSectionItem">
-                        <div class="actionTabTitle">ВРЕМЯ</div>
+                        <div class="actionTabTitle">Время</div>
                         <div class="defaultForm customTime" id="createOrderTimePicker">
                             <div class="customTimeValue">
                                 <span class="customTimeHH">--</span><span>:</span><span class="customTimeMM">--</span>
@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="actionTabSection _mt10">
-                    <label class="actionTabTitle">КОММЕНТАРИЙ ГОСТЯ</label>
+                    <label class="actionTabTitle">Комментарий гостя</label>
                     <div class="defaultForm">
                         <textarea name="guest_comment" id="createOrderComment" rows="4"></textarea>
                     </div>
@@ -90,7 +90,7 @@
 
                 <div class="actionTabSearchSection --flex1">
                     <div>
-                        <label for="createOrderSearchGuests" class="actionTabTitle">ГОСТЬ</label>
+                        <label for="createOrderSearchGuests" class="actionTabTitle">Гость</label>
                         <div class="search">
                             <img src="/assets/img/search-icon.svg" alt="">
                             <input id="createOrderSearchGuests" type="text" placeholder="Имя, номер телефона, username..." autocomplete="off">
@@ -117,13 +117,13 @@
                 <div class="actionTabSection _mt10" id="createOrderNewGuestForm" style="display:none;">
                     <div class="actionTabSectionRow">
                         <div class="actionTabSectionItem">
-                            <label class="actionTabTitle">ИМЯ</label>
+                            <label class="actionTabTitle">Имя</label>
                             <div class="defaultForm">
                                 <input type="text" name="new_guest_name" id="createOrderNewGuestName" placeholder="Имя гостя">
                             </div>
                         </div>
                         <div class="actionTabSectionItem">
-                            <label class="actionTabTitle">ТЕЛЕФОН</label>
+                            <label class="actionTabTitle">Телефон</label>
                             <div class="defaultForm">
                                 <input type="text" name="new_guest_phone" placeholder="+7 777 000 00 00">
                             </div>

@@ -28,7 +28,7 @@
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">ОБЩАЯ СТАТИСТИКА</p>
+    <p class="analyticsCardTitle">Общая статистика</p>
     <div class="actionTabCntRow8n37d">
         <div class="item"><p>{{ $totalOrders }}</p><span>Всего заказов</span></div>
         <div class="item"><p>{{ $avgSession ? gmdate('H\ч i\м', round($avgSession * 60)) : '—' }}</p><span>Средняя сессия</span></div>
@@ -40,10 +40,10 @@
 
 <div class="actionTabCnt">
     <div class="actionTabCntRow3od21">
-        <p class="analyticsCardTitle">ЯРЛЫКИ ПРЕДПОЧТЕНИЙ</p>
+        <p class="analyticsCardTitle">Ярлыки предпочтений</p>
         <button type="button" onclick="openGuestLabelsSheet({{ $guest->id }}, '{{ addslashes($guest->name) }}')">
             <img src="/assets/img/edit-icon-gold.svg" alt="">
-            <span>Редактировать</span>
+            <span>Изменить</span>
         </button>
     </div>
 
@@ -51,39 +51,40 @@
         <div class="row --positive">
             <img src="/assets/img/positive-icon.svg" alt="">
             <div class="body">
-                @forelse($positiveLabels as $l) <div class="item"><span>{{ $l->label->name }}</span></div> @empty <span style="color:var(--info);">—</span> @endforelse
+                @forelse($positiveLabels as $l) <div class="item"><img src="/assets/img/positive-icon.svg" alt=""><span>{{ $l->label->name }}</span></div> @empty <span style="color:var(--info);">—</span> @endforelse
             </div>
         </div>
         <div class="row --neitral">
             <img src="/assets/img/neitral-icon.svg" alt="">
             <div class="body">
-                @forelse($neutralLabels as $l) <div class="item"><span>{{ $l->label->name }}</span></div> @empty <span style="color:var(--info);">—</span> @endforelse
+                @forelse($neutralLabels as $l) <div class="item"><img src="/assets/img/neitral-icon.svg" alt=""><span>{{ $l->label->name }}</span></div> @empty <span style="color:var(--info);">—</span> @endforelse
             </div>
         </div>
         <div class="row --negative">
             <img src="/assets/img/negative-icon.svg" alt="">
             <div class="body">
-                @forelse($negativeLabels as $l) <div class="item"><span>{{ $l->label->name }}</span></div> @empty <span style="color:var(--info);">—</span> @endforelse
+                @forelse($negativeLabels as $l) <div class="item"><img src="/assets/img/negative-icon.svg" alt=""><span>{{ $l->label->name }}</span></div> @empty <span style="color:var(--info);">—</span> @endforelse
             </div>
         </div>
     </div>
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">КОГДА ПРИХОДИТ</p>
+    <p class="analyticsCardTitle">Когда приходит</p>
     <div class="actionTabCntRow6bs7c">
         @foreach($timeSlots as $key => $slot)
         <div class="item">
             <img src="{{ $slotIcons[$key] ?? '/assets/img/day-icon.svg' }}" alt="">
             <p>{{ $slot['label'] }}</p>
-            <span>x{{ $slotCounts[$key] ?? 0 }} • {{ round(($slotCounts[$key] ?? 0) / $maxSlot * 100) }}%</span>
+            <span>{{ round(($slotCounts[$key] ?? 0) / $maxSlot * 100) }}%</span>
+            <small>x{{ $slotCounts[$key] ?? 0 }}</small>
         </div>
         @endforeach
     </div>
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">ДНИ НЕДЕЛИ</p>
+    <p class="analyticsCardTitle">Дни недели</p>
     <div class="actionTabCntRow1ys7s">
         @foreach($dayOrder as $day)
         @php $c = $dayCounts[$day] ?? 0; $isActive = $c > 0 && $c >= $maxDay * 0.5; @endphp
@@ -93,37 +94,40 @@
 </div>
 
 @if($topTobaccos->isNotEmpty())
-@include('guests.partials.top-list', ['title' => 'ТОП ТАБАКОВ', 'items' => $topTobaccos, 'labelFn' => fn($i) => trim(($i->itemable?->brand?->name ?? '') . ' ' . ($i->itemable?->name ?? '—'))])
+@include('guests.partials.top-list', ['title' => 'Топ табаков', 'items' => $topTobaccos, 'labelFn' => fn($i) => trim(($i->itemable?->brand?->name ?? '') . ' ' . ($i->itemable?->name ?? '—'))])
 @endif
 
 @if($topBrands->isNotEmpty())
-@include('guests.partials.top-list', ['title' => 'ТОП БРЕНДОВ', 'items' => $topBrands, 'labelFn' => fn($i) => $i['brand']?->name ?? '—', 'countFn' => fn($i) => $i['total']])
+@include('guests.partials.top-list', ['title' => 'Топ брендов', 'items' => $topBrands, 'labelFn' => fn($i) => $i['brand']?->name ?? '—', 'countFn' => fn($i) => $i['total']])
 @endif
 
 @if($topMixes->isNotEmpty())
-@include('guests.partials.top-list', ['title' => 'ТОП МИКСЫ', 'items' => $topMixes, 'labelFn' => fn($i) => $i->itemable?->name ?? '—'])
+@include('guests.partials.top-list', ['title' => 'Топ миксы', 'items' => $topMixes, 'labelFn' => fn($i) => $i->itemable?->name ?? '—'])
 @endif
 
 @if($topMasters->isNotEmpty())
-@include('guests.partials.top-list', ['title' => 'ТОП МАСТЕРА', 'items' => $topMasters, 'labelFn' => fn($i) => $i->creator?->name ?? '—'])
+@include('guests.partials.top-list', ['title' => 'Топ мастера', 'items' => $topMasters, 'labelFn' => fn($i) => $i->creator?->name ?? '—'])
 @endif
 
 @if($favTables->isNotEmpty())
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">ЛЮБИМЫЕ МЕСТА</p>
+    <p class="analyticsCardTitle">Любимые места</p>
     <div class="actionTabCntRow6bs7c actionTabCntRow8b2j1">
         @foreach($favTables->take(4) as $t)
         <div class="item">
             <p>{{ $t->table?->name ?? '—' }}</p>
-            <span>x{{ $t->total }} • {{ $totalTableVisits > 0 ? round($t->total / $totalTableVisits * 100) : 0 }}%</span>
+            <span>{{ $totalTableVisits > 0 ? round($t->total / $totalTableVisits * 100) : 0 }}%</span>
+            <small>x{{ $t->total }}</small>
         </div>
         @endforeach
     </div>
 </div>
 @endif
 
+@include('analytics.partials.table-moves', ['tableMoves' => $tableMoves ?? collect(), 'wrapClass' => 'actionTabCnt tableMovesCard', 'openFn' => 'openOrderFromGuest'])
+
 <div class="actionTabCnt" id="guestVisitHistoryShort">
-    <p class="analyticsCardTitle">ИСТОРИЯ заказов</p>
+    <p class="analyticsCardTitle">История заказов</p>
     <div class="actionTabCntRow8dn21" id="guestVisitHistoryShortRows">
         @include('guests.partials.visit-history-rows', ['orders' => $shortOrders, 'hasMore' => false])
     </div>
@@ -174,7 +178,7 @@
 
 @if(auth()->user()->hasRole('admin'))
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">СТАТУС ГОСТЯ</p>
+    <p class="analyticsCardTitle">Статус гостя</p>
     <form method="POST" action="{{ route('guests.status', $guest) }}" class="actionTabViewOrderCardAction">
         @csrf
         <div class="defaultForm customSelect" id="guestStatusSelect{{ $guest->id }}">

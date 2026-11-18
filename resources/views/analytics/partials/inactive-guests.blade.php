@@ -1,6 +1,6 @@
 {{-- ДАВНО НЕ ПРИХОДИЛИ --}}
 <div class="analyticsCard analyticsCardLongGuest" id="inactiveGuestsCard">
-    <p class="analyticsCardTitle">ДАВНО НЕ ПРИХОДИЛИ ({{ $inactiveDays }}+ дней)</p>
+    <p class="analyticsCardTitle">Давно не приходили ({{ $inactiveDays }}+ дней)</p>
 
     <div class="filters">
         <div class="filtersRow">

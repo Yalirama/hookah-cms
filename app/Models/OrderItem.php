@@ -11,8 +11,10 @@ class OrderItem extends Model
 
     protected $fillable = [
         'order_id', 'added_by', 'itemable_type',
-        'itemable_id', 'grams', 'note',
+        'itemable_id', 'grams', 'price', 'fixed_percent', 'alt_choices', 'note',
     ];
+
+    protected $casts = ['alt_choices' => 'array'];
 
     public function order()
     {
@@ -26,6 +28,6 @@ class OrderItem extends Model
 
     public function itemable()
     {
-        return $this->morphTo();
+        return $this->morphTo()->withoutGlobalScope(\Illuminate\Database\Eloquent\SoftDeletingScope::class);
     }
 }

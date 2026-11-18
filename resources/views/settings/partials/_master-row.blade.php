@@ -5,7 +5,7 @@
             <div class="ordersCardUserInfo">
                 <div class="ordersCardUserInfoTop">
                     <p class="ordersCardUserInfoName">{{ $master->name }}</p>
-                    <p class="ordersCardUserInfoUsername">{{ $master->login }}</p>
+                    <p class="ordersCardUserInfoUsername">{{ $master->login }}{{ $master->hasRole('admin') ? ' · админ' : '' }}</p>
                 </div>
             </div>
         </div>

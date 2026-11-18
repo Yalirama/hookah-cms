@@ -25,21 +25,12 @@
 <script src="/assets/js/guest-sheet.js?v={{ filemtime(public_path('/assets/js/guest-sheet.js')) }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    var welcomeP = document.querySelector('.headerTopWelcome p');
     var section = document.querySelector('.analytics.defaultFixed');
-    if (!welcomeP || !section) return;
-
-    var lineHeight = parseFloat(getComputedStyle(welcomeP).lineHeight);
-    if (!lineHeight || isNaN(lineHeight)) return;
-
-    var lines = Math.round(welcomeP.getBoundingClientRect().height / lineHeight);
-
-    section.classList.remove('--h2', '--h3');
-    if (lines === 2) {
-        section.classList.add('--h2');
-    } else if (lines >= 3) {
-        section.classList.add('--h3');
-    }
+    var header = document.querySelector('header.defaultFixed');
+    if (!section || !header) return;
+    var fit = function () { section.style.paddingTop = header.offsetHeight + 'px'; };
+    fit();
+    window.addEventListener('resize', fit);
 });
 
 document.addEventListener('click', function (e) {

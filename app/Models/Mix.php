@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Mix extends Model
 {
+    use \App\Models\Concerns\LogsAdminActions;
+
     use SoftDeletes;
 
     protected $fillable = [
         'name', 'description_short', 'description_long',
         'strength', 'created_by', 'updated_by', 'is_active',
-        'deactivated_at', 'deactivated_by', 'deactivation_comment',
+        'deactivated_at', 'deactivated_by', 'deactivation_comment', 'price',
     ];
 
     protected $casts = [
@@ -72,5 +74,28 @@ class Mix extends Model
             fn($ing) => $ing->tobacco?->isInVenue()
                 || $ing->alternatives->contains(fn($alt) => $alt->tobacco?->isInVenue())
         );
+    }
+
+    public function adminEntity(): string
+    {
+        return 'Микс';
+    }
+
+    public function adminLabel(): string
+    {
+        return (string) $this->name;
+    }
+
+    public function adminFields(): array
+    {
+        return ['name' => 'Название', 'description_short' => 'Короткое описание', 'description_long' => 'Полное описание', 'strength' => 'Крепость', 'is_active' => 'Статус', 'price' => 'Цена'];
+    }
+
+    public function adminFieldText(string $field, $old, $new): ?string
+    {
+        if ($field === 'is_active') return $new ? 'Активировал микс' : 'Деактивировал микс';
+        if ($field === 'description_long' || $field === 'description_short') return 'Изменил описание';
+        $labels = $this->adminFields();
+        return isset($labels[$field]) ? $labels[$field] . ': ' . ($old ?: '—') . ' → ' . ($new ?: '—') : null;
     }
 }

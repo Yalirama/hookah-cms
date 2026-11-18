@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class VenueTobacco extends Model
 {
-    protected $fillable = ['tobacco_id', 'is_active', 'deactivated_at', 'deactivated_by', 'deactivation_comment'];
+    use \App\Models\Concerns\LogsAdminActions;
+
+    protected $fillable = ['tobacco_id', 'is_active', 'price', 'deactivated_at', 'deactivated_by', 'deactivation_comment'];
 
     protected $casts = [
         'is_active'      => 'boolean',
@@ -26,5 +28,37 @@ class VenueTobacco extends Model
     public function logs()
     {
         return $this->hasMany(VenueTobaccoLog::class);
+    }
+
+    public function adminEntity(): string
+    {
+        return 'Табак';
+    }
+
+    public function adminLabel(): string
+    {
+        $t = $this->tobacco()->with('brand')->first();
+        return $t ? trim(($t->brand->name ?? '') . ' ' . $t->name) : '#' . $this->tobacco_id;
+    }
+
+    public function adminFields(): array
+    {
+        return ['is_active' => 'Статус'];
+    }
+
+    public function adminCreatedText(): string
+    {
+        return 'Добавил табак в список заведения: «' . $this->adminLabel() . '»';
+    }
+
+    public function adminDeletedText(): string
+    {
+        return 'Убрал табак из списка заведения: «' . $this->adminLabel() . '»';
+    }
+
+    public function adminFieldText(string $field, $old, $new): ?string
+    {
+        if ($field !== 'is_active') return null;
+        return $new ? 'Добавил табак в список (активировал)' : 'Убрал табак из списка (деактивировал)';
     }
 }

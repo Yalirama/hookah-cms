@@ -33,6 +33,7 @@ class MixController extends Controller
     public function activate(Request $request, Mix $mix)
     {
         if (!auth()->user()->hasRole('admin')) abort(403);
+        if ($mix->is_active) return back()->with('error', 'Микс уже активен');
 
         $mix->update([
             'is_active'            => true,
@@ -119,7 +120,7 @@ class MixController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'              => 'required|string|max:255',
+            'name'              => ['required', 'string', 'max:255', \Illuminate\Validation\Rule::unique('mixes', 'name')->whereNull('deleted_at')],
             'description_short' => 'nullable|string|max:255',
             'description_long'  => 'nullable|string',
             'strength'          => 'nullable|in:light,medium,strong',
@@ -186,6 +187,7 @@ class MixController extends Controller
 
     public function edit(Mix $mix)
     {
+        if (!auth()->user()->hasRole('admin')) abort(403);
         $mix->load([
             'ingredients' => fn($q) => $q->withTrashed()->with([
                 'tobacco.brand',
@@ -203,8 +205,9 @@ class MixController extends Controller
 
     public function update(Request $request, Mix $mix)
     {
+        if (!auth()->user()->hasRole('admin')) abort(403);
         $request->validate([
-            'name'              => 'required|string|max:255',
+            'name'              => ['required', 'string', 'max:255', \Illuminate\Validation\Rule::unique('mixes', 'name')->whereNull('deleted_at')->ignore($mix->id)],
             'description_short' => 'nullable|string|max:255',
             'description_long'  => 'nullable|string',
             'strength'          => 'nullable|in:light,medium,strong',
@@ -326,6 +329,7 @@ class MixController extends Controller
     public function deactivate(Request $request, Mix $mix)
     {
         if (!auth()->user()->hasRole('admin')) abort(403);
+        if (!$mix->is_active) return back()->with('error', 'Микс уже деактивирован');
 
         $mix->update([
             'is_active'             => false,
@@ -359,6 +363,7 @@ class MixController extends Controller
 
     public function destroyNote(Mix $mix, MixNote $note)
     {
+        abort_unless($note->mix_id === $mix->id, 404);
         if ($note->user_id !== auth()->id() && !auth()->user()->hasRole('admin')) {
             abort(403);
         }
@@ -502,6 +507,7 @@ class MixController extends Controller
 
     public function editForm(Mix $mix)
     {
+        if (!auth()->user()->hasRole('admin')) abort(403);
         $mix->load('ingredients.tobacco.brand', 'ingredients.alternatives.tobacco.brand');
         $tobaccos = Tobacco::whereHas('venueTobacco', fn($q) => $q->where('is_active', true))->with('brand')->orderBy('name')->get();
         return view('mixes.partials.mix-form', compact('mix', 'tobaccos'));

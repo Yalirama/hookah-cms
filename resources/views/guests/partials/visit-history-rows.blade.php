@@ -4,7 +4,7 @@
     <div class="itemCount"><span>#{{ $order->id }}</span></div>
     <div class="itemInfo itemInfo0d3d2">
         <div class="itemInfoTop">
-            <p class="itemDate">{{ $order->created_at->translatedFormat('d M Y') }}</p>
+            <p class="itemDate">{{ $order->created_at->locale('ru')->translatedFormat('d M Y') }}</p>
             <p class="itemPlace">{{ $order->name ?: 'Классика' }} • {{ $order->table?->name ?? '—' }}</p>
         </div>
         <div class="itemInfoBtm">

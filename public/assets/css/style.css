@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
 
 * {
     box-sizing: border-box;
@@ -18,23 +18,23 @@ button {
 
 :root {
     --resizer: 320;
-    --dark: #0F0E0C;
-    --box: #181612;
-    --border: #231F18;
-    --gold: #CDAA7D;
-    --white: #FFFFFF;
-    --search: #221E1A;
-    --info: #5A5348;
-    --orange: #D4903A;
-    --blue: #4A6FA5;
-    --light: #4CAF76;
-    --past: #5A5248;
-    --surface: #1D1B17;
+    --dark: #FFF3EA;
+    --box: #FFFFFF;
+    --border: #F1DDD0;
+    --gold: #C23A16;
+    --white: #3A2218;
+    --search: #FFF1E8;
+    --info: #7D5F52;
+    --orange: #B8700A;
+    --blue: #175CD3;
+    --light: #178A57;
+    --past: #7D5F52;
+    --surface: #FFF1E8;
 }
 
 html,
 body {
-    font-family: "Jura", sans-serif;
+    font-family: "Nunito", system-ui, sans-serif;
     background: var(--dark);
 }
 
@@ -92,7 +92,7 @@ header {
     font-weight: 700;
     line-height: calc(14vw / var(--resizer) * 100);
     text-align: center;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .headerTopWelcome p {
@@ -100,7 +100,7 @@ header {
     font-weight: 700;
     line-height: calc(16vw / var(--resizer) * 100);
     text-align: center;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .headerStats {
@@ -293,7 +293,7 @@ main._ordersShow .topNav .filters .filtersRow {
     margin: 0 calc(8vw / var(--resizer) * 100) 0 0;
     width: calc(30vw / var(--resizer) * 100);
     height: calc(30vw / var(--resizer) * 100);
-    border: calc(0.5vw / var(--resizer) * 100) solid rgba(90, 83, 72, 1);
+    border: calc(0.5vw / var(--resizer) * 100) solid #7D5F52;
     border-radius: calc(50vw / var(--resizer) * 100);
 }
 
@@ -347,11 +347,11 @@ main._ordersShow .topNav .filters .filtersRow {
 
 .--questVip.ordersCardUserInfoStatus,
 .--questNew.ordersCardUserInfoStatus {
-    background: rgba(48, 41, 32, 1);
+    background: #FFE3D6;
 }
 
 .--questRegular.ordersCardUserInfoStatus {
-    background: rgba(33, 35, 39, 1);
+    background: #E0EDFF;
 }
 
 .--questPermanent.ordersCardUserInfoStatus {
@@ -374,11 +374,11 @@ main._ordersShow .topNav .filters .filtersRow {
 
 .--questVip.ordersCardUserInfoStatus span,
 .--questNew.ordersCardUserInfoStatus span {
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .--questRegular.ordersCardUserInfoStatus span {
-    color: rgba(74, 111, 165, 1);
+    color: #175CD3;
 }
 
 .--questPermanent.ordersCardUserInfoStatus span {
@@ -428,7 +428,7 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .--statusDone .ordersCardStatus span {
-    background: rgba(76, 175, 118, 1);
+    background: #178A57;
 }
 
 .--statusActive .ordersCardStatus span {
@@ -448,11 +448,11 @@ main._ordersShow .topNav .filters .filtersRow {
 
 
 .--statusWait .ordersCardStatus p {
-    color: rgba(212, 144, 58, 1);
+    color: #93370D;
 }
 
 .--statusDone .ordersCardStatus p {
-    color: rgba(76, 175, 118, 1);
+    color: #178A57;
 }
 
 .--statusActive .ordersCardStatus p {
@@ -464,7 +464,7 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .ordersCardId {
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
     font-size: calc(10vw / var(--resizer) * 100);
     font-weight: 700;
     text-align: right;
@@ -496,7 +496,7 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .--typeMix.ordersCardViewTitle span {
-    background: rgba(74, 111, 165, 1);
+    background: #175CD3;
 }
 
 .ordersCardViewTitle p {
@@ -576,10 +576,10 @@ main._ordersShow .topNav .filters .filtersRow {
     align-items: center;
     padding: calc(4vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
     border-radius: calc(6vw / var(--resizer) * 100);
-    background: rgba(48, 41, 32, 1);
+    background: #FFE3D6;
     text-decoration: none;
 
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 
     font-size: calc(10vw / var(--resizer) * 100);
     line-height: calc(10vw / var(--resizer) * 100);
@@ -598,9 +598,9 @@ main._ordersShow .topNav .filters .filtersRow {
     width: 100%;
     z-index: 9999;
     padding: calc(2vw / var(--resizer) * 100) calc(4vw / var(--resizer) * 100) calc(7vw / var(--resizer) * 100) calc(4vw / var(--resizer) * 100);
-    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-top: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     backdrop-filter: blur(calc(22vw / var(--resizer) * 100));
-    background: rgba(24, 22, 18, 0.12);
+    background: #3A2218;
 }
 
 .menuItem {
@@ -625,7 +625,7 @@ main._ordersShow .topNav .filters .filtersRow {
 
 .menuItem span {
     margin: calc(2vw / var(--resizer) * 100) 0 0 0;
-    color: rgba(51, 46, 39, 1);
+    color: #D9B9A8;
     font-size: calc(7vw / var(--resizer) * 100);
     font-weight: 700;
     line-height: calc(7vw / var(--resizer) * 100);
@@ -666,10 +666,10 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .actionTabWrapper {
-    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-top: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(18vw / var(--resizer) * 100) calc(18vw / var(--resizer) * 100) 0 0;
     backdrop-filter: blur(calc(40vw / var(--resizer) * 100));
-    background: rgba(24, 22, 18, 0.78);
+    background: #FFF3EA;
     height: 93vh;
     transform: translateY(100%);
     transition: transform .3s ease;
@@ -703,10 +703,10 @@ main._ordersShow .topNav .filters .filtersRow {
 .actionTabWrapper {
     display: flex;
     flex-direction: column;
-    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-top: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(18vw / var(--resizer) * 100) calc(18vw / var(--resizer) * 100) 0 0;
     backdrop-filter: blur(calc(40vw / var(--resizer) * 100));
-    background: rgba(24, 22, 18, 0.78);
+    background: #FFF3EA;
     height: 93vh;
     transform: translateY(100%);
     transition: transform .35s cubic-bezier(0.32, 0.72, 0, 1);
@@ -727,7 +727,7 @@ main._ordersShow .topNav .filters .filtersRow {
     justify-content: space-between;
     align-items: center;
     padding: calc(15vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
-    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
 }
 
 .actionTabHeader::before {
@@ -738,7 +738,7 @@ main._ordersShow .topNav .filters .filtersRow {
     transform: translateX(-50%);
     width: calc(27vw / var(--resizer) * 100);
     height: calc(1.5vw / var(--resizer) * 100);
-    background: rgba(35, 31, 24, 1);
+    background: #F1DDD0;
 }
 
 .actionTabHeader h3 {
@@ -753,7 +753,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-size: calc(12vw / var(--resizer) * 100);
     font-weight: 700;
     line-height: calc(12vw / var(--resizer) * 100);
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabHeaderBtns {
@@ -766,9 +766,9 @@ main._ordersShow .topNav .filters .filtersRow {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: 100%;
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
     border: none;
     width: calc(20vw / var(--resizer) * 100);
     height: calc(20vw / var(--resizer) * 100);
@@ -794,7 +794,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
     text-transform: uppercase;
 }
 
@@ -805,7 +805,7 @@ main._ordersShow .topNav .filters .filtersRow {
 .actionTabSearchSectionResult {
     position: relative;
     margin: calc(5vw / var(--resizer) * 100) 0 0 0;
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
     height: calc(130vw / var(--resizer) * 100);
     overflow: auto;
@@ -817,21 +817,21 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .actionTabSearchSectionResult .ordersCardTop:last-child {
-    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
 }
 
 .editTobaccoRow,
 .guestLabelRow {
     backdrop-filter: blur(calc(8vw / var(--resizer) * 100));
-    background: rgba(24, 22, 18, 0.24);
-    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    background: #FFF1E8;
+    border-top: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     transition: .4s background linear;
 }
 
 .editTobaccoRow.--actionTabSearchSectionResultActive,
 .guestLabelRow.--actionTabSearchSectionResultActive,
 .addItemOption.--actionTabSearchSectionResultActive {
-    background: rgba(56, 48, 39, 1);
+    background: #F6E3D6;
 }
 
 .ordersCardTop::after {
@@ -842,7 +842,7 @@ main._ordersShow .topNav .filters .filtersRow {
     transform: translateY(-50%);
     width: calc(14vw / var(--resizer) * 100);
     height: calc(14vw / var(--resizer) * 100);
-    border: 1px solid rgba(35, 31, 24, 1);
+    border: 1px solid #F1DDD0;
     border-radius: 50%;
 }
 
@@ -862,8 +862,8 @@ main._ordersShow .topNav .filters .filtersRow {
 .editTobaccoRow.--actionTabSearchSectionResultActive .ordersCardTop::after,
 .guestLabelRow.--actionTabSearchSectionResultActive.ordersCardTop::after,
 .addItemOption.--actionTabSearchSectionResultActive.ordersCardTop::after {
-    border-color: rgba(205, 170, 125, 1);
-    background: rgba(205, 170, 125, 1);
+    border-color: #C23A16;
+    background: #C23A16;
 }
 
 .editTobaccoRow.--actionTabSearchSectionResultActive .ordersCardTop::before,
@@ -886,9 +886,9 @@ main._ordersShow .topNav .filters .filtersRow {
     border: none;
     cursor: pointer;
     backdrop-filter: blur(calc(8vw / var(--resizer) * 100));
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: 0 0 calc(8vw / var(--resizer) * 100) calc(8vw / var(--resizer) * 100);
-    background: rgba(24, 22, 18, 0.24);
+    background: #FFF1E8;
     z-index: 999999;
 }
 
@@ -903,7 +903,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 500;
     line-height: calc(12vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .actionTabSection {
@@ -938,7 +938,7 @@ main._ordersShow .topNav .filters .filtersRow {
 .actionTabActions {
     margin: calc(15vw / var(--resizer) * 100) 0 0 0;
     padding: calc(10vw / var(--resizer) * 100);
-    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-top: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
 }
 
 .actionTabActionsButtons {
@@ -962,8 +962,8 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .actionTabActionsButton.--buttonAccent {
-    background: rgba(205, 170, 125, 1);
-    color: rgba(22, 20, 16, 1);
+    background: #C23A16;
+    color: #FFFFFF;
 }
 
 .actionTabWrapper {
@@ -986,9 +986,9 @@ main._ordersShow .topNav .filters .filtersRow {
 .actionTabViewOrderTop {
     margin: calc(10vw / var(--resizer) * 100) 0 0 0;
     padding: calc(10vw / var(--resizer) * 100);
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: rgba(24, 22, 18, 1);
+    background: #FFFFFF;
 }
 
 .actionTabViewOrderTopBody {
@@ -1014,7 +1014,7 @@ main._ordersShow .topNav .filters .filtersRow {
     margin: 0 calc(5vw / var(--resizer) * 100) 0 0;
     width: calc(10vw / var(--resizer) * 100);
     height: calc(10vw / var(--resizer) * 100);
-    background: rgba(90, 83, 72, 1);
+    background: #7D5F52;
     border-radius: 50%;
 }
 
@@ -1022,23 +1022,23 @@ main._ordersShow .topNav .filters .filtersRow {
     width: calc(5vw / var(--resizer) * 100);
     height: calc(5vw / var(--resizer) * 100);
     border-radius: 50%;
-    background: rgba(90, 82, 72, 1);
+    background: #7D5F52;
 }
 
 .actionTabViewOrderTopBody.--orderCreated .actionTabViewOrderTopStatusCircle span {
-    background: rgba(212, 144, 58, 1);
+    background: #93370D;
 }
 
 .actionTabViewOrderTopBody.--orderDone .actionTabViewOrderTopStatusCircle span {
-    background: rgba(76, 175, 118, 1);
+    background: #178A57;
 }
 
 .actionTabViewOrderTopBody.--orderActive .actionTabViewOrderTopStatusCircle span {
-    background: rgba(74, 111, 165, 1);
+    background: #175CD3;
 }
 
 .actionTabViewOrderTopBody.--orderClosed .actionTabViewOrderTopStatusCircle span {
-    background: rgba(90, 82, 72, 1);
+    background: #7D5F52;
 }
 
 .actionTabViewOrderTopStatus p {
@@ -1046,23 +1046,23 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(12vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 82, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabViewOrderTopBody.--orderCreated .actionTabViewOrderTopStatus p {
-    color: rgba(212, 144, 58, 1);
+    color: #93370D;
 }
 
 .actionTabViewOrderTopBody.--orderDone .actionTabViewOrderTopStatus p {
-    color: rgba(76, 175, 118, 1);
+    color: #178A57;
 }
 
 .actionTabViewOrderTopBody.--orderActive .actionTabViewOrderTopStatus p {
-    color: rgba(74, 111, 165, 1);
+    color: #175CD3;
 }
 
 .actionTabViewOrderTopBody.--orderClosed .actionTabViewOrderTopStatus p {
-    color: rgba(90, 82, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabViewOrderTopBodyItem {
@@ -1082,7 +1082,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabViewOrderTopTimer {
@@ -1090,32 +1090,32 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 700;
     line-height: calc(24vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 82, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabViewOrderTopBody.--orderCreated .actionTabViewOrderTopTimer {
-    color: rgba(212, 144, 58, 1);
+    color: #93370D;
 }
 
 .actionTabViewOrderTopBody.--orderDone .actionTabViewOrderTopTimer {
-    color: rgba(76, 175, 118, 1);
+    color: #178A57;
 }
 
 .actionTabViewOrderTopBody.--orderActive .actionTabViewOrderTopTimer {
-    color: rgba(74, 111, 165, 1);
+    color: #175CD3;
 }
 
 .actionTabViewOrderTopBody.--orderClosed .actionTabViewOrderTopTimer {
-    color: rgba(90, 82, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabViewOrderCard {
     margin: calc(10vw / var(--resizer) * 100) 0 0 0;
     display: flex;
     flex-direction: column;
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: rgba(24, 22, 18, 1);
+    background: #FFFFFF;
 }
 
 .actionTabViewOrderCardTop {
@@ -1123,7 +1123,7 @@ main._ordersShow .topNav .filters .filtersRow {
     justify-content: space-between;
     align-items: center;
     padding: calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
-    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
 }
 
 .actionTabHistorySUV {
@@ -1131,7 +1131,7 @@ main._ordersShow .topNav .filters .filtersRow {
     justify-content: center;
     align-items: center;
     padding: calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
-    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
 }
 
 .actionTabViewOrderCardTop button,
@@ -1161,7 +1161,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 400;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .actionTabViewOrderCardBtm {
@@ -1198,7 +1198,7 @@ main._ordersShow .topNav .filters .filtersRow {
     justify-content: space-between;
     width: 100%;
     padding: calc(10vw / var(--resizer) * 100);
-    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
 }
 
 .actionTabViewOrderProductListLeft {
@@ -1223,7 +1223,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(12vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
     margin: 0 0 calc(4vw / var(--resizer) * 100) 0;
 }
 
@@ -1232,7 +1232,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .actionTabViewOrderProductListRight {
@@ -1246,7 +1246,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(15vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .actionTabViewOrderProductListRight span {
@@ -1254,7 +1254,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(15vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .actionTabViewOrderCard .actionTabSearchSectionResult {
@@ -1273,7 +1273,7 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .actionTabSearchSectionResultLists span {
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .actionTabHistoryItem {
@@ -1291,7 +1291,7 @@ main._ordersShow .topNav .filters .filtersRow {
     left: calc(14vw / var(--resizer) * 100);
     width: calc(2vw / var(--resizer) * 100);
     height: 100%;
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
 }
 
 .actionTabHistoryItem:last-child::before {
@@ -1308,7 +1308,7 @@ main._ordersShow .topNav .filters .filtersRow {
     justify-content: center;
     align-items: center;
     margin: 0 calc(7vw / var(--resizer) * 100) 0 0;
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
     border-radius: 100%;
     width: calc(10vw / var(--resizer) * 100);
     height: calc(10vw / var(--resizer) * 100);
@@ -1320,7 +1320,7 @@ main._ordersShow .topNav .filters .filtersRow {
     top: 0;
     width: calc(2vw / var(--resizer) * 100);
     height: calc(100vw / var(--resizer) * 100);
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
 }
 
 .actionTabHistoryItemCircle:last-child::before {
@@ -1334,16 +1334,16 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .actionTabHistoryItem.--orderCreated .actionTabHistoryItemCircle span {
-    background: rgba(212, 144, 58, 1);
+    background: #93370D;
 }
 
 .actionTabHistoryItem.--orderDone .actionTabHistoryItemCircle span,
 .actionTabHistoryItem.--orderAdd .actionTabHistoryItemCircle span {
-    background: rgba(76, 175, 118, 1);
+    background: #178A57;
 }
 
 .actionTabHistoryItem.--orderActive .actionTabHistoryItemCircle span {
-    background: rgba(74, 111, 165, 1);
+    background: #175CD3;
 }
 
 .actionTabHistoryItem.--orderService .actionTabHistoryItemCircle span,
@@ -1352,11 +1352,11 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .actionTabHistoryItem.--orderClosed .actionTabHistoryItemCircle span {
-    background: rgba(90, 82, 72, 1);
+    background: #7D5F52;
 }
 
 .actionTabHistoryItemLogsBlock .actionTabHistoryItem.--logAdd .actionTabHistoryItemCircle span {
-    background: rgba(74, 111, 165, 1);
+    background: #175CD3;
 }
 
 .actionTabHistoryItemLogsBlock .actionTabHistoryItem.--logRemove .actionTabHistoryItemCircle span {
@@ -1364,11 +1364,11 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .actionTabHistoryItemLogsBlock .actionTabHistoryItem.--logChanged .actionTabHistoryItemCircle span {
-    background: rgba(212, 144, 58, 1);
+    background: #93370D;
 }
 
 .--isGold {
-    color: rgba(212, 144, 58, 1);
+    color: #93370D;
 }
 
 .actionTabHistoryItemInfo {
@@ -1382,7 +1382,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(12vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .actionTabHistoryItemSubtitle {
@@ -1391,7 +1391,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .actionTabHistoryItemSubtitle span {
@@ -1414,7 +1414,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabHistoryItemTime {
@@ -1427,7 +1427,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: right;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .actionTabHistoryItemTime span:last-child {
@@ -1438,9 +1438,9 @@ main._ordersShow .topNav .filters .filtersRow {
 .actionTabHistoryItemComment {
     margin: calc(5vw / var(--resizer) * 100) 0 0 0;
     padding: calc(5vw / var(--resizer) * 100);
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(4vw / var(--resizer) * 100);
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
     width: calc(180vw / var(--resizer) * 100);
 }
 
@@ -1449,7 +1449,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .actionTabHistorySUV {
@@ -1458,12 +1458,12 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 600;
     line-height: calc(8vw / var(--resizer) * 100);
     text-align: left;
-    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-top: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     color: var(--info);
 }
 
 .actionTabHistorySUV span.--isBlue {
-    color: rgba(74, 111, 165, 1);
+    color: #175CD3;
 }
 
 .actionTabHistorySUV span.--isRed {
@@ -1505,7 +1505,7 @@ main._ordersShow .topNav .filters .filtersRow {
 .actionTabViewOrderCardButton {
     padding: calc(10vw / var(--resizer) * 100);
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: rgba(205, 170, 125, 1);
+    background: #C23A16;
     border: none;
 
     font-size: calc(12vw / var(--resizer) * 100);
@@ -1514,12 +1514,12 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .actionTabViewOrderCardButton.--orderDone {
-    background: rgba(76, 175, 118, 1);
+    background: #178A57;
     color: var(--box);
 }
 
 .actionTabViewOrderCardButton.--orderActive {
-    background: rgba(74, 111, 165, 1);
+    background: #175CD3;
 }
 
 .actionTabViewOrderCardButton.--orderService {
@@ -1532,7 +1532,7 @@ main._ordersShow .topNav .filters .filtersRow {
 .actionTabViewOrderCardButton.--orderService:hover {
     background: var(--gold);
     border-color: var(--gold);
-    color: #000;
+    color: #fff;
 }
 
 .actionTabViewOrderCardButton.--orderCancel {
@@ -1566,7 +1566,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
     text-transform: uppercase;
 }
 
@@ -1588,9 +1588,9 @@ main._ordersShow .topNav .filters .filtersRow {
     display: flex;
     flex-direction: column;
     padding: calc(8vw / var(--resizer) * 100) calc(12vw / var(--resizer) * 100);
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: rgba(24, 22, 18, 1);
+    background: #FFFFFF;
 }
 
 .analyticsQuestsTitle {
@@ -1599,7 +1599,7 @@ main._ordersShow .topNav .filters .filtersRow {
     line-height: calc(24vw / var(--resizer) * 100);
     text-align: center;
     align-self: center;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .analyticsQuestsSubtitle {
@@ -1608,7 +1608,7 @@ main._ordersShow .topNav .filters .filtersRow {
     line-height: calc(14vw / var(--resizer) * 100);
     text-align: center;
     align-self: center;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .analyticsQuestsDescription {
@@ -1617,16 +1617,16 @@ main._ordersShow .topNav .filters .filtersRow {
     line-height: calc(14vw / var(--resizer) * 100);
     text-align: center;
     align-self: center;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
     flex: 1;
 }
 
 .analyticsQuestsDescription.--plus {
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .analyticsQuestsDescription.--minus {
-    color: rgba(192, 87, 74, 1);
+    color: #B42318;
 }
 
 .analyticsQuestsText {
@@ -1635,7 +1635,7 @@ main._ordersShow .topNav .filters .filtersRow {
     line-height: calc(26vw / var(--resizer) * 100);
     text-align: center;
     align-self: center;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .analyticsQuestsItemRow {
@@ -1648,12 +1648,12 @@ main._ordersShow .topNav .filters .filtersRow {
 
 .analyticsQuestsItemRow span {
     border-radius: calc(2vw / var(--resizer) * 100);
-    background: rgba(39, 35, 28, 1);
+    background: #FFF1E8;
     height: calc(27vw / var(--resizer) * 100);
 }
 
 .analyticsQuestsItemRow span.active {
-    background: rgba(205, 170, 125, 1);
+    background: #C23A16;
 }
 
 .analyticsCardQuestsPercent .analyticsQuestsItem {
@@ -1664,7 +1664,7 @@ main._ordersShow .topNav .filters .filtersRow {
     display: flex;
     justify-content: flex-end;
     border-radius: calc(17vw / var(--resizer) * 100);
-    background: rgba(205, 170, 125, 1);
+    background: #C23A16;
     width: 100%;
     height: calc(10vw / var(--resizer) * 100);
     overflow: hidden;
@@ -1672,7 +1672,7 @@ main._ordersShow .topNav .filters .filtersRow {
 
 .analyticsCardQuestsBody span {
     height: calc(10vw / var(--resizer) * 100);
-    background: rgba(192, 87, 74, 1);
+    background: #B42318;
     width: 69%;
 }
 
@@ -1690,13 +1690,13 @@ main._ordersShow .topNav .filters .filtersRow {
 .analyticsCardQuestsBodyRowItemCircle {
     margin: 0 calc(5vw / var(--resizer) * 100) 0 0;
     border-radius: 50%;
-    background: rgba(205, 170, 125, 1);
+    background: #C23A16;
     width: calc(7vw / var(--resizer) * 100);
     height: calc(7vw / var(--resizer) * 100);
 }
 
 .analyticsCardQuestsBodyRow .analyticsCardQuestsBodyRowItem:last-child .analyticsCardQuestsBodyRowItemCircle {
-    background: rgba(192, 87, 74, 1);
+    background: #B42318;
 }
 
 .analyticsCardQuestsBodyRowItemBody {
@@ -1709,7 +1709,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 700;
     line-height: calc(12vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .analyticsCardQuestsBodyRowItemBody span {
@@ -1717,7 +1717,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .analyticsCardDayTime .analyticsCardRow {
@@ -1733,8 +1733,8 @@ main._ordersShow .topNav .filters .filtersRow {
 }
 
 .analyticsCardDayTime .analyticsQuestsItem.active {
-    border: calc(1vw / var(--resizer) * 100) solid rgba(76, 175, 118, 1);
-    background: rgba(32, 42, 31, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #178A57;
+    background: #DDF3EA;
 }
 
 .analyticsCardDayTime .analyticsQuestsItem img {
@@ -1750,7 +1750,7 @@ main._ordersShow .topNav .filters .filtersRow {
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: center;
     align-self: center;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
     transition: .4s color linear;
 }
 
@@ -1765,7 +1765,7 @@ main._ordersShow .topNav .filters .filtersRow {
     line-height: calc(8vw / var(--resizer) * 100);
     align-self: center;
     text-align: center;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
     transition: .4s color linear;
 }
 
@@ -1794,7 +1794,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 700;
     line-height: calc(16vw / var(--resizer) * 100);
     text-align: center;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .analyticsWorkloadByTimeAndWeekBtm {
@@ -1812,7 +1812,7 @@ main._ordersShow .topNav .filters .filtersRow {
 .analyticsWorkloadByTimeAndWeekBtmItem span {
     height: calc(30vw / var(--resizer) * 100);
     border-radius: calc(2vw / var(--resizer) * 100);
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
 }
 
 .analyticsWorkloadByTimeAndWeekBtmItem div {
@@ -1825,7 +1825,7 @@ main._ordersShow .topNav .filters .filtersRow {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .analyticsWorkloadByTimeAndWeekSUV {
@@ -1841,34 +1841,34 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 700;
     line-height: calc(8vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .analyticsWorkloadByTimeAndWeekSUV span {
     width: calc(10vw / var(--resizer) * 100);
     height: calc(10vw / var(--resizer) * 100);
     border-radius: calc(2vw / var(--resizer) * 100);
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
 }
 
 .analyticsWorkloadByTimeAndWeek .--stage1 {
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
 }
 
 .analyticsWorkloadByTimeAndWeek .--stage2 {
-    background: rgba(60, 52, 40, 1);
+    background: #FFF1E8;
 }
 
 .analyticsWorkloadByTimeAndWeek .--stage3 {
-    background: rgba(96, 81, 60, 1);
+    background: #7D5F52;
 }
 
 .analyticsWorkloadByTimeAndWeek .--stage4 {
-    background: rgba(142, 118, 88, 1);
+    background: #7D5F52;
 }
 
 .analyticsWorkloadByTimeAndWeek .--stage5 {
-    background: rgba(206, 171, 125, 1);
+    background: #C23A16;
 }
 
 .analyticsCardTop {
@@ -1888,7 +1888,7 @@ main._ordersShow .topNav .filters .filtersRow {
     align-items: center;
     padding: calc(4vw / var(--resizer) * 100) calc(6vw / var(--resizer) * 100);
     border-radius: calc(4vw / var(--resizer) * 100);
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
 }
 
 .analyticsCardTopItemLeft {
@@ -1905,7 +1905,7 @@ main._ordersShow .topNav .filters .filtersRow {
     width: calc(15vw / var(--resizer) * 100);
     height: calc(15vw / var(--resizer) * 100);
     border-radius: calc(12vw / var(--resizer) * 100);
-    background: rgba(32, 42, 31, 1);
+    background: #DDF3EA;
 }
 
 .analyticsCardTopItemCount span {
@@ -1914,7 +1914,7 @@ main._ordersShow .topNav .filters .filtersRow {
     line-height: calc(10vw / var(--resizer) * 100);
     align-self: center;
     text-align: center;
-    color: rgba(76, 175, 118, 1);
+    color: #178A57;
 }
 
 .analyticsCardTopItemTitle {
@@ -1922,7 +1922,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
     max-width: 80%;
 }
 
@@ -1938,12 +1938,12 @@ main._ordersShow .topNav .filters .filtersRow {
     width: calc(63vw / var(--resizer) * 100);
     height: calc(5vw / var(--resizer) * 100);
     border-radius: calc(4vw / var(--resizer) * 100);
-    background: rgba(42, 38, 31, 1);
+    background: #FFF1E8;
     overflow: hidden;
 }
 
 .analyticsCardTopItemBar span {
-    background: rgba(205, 170, 125, 1);
+    background: #C23A16;
     width: 30%;
 }
 
@@ -1987,7 +1987,7 @@ main._ordersShow .topNav .filters .filtersRow {
     font-size: calc(10vw / var(--resizer) * 100);
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .analyticsCardTopMore img {
@@ -2003,7 +2003,7 @@ header.defaultFixed {
     width: 100%;
     z-index: 9999;
     padding: calc(10vw / var(--resizer) * 100);
-    background: rgba(15, 14, 12, 1);
+    background: #FFF3EA;
 }
 
 .analytics.defaultFixed {
@@ -2014,16 +2014,16 @@ header.defaultFixed {
     display: flex;
     flex-direction: column;
     margin: calc(6vw / var(--resizer) * 100) 0 0 0;
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: rgba(24, 22, 18, 1);
+    background: #FFFFFF;
     overflow: hidden;
 }
 
 .analyticsCardTastesItem {
     display: flex;
     align-items: center;
-    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
 }
 
 .analyticsCardTastesRow .analyticsCardTastesItem:last-child {
@@ -2037,7 +2037,7 @@ header.defaultFixed {
     font-size: calc(10vw / var(--resizer) * 100);
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .analyticsCardTastesItemRow {
@@ -2058,7 +2058,7 @@ header.defaultFixed {
     align-items: center;
     padding: calc(2vw / var(--resizer) * 100) calc(6vw / var(--resizer) * 100);
     border-radius: calc(12vw / var(--resizer) * 100);
-    background: rgba(32, 42, 31, 1);
+    background: #DDF3EA;
 }
 
 .analyticsCardTastesItemRowItem span {
@@ -2085,7 +2085,7 @@ header.defaultFixed {
     font-size: calc(10vw / var(--resizer) * 100);
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
-    color: rgba(192, 87, 74, 1);
+    color: #B42318;
 }
 
 .analyticsCardLongGuest .filters {
@@ -2147,7 +2147,7 @@ main.tabaccos .defaultFixed .filters {
 }
 
 .headerStatsWrapperAction button.headerStatsButtonPrimary span {
-    color: rgba(15, 14, 12, 1);
+    color: #FFF3EA;
 }
 
 .headerStatsWrapperAction button.headerStatsButtonSecondary {
@@ -2173,9 +2173,9 @@ main.tabaccos .defaultFixed .filters {
     display: flex;
     flex-direction: column;
     padding: calc(10vw / var(--resizer) * 100);
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: rgba(24, 22, 18, 1);
+    background: #FFFFFF;
 }
 
 .productListItemTop {
@@ -2205,7 +2205,7 @@ main.tabaccos .defaultFixed .filters {
     font-weight: 600;
     line-height: calc(16vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .productListItemTopDescription {
@@ -2213,7 +2213,7 @@ main.tabaccos .defaultFixed .filters {
     font-weight: 600;
     line-height: calc(14vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .productListItemTopId {
@@ -2221,7 +2221,7 @@ main.tabaccos .defaultFixed .filters {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: right;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .productListItemTags {
@@ -2237,7 +2237,7 @@ main.tabaccos .defaultFixed .filters {
     align-items: center;
     border-radius: calc(9vw / var(--resizer) * 100);
     padding: calc(2vw / var(--resizer) * 100) calc(6vw / var(--resizer) * 100);
-    background: rgba(29, 27, 23, 1);
+    background: #FFF1E8;
 }
 
 .productListItemTagsItem span {
@@ -2245,14 +2245,14 @@ main.tabaccos .defaultFixed .filters {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: center;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .productListItemTastes {
     display: flex;
     flex-wrap: wrap;
     padding: calc(4vw / var(--resizer) * 100) 0 0 0;
-    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-top: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     gap: calc(3vw / var(--resizer) * 100);
 }
 
@@ -2262,7 +2262,7 @@ main.tabaccos .defaultFixed .filters {
     align-items: center;
     padding: calc(2vw / var(--resizer) * 100) calc(6vw / var(--resizer) * 100);
     border-radius: calc(4vw / var(--resizer) * 100);
-    background: rgba(48, 41, 32, 1);
+    background: #FFE3D6;
 }
 
 .productListItemTastesItem span {
@@ -2270,7 +2270,7 @@ main.tabaccos .defaultFixed .filters {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: center;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .productListItemBottom {
@@ -2300,7 +2300,7 @@ main.tabaccos .defaultFixed .filters {
     right: calc(-5vw / var(--resizer) * 100);
     width: calc(.5vw / var(--resizer) * 100);
     height: 100%;
-    background: rgba(35, 31, 24, 1);
+    background: #F1DDD0;
 }
 
 .productListItemLeft .productListItemLeftItem:last-child::after {
@@ -2318,7 +2318,7 @@ main.tabaccos .defaultFixed .filters {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .productListItemBottomButton {
@@ -2327,13 +2327,13 @@ main.tabaccos .defaultFixed .filters {
     align-items: center;
     padding: calc(6vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
     border-radius: calc(6vw / var(--resizer) * 100);
-    background: rgba(48, 41, 32, 1);
+    background: #FFE3D6;
     border: none;
     font-size: calc(10vw / var(--resizer) * 100);
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: center;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 main.tabaccos .filters {
@@ -2377,14 +2377,14 @@ main.tabaccos .filters {
     display: flex;
     flex-direction: column;
     padding: calc(10vw / var(--resizer) * 100);
-    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-top: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
 }
 
 .actionTabCntText {
     font-size: calc(10vw / var(--resizer) * 100);
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .actionTabCntRow9d3mc,
@@ -2404,13 +2404,13 @@ main.tabaccos .filters {
 .actionTabCntRow0s2fp span {
     padding: calc(4vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100);
     border-radius: calc(12vw / var(--resizer) * 100);
-    background: rgba(32, 42, 31, 1);
+    background: #DDF3EA;
 
     font-size: calc(10vw / var(--resizer) * 100);
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: center;
-    color: rgba(76, 175, 118, 1);
+    color: #178A57;
 }
 
 .actionTabCntRow8n37d,
@@ -2426,7 +2426,7 @@ main.tabaccos .filters {
     display: flex;
     flex-direction: column;
     padding: calc(10vw / var(--resizer) * 100) calc(2vw / var(--resizer) * 100);
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
 }
 
@@ -2444,7 +2444,7 @@ main.tabaccos .filters {
     font-weight: 700;
     line-height: calc(8vw / var(--resizer) * 100);
     text-align: center;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabCntRow6bs7c .item img {
@@ -2468,7 +2468,7 @@ main.tabaccos .filters {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: center;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabCntRow1ys7s {
@@ -2488,7 +2488,7 @@ main.tabaccos .filters {
     width: 100%;
     height: calc(20vw / var(--resizer) * 100);
     border-radius: calc(4vw / var(--resizer) * 100);
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
 }
 
 .actionTabCntRow1ys7s .item.active span {
@@ -2503,7 +2503,7 @@ main.tabaccos .filters {
     line-height: calc(8vw / var(--resizer) * 100);
     text-align: center;
     align-self: center;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabCntForm8s2id {
@@ -2522,16 +2522,16 @@ main.tabaccos .filters {
 
 .actionTabCntForm8s2idRow textarea {
     padding: calc(4vw / var(--resizer) * 100) calc(4vw / var(--resizer) * 100);
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(4vw / var(--resizer) * 100);
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
 
     font-size: calc(10vw / var(--resizer) * 100);
     font-weight: 400;
     line-height: calc(10vw / var(--resizer) * 100);
     width: 100%;
     text-align: left;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .viewProductSameTab .actionTabWrapper {
@@ -2583,7 +2583,7 @@ main.tabaccos .filters {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabCntForm8s2idRowAction button {
@@ -2604,7 +2604,7 @@ main.tabaccos .filters {
     font-weight: 400;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .actionTabViewTabaccosList {
@@ -2692,7 +2692,7 @@ main.tabaccos .filters {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .actionTabCntRow0md23 span {
@@ -2700,7 +2700,7 @@ main.tabaccos .filters {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(76, 175, 118, 1);
+    color: #178A57;
 }
 
 .actionTab.viewMix .actionTabViewOrderCardHide .actionTabSearchSectionResult,
@@ -2718,7 +2718,7 @@ main.tabaccos .filters {
     font-weight: 500;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
     text-transform: uppercase;
 }
 
@@ -2848,11 +2848,11 @@ main.badges .topNav .topNavRow0vd32 .search {
 }
 
 .actionTabRow6u7d2.--pos .item {
-    background: rgba(32, 42, 31, 1);
+    background: #DDF3EA;
 }
 
 .actionTabRow6u7d2.--nei .item {
-    background: rgba(31, 35, 39, 1);
+    background: #E0EDFF;
 }
 
 .actionTabRow6u7d2.--neg .item {
@@ -2867,11 +2867,11 @@ main.badges .topNav .topNavRow0vd32 .search {
 }
 
 .actionTabRow6u7d2.--pos .item span {
-    color: rgba(76, 175, 118, 1);
+    color: #178A57;
 }
 
 .actionTabRow6u7d2.--nei .item span {
-    color: rgba(74, 111, 165, 1);
+    color: #175CD3;
 }
 
 .actionTabRow6u7d2.--neg .item span {
@@ -2891,9 +2891,9 @@ main.badges .topNav .topNavRow0vd32 .search {
     margin: 0 calc(12vw / var(--resizer) * 100) 0 0;
     width: calc(50vw / var(--resizer) * 100);
     height: calc(50vw / var(--resizer) * 100);
-    border: calc(1.5vw / var(--resizer) * 100) solid rgba(90, 83, 72, 1);
+    border: calc(1.5vw / var(--resizer) * 100) solid #7D5F52;
     border-radius: 100%;
-    background: rgba(34, 32, 25, 1);
+    background: #FFF1E8;
 }
 
 .viewProductSameTabHeadUserImg span {
@@ -2901,7 +2901,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     font-weight: 700;
     line-height: calc(22vw / var(--resizer) * 100);
     text-align: center;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .viewGuest .viewProductSameTabHead {
@@ -2921,7 +2921,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
 }
 
 .actionTabCntRow0vi43 span::after {
@@ -2978,15 +2978,15 @@ main.badges .topNav .topNavRow0vd32 .search {
 }
 
 .actionTabCntRow2nvj3 .row.--positive .body .item {
-    background: rgba(32, 42, 31, 1);
+    background: #DDF3EA;
 }
 
 .actionTabCntRow2nvj3 .row.--neitral .body .item {
-    background: rgba(31, 35, 39, 1);
+    background: #E0EDFF;
 }
 
 .actionTabCntRow2nvj3 .row.--negative .body .item {
-    background: rgba(46, 30, 25, 1);
+    background: #FDE4E2;
 }
 
 .actionTabCntRow2nvj3 .row .body .item span {
@@ -2997,15 +2997,15 @@ main.badges .topNav .topNavRow0vd32 .search {
 }
 
 .actionTabCntRow2nvj3 .row.--positive .body .item span {
-    color: rgba(76, 175, 118, 1);
+    color: #178A57;
 }
 
 .actionTabCntRow2nvj3 .row.--neitral .body .item span {
-    color: rgba(74, 111, 165, 1);
+    color: #175CD3;
 }
 
 .actionTabCntRow2nvj3 .row.--negative .body .item span {
-    color: rgba(192, 87, 74, 1);
+    color: #B42318;
 }
 
 .actionTabCntRow0dn32 {
@@ -3023,8 +3023,8 @@ main.badges .topNav .topNavRow0vd32 .search {
 }
 
 .actionTabCntRow6bs7c .item.active {
-    border: calc(1vw / var(--resizer) * 100) solid rgba(76, 175, 118, 1);
-    background: rgba(32, 42, 31, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #178A57;
+    background: #DDF3EA;
 }
 
 .actionTabCntRow6bs7c .item.active span {
@@ -3040,7 +3040,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     display: flex;
     align-items: center;
     padding: calc(10vw / var(--resizer) * 100) 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(58,34,24,0.06);
 }
 
 .actionTabCntRow8dn21 .item:last-child {
@@ -3055,7 +3055,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     min-width: calc(15vw / var(--resizer) * 100);
     height: calc(15vw / var(--resizer) * 100);
     border-radius: calc(12vw / var(--resizer) * 100);
-    background: rgba(32, 42, 31, 1);
+    background: #DDF3EA;
     flex-shrink: 0;
 }
 
@@ -3063,7 +3063,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     font-size: calc(10vw / var(--resizer) * 100);
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
-    color: rgba(76, 175, 118, 1);
+    color: #178A57;
 }
 
 .actionTabCntRow8dn21 .item .itemInfo {
@@ -3075,11 +3075,11 @@ main.badges .topNav .topNavRow0vd32 .search {
 }
 
 .actionTabCntRow8dn21 .item .itemInfo p {
-    font-family: "Jura";
+    font-family: "Nunito", system-ui, sans-serif;
     font-size: calc(10vw / var(--resizer) * 100);
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
-    color: rgba(90, 83, 72, 1);
+    color: #7D5F52;
     white-space: nowrap;
 }
 
@@ -3135,9 +3135,9 @@ main.badges .topNav .topNavRow0vd32 .search {
     justify-content: center;
     align-items: center;
     padding: calc(6vw / var(--resizer) * 100) calc(12vw / var(--resizer) * 100);
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: rgba(24, 22, 18, 1);
+    background: #FFFFFF;
 }
 
 .badgesSection .item span {
@@ -3170,9 +3170,9 @@ main.badges .topNav .topNavRow0vd32 .search {
     justify-content: space-between;
     align-items: flex-start;
     padding: calc(10vw / var(--resizer) * 100);
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: rgba(24, 22, 18, 1);
+    background: #FFFFFF;
     gap: calc(10vw / var(--resizer) * 100);
 }
 
@@ -3187,7 +3187,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     font-weight: 600;
     line-height: calc(12vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(255, 255, 255, 1);
+    color: #3A2218;
 }
 
 .settingsSection .itemInfo span {
@@ -3195,7 +3195,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .actionTabCntRow7vh31 {
@@ -3225,7 +3225,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     font-weight: 600;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
 }
 
 .actionTabCntRow3dwa1 {
@@ -3259,13 +3259,13 @@ main.badges .topNav .topNavRow0vd32 .search {
 }
 
 .btnOpen.btnCancel {
-    color: rgba(192, 87, 74, 1);
-    background: rgba(46, 30, 25, 1);
+    color: #B42318;
+    background: #FDE4E2;
 }
 
 .btnOpen.btnBlue {
-    color: rgba(74, 111, 165, 1);
-    background: rgba(33, 35, 39, 1);
+    color: #175CD3;
+    background: #E0EDFF;
 }
 
 .--actionTabActions9f3d1-2 {
@@ -3293,9 +3293,9 @@ main.badges .topNav .topNavRow0vd32 .search {
     grid-template-columns: repeat(2, 1fr);
     padding: calc(10vw / var(--resizer) * 100);
     gap: calc(5vw / var(--resizer) * 100);
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: rgba(24, 22, 18, 1);
+    background: #FFFFFF;
 }
 
 .actionTabCnt1dvp1 .item .itemList {
@@ -3327,7 +3327,7 @@ main.badges .topNav .topNavRow0vd32 .search {
 }
 
 .btnOpen.btnEdit {
-    color: rgba(212, 144, 58, 1);
+    color: #93370D;
 }
 
 .articleTabCnt {
@@ -3544,7 +3544,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     left: 0;
     border: calc(1vw / var(--resizer) * 100) solid var(--gold);
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: #161410;
+    background: #FFF1E8;
     backdrop-filter: blur(calc(8vw / var(--resizer) * 100));
     z-index: 999;
     opacity: 0;
@@ -3582,7 +3582,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     padding: calc(10vw / var(--resizer) * 100);
     font-size: calc(12vw / var(--resizer) * 100);
     color: var(--white);
-    border-bottom: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-bottom: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     transition: background .2s, color .2s;
 }
 
@@ -3590,13 +3590,13 @@ main.badges .topNav .topNavRow0vd32 .search {
 
 .customSelectOption:hover,
 .customSelectOption.--active {
-    background: rgba(56, 48, 39, 1);
+    background: #F6E3D6;
     color: var(--gold);
 }
 
 /* Подсветка невалидного стола при попытке сабмита */
 .customSelect.--invalid {
-    border-color: rgba(201, 90, 42, 1);
+    border-color: #D4401A;
 }
 
 /* ===== Time (Время) ===== */
@@ -3618,7 +3618,7 @@ main.badges .topNav .topNavRow0vd32 .search {
 }
 
 .customTimeCol + .customTimeCol {
-    border-left: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-left: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
 }
 
 .customTimeOption {
@@ -3630,16 +3630,16 @@ main.badges .topNav .topNavRow0vd32 .search {
 
 .customTimeOption:hover,
 .customTimeOption.--active {
-    background: rgba(56, 48, 39, 1);
+    background: #F6E3D6;
     color: var(--gold);
 }
 
 .customTimeConfirm {
     width: 100%;
     border: none;
-    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
-    background: rgba(205, 170, 125, 1);
-    color: rgba(22, 20, 16, 1);
+    border-top: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
+    background: #C23A16;
+    color: #FFFFFF;
     font-size: calc(12vw / var(--resizer) * 100);
     font-weight: 600;
     padding: calc(8vw / var(--resizer) * 100) 0;
@@ -3692,7 +3692,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     font-weight: 700;
     line-height: calc(10vw / var(--resizer) * 100);
     text-align: left;
-    color: rgba(205, 170, 125, 1);
+    color: #C23A16;
     text-align: center;
 }
 
@@ -3755,7 +3755,7 @@ main.badges .topNav .topNavRow0vd32 .search {
     bottom: calc(2vw / var(--resizer) * 100);
     border-bottom: calc(1vw / var(--resizer) * 100) solid var(--border);
     width: 100%;
-    background: rgba(24, 22, 18, 1);
+    background: #FFFFFF;
     z-index: 2;
 }
 
@@ -3912,7 +3912,7 @@ main.tabaccos {
     left: 0;
     width: 100%;
     z-index: 999999;
-    background: rgba(0, 0, 0, 1);
+    background: #FFF3EA;
 }
 
 .editTobaccoBrandCard .actionTabSearchSectionResult {
@@ -3951,7 +3951,7 @@ main.tabaccos {
 button.--button-03f2d {
     margin: 0 0 0 calc(3vw / var(--resizer) * 100);
     border-radius: 100%;
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
     border: none;
     width: calc(15vw / var(--resizer) * 100);
     height: calc(15vw / var(--resizer) * 100);
@@ -4070,9 +4070,9 @@ button.--button-03f2d img {
     display: flex;
     flex-direction: column;
     margin: calc(10vw / var(--resizer) * 100) 0 0 0;
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     border-radius: calc(8vw / var(--resizer) * 100);
-    background: rgba(24, 22, 18, 1);
+    background: #FFFFFF;
 }
 
 .labelGuestAccordionHead {
@@ -4106,7 +4106,7 @@ button.--button-03f2d img {
 
 .labelGuestAccordionCard[data-open="1"] .labelGuestAccordionBody {
     grid-template-rows: 1fr;
-    border-top: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
+    border-top: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
     padding-bottom: calc(10vw / var(--resizer) * 100);
 }
 
@@ -4139,7 +4139,7 @@ button.--button-03f2d img {
     align-items: center;
     margin: calc(6vw / var(--resizer) * 100) 0 0 0;
     border-radius: 100%;
-    background: rgba(34, 30, 26, 1);
+    background: #FFF1E8;
     border: none;
     width: calc(20vw / var(--resizer) * 100);
     height: calc(20vw / var(--resizer) * 100);
@@ -4187,7 +4187,7 @@ button.--button-03f2d img {
 }
 
 .switchToggle input:checked + .switchToggleTrack {
-    background: var(--gold, #c9a84c);
+    background: var(--gold, #C23A16);
 }
 
 .switchToggle input:checked + .switchToggleTrack .switchToggleThumb {
@@ -4201,7 +4201,7 @@ button.--button-03f2d img {
 }
 
 .formErrorBox {
-    color: #e05a5a;
+    color: #B42318;
     font-size: 13px;
     padding: 8px 16px;
 }
@@ -4232,8 +4232,8 @@ button.--button-03f2d img {
 .wiki-content table th { background:#f8f8f8; padding:10px 12px; text-align:left; border:1px solid #ddd; font-size:14px; }
 .wiki-content table td { padding:10px 12px; border:1px solid #ddd; font-size:14px; }
 .wiki-content img { max-width:100%; border-radius:8px; margin:12px 0; }
-.wiki-content blockquote { border-left:4px solid #c9a84c; padding:8px 16px; margin:12px 0; background:#fffbe6; border-radius:0 6px 6px 0; }
-.wiki-content a { color:#c9a84c; text-decoration:underline; }
+.wiki-content blockquote { border-left:4px solid #C23A16; padding:8px 16px; margin:12px 0; background:#fffbe6; border-radius:0 6px 6px 0; }
+.wiki-content a { color:#C23A16; text-decoration:underline; }
 
 .--actionTabViewOrderCardf3s13 {
     margin: 0;
@@ -4258,7 +4258,7 @@ button.--button-03f2d img {
 }
 
 .x8s0s span:last-child {
-    color: rgba(90, 83, 72, 1) !important;
+    color: #7D5F52 !important;
     font-size: calc(16vw / var(--resizer) * 100);
 }
 
@@ -4332,10 +4332,10 @@ main.tabaccos #viewTabaccosInner,
     overflow: auto;
 }
 
-.shiftToggle{display:flex;align-items:center;gap:calc(5vw / var(--resizer) * 100);margin-left:auto;margin-right:calc(12vw / var(--resizer) * 100);padding:calc(6vw / var(--resizer) * 100) calc(8vw / var(--resizer) * 100);border-radius:calc(20vw / var(--resizer) * 100);background:#1a1916;border:calc(1vw / var(--resizer) * 100) solid #2a2824;color:#8a8478;font:inherit;font-size:calc(12vw / var(--resizer) * 100);}
-.shiftToggle.--on{color:#d4b483;border-color:#d4b483}
-.shiftToggleDot{width:calc(8vw / var(--resizer) * 100);height:calc(8vw / var(--resizer) * 100);border-radius:50%;background:#5a554c}
-.shiftToggle.--on .shiftToggleDot{background:#4caf50}
+.shiftToggle{display:flex;align-items:center;gap:calc(5vw / var(--resizer) * 100);margin-left:auto;margin-right:calc(12vw / var(--resizer) * 100);padding:calc(6vw / var(--resizer) * 100) calc(8vw / var(--resizer) * 100);border-radius:calc(20vw / var(--resizer) * 100);background:#FFF1E8;border:calc(1vw / var(--resizer) * 100) solid #F1DDD0;color:#7D5F52;font:inherit;font-size:calc(12vw / var(--resizer) * 100);}
+.shiftToggle.--on{color:#C23A16;border-color:#C23A16}
+.shiftToggleDot{width:calc(8vw / var(--resizer) * 100);height:calc(8vw / var(--resizer) * 100);border-radius:50%;background:#7D5F52}
+.shiftToggle.--on .shiftToggleDot{background:#178A57}
 
 .actionTabCntRow0xze1 .defaultForm {
     justify-content: space-between;
@@ -4381,8 +4381,8 @@ main.tabaccos #viewTabaccosInner,
 
 .--createOrderSelectedGuestWrap .ordersCardTop.--actionTabSearchSectionResultActive {
     backdrop-filter: blur(calc(8vw / var(--resizer) * 100));
-    border: calc(1vw / var(--resizer) * 100) solid rgba(35, 31, 24, 1);
-    background: rgba(24, 22, 18, 0.24);
+    border: calc(1vw / var(--resizer) * 100) solid #F1DDD0;
+    background: #FFF1E8;
 }
 
 .--createOrderSelectedGuestWrap .ordersCardTop.--actionTabSearchSectionResultActive::before {
@@ -4390,7 +4390,7 @@ main.tabaccos #viewTabaccosInner,
 }
 
 .--createOrderSelectedGuestWrap .ordersCardTop.--actionTabSearchSectionResultActive::after {
-    background: rgba(205, 170, 125, 1);
+    background: #C23A16;
 }
 
 #createOrderNewGuestForm .actionTabSectionRow {
@@ -4398,7 +4398,7 @@ main.tabaccos #viewTabaccosInner,
 }
 
 .settingsSection .btnOpen.btnCancel {
-    border-color: rgba(192, 87, 74, 1);
+    border-color: #B42318;
 }
 
 .ordersCardComment {

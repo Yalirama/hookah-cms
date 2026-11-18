@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Table extends Model
 {
+    use \App\Models\Concerns\LogsAdminActions;
+
     use SoftDeletes;
 
     protected $fillable = ['name', 'type_id', 'capacity', 'is_active'];
@@ -26,5 +28,28 @@ class Table extends Model
     public function tableHistory()
     {
         return $this->hasMany(OrderTableHistory::class);
+    }
+
+    public function adminEntity(): string
+    {
+        return 'Стол';
+    }
+
+    public function adminLabel(): string
+    {
+        return (string) $this->name;
+    }
+
+    public function adminFields(): array
+    {
+        return ['name' => 'Название', 'type_id' => 'Тип', 'capacity' => 'Вместимость', 'is_active' => 'Статус'];
+    }
+
+    public function adminFieldText(string $field, $old, $new): ?string
+    {
+        if ($field === 'is_active') return $new ? 'Включил стол' : 'Отключил стол';
+        if ($field === 'type_id') return 'Тип: ' . (TableType::withTrashed()->find($old)?->name ?? '—') . ' → ' . (TableType::withTrashed()->find($new)?->name ?? '—');
+        $labels = $this->adminFields();
+        return isset($labels[$field]) ? $labels[$field] . ': ' . ($old ?: '—') . ' → ' . ($new ?: '—') : null;
     }
 }

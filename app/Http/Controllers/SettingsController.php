@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminLog;
 use App\Models\OrderLog;
 use App\Models\Setting;
 use App\Models\Table;
@@ -39,22 +40,29 @@ class SettingsController extends Controller
             ->limit(20)
             ->get();
 
+        $adminLogs = AdminLog::with('user')->orderByDesc('id')->limit(30)->get();
+
         return view('settings.index', compact(
-            'settings', 'masters', 'tableTypes', 'tables', 'workHours', 'timeSlots', 'journalLogs', 'wikiPages'
+            'settings', 'masters', 'tableTypes', 'tables', 'workHours', 'timeSlots', 'journalLogs', 'wikiPages', 'adminLogs'
         ));
     }
 
     public function updateGeneral(Request $request)
     {
-        Setting::set('venue_name', $request->venue_name);
-        Setting::set('work_hours', json_encode([
-            'from' => $request->work_hours_from,
-            'to'   => $request->work_hours_to,
-        ]));
+        $request->validate([
+            'venue_name' => 'nullable|string|max:255',
+            'work_hours_from' => ['nullable', 'regex:/^\d{1,2}:\d{2}$/'], 'work_hours_to' => ['nullable', 'regex:/^\d{1,2}:\d{2}$/'],
+            'analytics_access' => 'nullable|in:all,admin',
+        ], [], ['venue_name' => 'название заведения', 'work_hours_from' => 'начало работы', 'work_hours_to' => 'конец работы', 'analytics_access' => 'доступ к аналитике']);
+
+        if ($request->has('venue_name')) Setting::set('venue_name', $request->venue_name);
+        if ($request->filled('work_hours_from') && $request->filled('work_hours_to')) {
+            Setting::set('work_hours', json_encode(['from' => $request->work_hours_from, 'to' => $request->work_hours_to]));
+        }
 
         $slots = [];
         foreach (['morning', 'day', 'evening', 'night'] as $key) {
-            if ($request->has("slots_{$key}_from")) {
+            if ($request->filled("slots_{$key}_from") && $request->filled("slots_{$key}_to")) {
                 $slots[$key] = [
                     'label' => $request->input("slots_{$key}_label"),
                     'from'  => $request->input("slots_{$key}_from"),
@@ -62,33 +70,46 @@ class SettingsController extends Controller
                 ];
             }
         }
-        Setting::set('time_slots', json_encode($slots));
-        Setting::set('analytics_access', $request->input('analytics_access', 'all'));
+        if ($slots || $request->hasAny(['slots_morning_from', 'slots_day_from', 'slots_evening_from', 'slots_night_from'])) Setting::set('time_slots', json_encode($slots));
+        if ($request->filled('analytics_access')) Setting::set('analytics_access', $request->input('analytics_access'));
 
         return response()->json(['ok' => true]);
     }
 
     public function updateNotifications(Request $request)
     {
+        $request->validate(['service_reminder_interval' => 'nullable|integer|min:1|max:600'], [], ['service_reminder_interval' => 'интервал напоминания']);
         Setting::set('notifications_enabled', $request->boolean('notifications_enabled') ? '1' : '0');
         Setting::set('service_reminder_enabled', $request->boolean('service_reminder_enabled') ? '1' : '0');
-        Setting::set('service_reminder_interval', $request->input('service_reminder_interval', 20));
+        if ($request->filled('service_reminder_interval')) Setting::set('service_reminder_interval', $request->input('service_reminder_interval'));
 
         return response()->json(['ok' => true]);
     }
 
     public function updateThresholds(Request $request)
     {
+        $request->validate([
+            'guest_new_threshold' => 'nullable|integer|min:0|max:100000', 'guest_regular_threshold' => 'nullable|integer|min:0|max:100000',
+            'guest_permanent_threshold' => 'nullable|integer|min:0|max:100000', 'guest_vip_threshold' => 'nullable|integer|min:0|max:100000',
+        ], [], ['guest_new_threshold' => 'порог «новый»', 'guest_regular_threshold' => 'порог «постоянный»', 'guest_permanent_threshold' => 'порог «частый»', 'guest_vip_threshold' => 'порог VIP']);
+
+        $reg = (int) $request->input('guest_regular_threshold', Setting::get('guest_regular_threshold', 10));
+        $per = (int) $request->input('guest_permanent_threshold', Setting::get('guest_permanent_threshold', 50));
+        $vip = (int) $request->input('guest_vip_threshold', Setting::get('guest_vip_threshold', 400));
+        if (!($reg <= $per && $per <= $vip)) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['guest_regular_threshold' => 'Пороги должны идти по возрастанию: регулярный ≤ постоянный ≤ VIP.']);
+        }
         Setting::set('guest_new_threshold',       $request->input('guest_new_threshold', 0));
-        Setting::set('guest_regular_threshold',   $request->input('guest_regular_threshold', 100));
-        Setting::set('guest_permanent_threshold', $request->input('guest_permanent_threshold', 50));
-        Setting::set('guest_vip_threshold',       $request->input('guest_vip_threshold', 400));
+        Setting::set('guest_regular_threshold',   $reg);
+        Setting::set('guest_permanent_threshold', $per);
+        Setting::set('guest_vip_threshold',       $vip);
 
         return response()->json(['ok' => true]);
     }
 
     public function updateInactive(Request $request)
     {
+        $request->validate(['guest_inactive_days' => 'nullable|integer|min:1|max:3650'], [], ['guest_inactive_days' => 'дни неактивности']);
         Setting::set('guest_inactive_days', $request->input('guest_inactive_days', 30));
         return response()->json(['ok' => true]);
     }
@@ -99,7 +120,10 @@ class SettingsController extends Controller
             'name'     => 'required|string|max:255',
             'login'    => 'required|string|unique:users,login|max:255',
             'password' => 'required|string|min:6',
+            'role'     => 'nullable|in:admin,master',
         ]);
+
+        $role = $request->input('role', 'master');
 
         $user = User::create([
             'name'      => $request->name,
@@ -107,7 +131,8 @@ class SettingsController extends Controller
             'password'  => Hash::make($request->password),
             'is_active' => true,
         ]);
-        $user->assignRole('master');
+        $user->assignRole($role);
+        AdminLog::record('created', 'Пользователь', $user->adminLabel(), 'Создал учётку (' . ($role === 'admin' ? 'администратор' : 'мастер') . ') «' . $user->adminLabel() . '»');
 
         return response()->json(['row' => view('settings.partials._master-row', ['master' => $user])->render()]);
     }
@@ -131,13 +156,14 @@ class SettingsController extends Controller
 
     public function toggleMaster(User $user)
     {
+        abort_if($user->id === auth()->id(), 422, 'Нельзя деактивировать самого себя');
         $user->update(['is_active' => !$user->is_active]);
         return response()->json(['row' => view('settings.partials._master-row', ['master' => $user])->render()]);
     }
 
     public function storeTableType(Request $request)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+        $request->validate(['name' => ['required', 'string', 'max:255', \Illuminate\Validation\Rule::unique('table_types', 'name')->whereNull('deleted_at')]]);
         $type = TableType::create($request->only('name', 'description'));
 
         return response()->json(['row' => view('settings.partials._table-type-row', ['type' => $type])->render()]);
@@ -145,7 +171,7 @@ class SettingsController extends Controller
 
     public function updateTableType(Request $request, TableType $tableType)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+        $request->validate(['name' => ['required', 'string', 'max:255', \Illuminate\Validation\Rule::unique('table_types', 'name')->whereNull('deleted_at')->ignore($tableType->id)]]);
         $tableType->update($request->only('name', 'description'));
 
         return response()->json(['row' => view('settings.partials._table-type-row', ['type' => $tableType])->render()]);
@@ -162,7 +188,7 @@ class SettingsController extends Controller
     public function storeTable(Request $request)
     {
         $request->validate([
-            'name'    => 'required|string|max:255',
+            'name'    => ['required', 'string', 'max:255', \Illuminate\Validation\Rule::unique('tables', 'name')->whereNull('deleted_at')],
             'type_id' => 'nullable|exists:table_types,id',
         ]);
 
@@ -178,7 +204,7 @@ class SettingsController extends Controller
     public function updateTable(Request $request, Table $table)
     {
         $request->validate([
-            'name'    => 'required|string|max:255',
+            'name'    => ['required', 'string', 'max:255', \Illuminate\Validation\Rule::unique('tables', 'name')->whereNull('deleted_at')->ignore($table->id)],
             'type_id' => 'nullable|exists:table_types,id',
         ]);
 
@@ -205,6 +231,17 @@ class SettingsController extends Controller
         $logs = $query->limit(20)->get();
 
         return view('settings.partials._journal-rows', compact('logs'));
+    }
+
+    public function adminLogSheet(Request $request)
+    {
+        $query = AdminLog::with('user')->orderByDesc('id');
+        if ($before = $request->query('before')) {
+            $query->where('id', '<', $before);
+        }
+        $logs = $query->limit(30)->get();
+
+        return view('settings.partials._admin-log-rows', compact('logs'));
     }
 
     public function tablesPanel()

@@ -8,7 +8,7 @@ class Order extends Model
 {
     protected $fillable = [
         'name', 'table_id', 'created_by', 'status',
-        'guest_id', 'guest_comment', 'started_at', 'closed_at',
+        'guest_id', 'guest_comment', 'bowl_size', 'started_at', 'closed_at',
     ];
 
     protected $casts = [

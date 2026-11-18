@@ -115,6 +115,11 @@ class TobaccoController extends Controller
 
     public function updateVenue(Request $request)
     {
+        if (!auth()->user()->hasRole('admin')) abort(403);
+
+        $request->validate(['tobacco_ids' => 'required|array|min:1', 'tobacco_ids.*' => 'integer|exists:tobaccos,id'], [
+            'tobacco_ids.required' => 'Выберите хотя бы один табак — пустой список деактивирует весь ассортимент.',
+        ]);
         $selected = $request->input('tobacco_ids', []);
 
         // Деактивируем все
@@ -148,6 +153,7 @@ class TobaccoController extends Controller
 
     public function destroyNote(Tobacco $tobacco, TobaccoNote $note)
     {
+        abort_unless($note->tobacco_id === $tobacco->id, 404);
         if ($note->user_id !== auth()->id() && !auth()->user()->hasRole('admin')) {
             abort(403);
         }

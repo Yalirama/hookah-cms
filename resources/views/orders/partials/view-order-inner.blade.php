@@ -47,39 +47,25 @@
 @endphp
 
 <div class="actionTabViewOrderTop">
-    <div class="actionTabViewOrderTopBody --{{ $visual['top'] }}">
-        <div class="actionTabViewOrderTopLeft">
-            <div class="actionTabViewOrderTopStatus">
-                <div class="actionTabViewOrderTopStatusCircle"><span></span></div>
-                <p>{{ $visual['label'] }}</p>
-            </div>
-            <div class="actionTabViewOrderTopBodyItem">
-                <img src="/assets/img/edit-icon.svg" alt="">
-                <p>Создан в {{ $order->created_at->format('H:i') }}</p>
-            </div>
-            <div class="actionTabViewOrderTopBodyItem">
-                <img src="/assets/img/table-icon.svg" alt="">
-                <p>{{ $order->table?->name ?? '—' }}</p>
-            </div>
-            <div class="actionTabViewOrderTopBodyItem">
-                <img src="/assets/img/master-create.svg" alt="">
-                <p>{{ $order->creator?->name ?? '—' }}</p>
-            </div>
-            @if($readyLog)
-            <div class="actionTabViewOrderTopBodyItem">
-                <img src="/assets/img/master-done.svg" alt="">
-                <p>{{ $readyLog->user?->name ?? '—' }}</p>
-            </div>
-            @endif
-        </div>
-
+    <div class="ovHead" data-status="{{ $order->status }}">
+        <span class="ovPill">{{ $visual['label'] }}</span>
         @if($isActive)
-            <div class="x8s0s">
-                <span class="actionTabViewOrderTopTimer timer-counter" data-start="{{ $currentStatusStartedAt->timestamp }}">00:00:00</span>
-                <span class="actionTabViewOrderTopTimer actionTabViewOrderTopTimerTotal timer-counter" data-start="{{ $order->created_at->timestamp }}">00:00:00</span>
+            <div class="ovTimers">
+                <span class="ovTimer timer-counter" data-start="{{ $currentStatusStartedAt->timestamp }}">00:00:00</span>
+                <span class="ovTotal">в статусе · всего <span class="timer-counter" data-start="{{ $order->created_at->timestamp }}">00:00:00</span></span>
             </div>
         @else
-            <span class="actionTabViewOrderTopTimer">{{ $order->closed_at ? $order->created_at->diff($order->closed_at)->format('%H:%I:%S') : '—' }}</span>
+            <div class="ovTimers">
+                <span class="ovTimer">{{ $order->closed_at ? $order->created_at->diff($order->closed_at)->format('%H:%I:%S') : '—' }}</span>
+            </div>
+        @endif
+    </div>
+    <div class="ovTiles">
+        <div><span>Создан</span><p>{{ $order->created_at->format('H:i') }}</p></div>
+        <div><span>Стол</span><p>{{ $order->table?->name ?? '—' }}</p></div>
+        <div><span>Принял</span><p>{{ $order->creator?->name ?? '—' }}</p></div>
+        @if($readyLog)
+        <div><span>Готовил</span><p>{{ $readyLog->user?->name ?? '—' }}</p></div>
         @endif
     </div>
 
@@ -141,7 +127,7 @@
                                 <span>{{ $g->status_label }}</span>
                             </div>
                             @php $n = $g->visits_count ?? 0; @endphp
-                            <p class="ordersCardUserInfoVisit">{{ $n }} {{ trans_choice('заказ|заказа|заказов', $n) }}</p>
+                            <p class="ordersCardUserInfoVisit">{{ $n }} {{ \App\Support\Plural::ru((int) ($n), 'заказ', 'заказа', 'заказов') }}</p>
                         </div>
                     </div>
                 </div>
@@ -263,6 +249,8 @@
                                 <div class="actionTabViewOrderProductListBody">
                                     <p>{{ $mix->name }}</p>
                                     <span>{{ $mix->ingredients->pluck('tobacco.name')->filter()->join(', ') }}</span>
+                                    @php $sv = app(\App\Services\StockService::class)->servingsForMix($mix); @endphp
+                                    @if($sv !== null)<span class="servBadge {{ $sv === 0 ? '--zero' : ($sv <= 2 ? '--low' : '') }}">{{ app(\App\Services\StockService::class)->servingsText($sv) }}</span>@endif
                                 </div>
                             </div>
                         </div>
@@ -279,6 +267,8 @@
                             <div class="ordersCardUserInfo">
                                 <div class="actionTabViewOrderProductListBody">
                                     <p>{{ trim(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name) }}</p>
+                                    @php $sv = app(\App\Services\StockService::class)->servingsLeft($tobacco->id); @endphp
+                                    @if($sv !== null)<span class="servBadge {{ $sv === 0 ? '--zero' : ($sv <= 2 ? '--low' : '') }}">{{ app(\App\Services\StockService::class)->servingsText($sv) }}</span>@endif
                                 </div>
                             </div>
                         </div>
@@ -308,6 +298,57 @@
     </div>
     @endif
 </div>
+
+{{-- Граммовка --}}
+@if($activeItems->isNotEmpty())
+@php $calc = app(\App\Services\StockService::class)->calcBowl($order); $fmtG = fn ($v) => rtrim(rtrim(number_format($v, 1, ',', ''), '0'), ',') ?: '0'; @endphp
+<div class="actionTabViewOrderCard" id="bowlCard" data-order-id="{{ $order->id }}">
+    <div class="actionTabViewOrderCardTop">
+        <p class="actionTabTitle">граммовка чаши</p>
+    </div>
+    <div class="actionTabViewOrderCardBtm actionTabViewOrderCardBtmColumn">
+        <div class="defaultForm">
+            <input type="number" step="0.5" min="1" id="bowlSize" value="{{ $order->bowl_size ? $fmtG($order->bowl_size) : '' }}" placeholder="Чаша, г (по умолчанию {{ $fmtG(app(\App\Services\StockService::class)->defaultBowl()) }})" {{ $canEdit ? '' : 'disabled' }}>
+        </div>
+        @foreach($activeItems as $item)
+        @php
+            $line = $calc['items'][$item->id] ?? null;
+            $nm = $item->itemable?->name ?? 'Удалённая позиция';
+            if ($item->itemable_type === \App\Models\Tobacco::class && $item->itemable?->brand) $nm = $item->itemable->brand->name . ' - ' . $nm;
+            $fixedVal = $item->grams ? $fmtG($item->grams) : ($item->fixed_percent ? $fmtG($item->fixed_percent) . '%' : '');
+        @endphp
+        <div class="bowlRow" data-item-id="{{ $item->id }}">
+            <div class="bowlRowName"><p>{{ $nm }}</p><span class="bowlRowGrams">{{ $line ? $fmtG($line['grams']) . ' г' : '' }}</span></div>
+            <div class="defaultForm"><input type="text" class="bowlFixed" value="{{ $fixedVal }}" placeholder="Зафиксировать: г или %" {{ $canEdit ? '' : 'disabled' }}></div>
+            @if($item->itemable instanceof \App\Models\Mix)
+                @foreach($item->itemable->ingredients()->with('tobacco.brand', 'alternatives.tobacco.brand')->get() as $ing)
+                    @if($ing->tobacco && $ing->alternatives->isNotEmpty())
+                    @php
+                        $chosen = ($item->alt_choices ?? [])[$ing->id] ?? $ing->tobacco_id;
+                        $ingLine = collect($line['lines'] ?? [])->firstWhere('ingredient_id', $ing->id);
+                    @endphp
+                    <div class="bowlIngLabel"><span>Чем забили: {{ $ing->tobacco->name }}</span><b data-ing-g="{{ $ing->id }}">{{ $ingLine ? $fmtG($ingLine['grams']) . ' г' : '' }}</b></div>
+                    <div class="defaultForm"><select class="bowlAlt" data-ing-id="{{ $ing->id }}" {{ $canEdit ? '' : 'disabled' }}>
+                        <option value="{{ $ing->tobacco_id }}">{{ trim(($ing->tobacco->brand->name ?? '') . ' ' . $ing->tobacco->name) }} (по рецепту)</option>
+                        @foreach($ing->alternatives->filter(fn ($a) => $a->tobacco) as $alt)
+                        <option value="{{ $alt->tobacco_id }}" {{ (int) $chosen === (int) $alt->tobacco_id ? 'selected' : '' }}>Альтернатива: {{ trim(($alt->tobacco->brand->name ?? '') . ' ' . $alt->tobacco->name) }}</option>
+                        @endforeach
+                    </select></div>
+                    @endif
+                @endforeach
+            @endif
+        </div>
+        @endforeach
+        <div id="bowlWarn" class="stockWarn" style="{{ $calc['shortages'] ? '' : 'display:none' }}">{{ implode('. ', $calc['shortages']) }}</div>
+        @if($isAdmin)<p class="bowlInfo" id="bowlCost">{{ $calc['cost'] > 0 ? 'Себестоимость чаши: ' . number_format($calc['cost'], 0, ',', ' ') . ' ₸' : '' }}</p>@endif
+        <p class="bowlInfo" id="bowlInfo">{{ $calc['error'] ?: ($calc['shortfall'] ? 'Недобор ' . $fmtG($calc['shortfall']) . ' г' : 'Итого ' . $fmtG(collect($calc['items'])->sum('grams')) . ' г из ' . $fmtG($calc['bowl']) . ' г') }}</p>
+        @unless($isActive)<p class="bowlInfo">Заказ закрыт: изменения граммовки не меняют списание со склада.</p>@endunless
+        @if($canEdit)
+        <button type="button" class="btnConfirm" onclick="saveBowl({{ $order->id }})">Рассчитать</button>
+        @endif
+    </div>
+</div>
+@endif
 
 {{-- История статуса --}}
 <div class="actionTabViewOrderCard">
@@ -434,7 +475,7 @@
                     @endforeach
                 </div>
             </div>
-            <div class="defaultForm"><input type="text" name="comment" placeholder="Добавить комментарий"></div>
+            <div class="defaultForm"><input type="text" name="comment" placeholder="Причина пересадки"></div>
         </div>
         <div class="actionTabHistorySUV">
             <button type="submit"><img src="/assets/img/edit-icon-gold.svg" alt=""><span>Сменить стол</span></button>

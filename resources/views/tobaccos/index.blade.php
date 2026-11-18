@@ -46,12 +46,21 @@
         </div>
 
         <div class="filters">
-            <div class="filtersRow">
-                <button type="button" class="filtersBtn active" data-status="active">Активные</button>
-                <button type="button" class="filtersBtn" data-status="inactive">Деактивные</button>
-                <button type="button" class="filtersBtn" data-status="all">Все</button>
+        <div class="filtersRow" style="display:grid; grid-template-columns:repeat(2, 1fr);">
+            <div class="defaultForm customSelect" id="tobaccoStatusSelect">
+                <div class="customSelectValue" data-placeholder="Активные">Активные</div>
+                <svg class="customSelectArrow" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"></path></svg>
+                <input type="hidden" id="tobaccoStatusValue" value="active">
+                <div class="customSelectDropdown"><div class="customSelectOption --active" data-value="active">Активные</div><div class="customSelectOption" data-value="inactive">Деактивные</div><div class="customSelectOption" data-value="all">Все</div></div>
+            </div>
+            <div class="defaultForm customSelect" id="tobaccoStockSelect">
+                <div class="customSelectValue" data-placeholder="Любое наличие">Любое наличие</div>
+                <svg class="customSelectArrow" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"></path></svg>
+                <input type="hidden" id="tobaccoStockValue" value="any">
+                <div class="customSelectDropdown"><div class="customSelectOption --active" data-value="any">Любое наличие</div><div class="customSelectOption" data-value="ok">Есть</div><div class="customSelectOption" data-value="low">Мало</div><div class="customSelectOption" data-value="none">Нет</div>@role('admin')<div class="customSelectOption" data-value="off">Без учёта</div>@endrole</div>
             </div>
         </div>
+    </div>
     </div>
 </header>
 
@@ -81,7 +90,7 @@
 <div class="actionTab viewTabaccosList" id="viewTabaccosList">
     <div class="actionTabWrapper">
         <div class="actionTabHeader">
-            <h3>Редактирование списка табаков</h3>
+            <h3>Список табаков</h3>
             <div class="actionTabHeaderBtns">
                 <button onclick="closeSheet('viewTabaccosList')" class="actionTabHeaderBtn --tabBtnClose">
                     <img src="/assets/img/close-icon.svg" alt="">

@@ -14,16 +14,16 @@ $statusColors = [
 ];
 @endphp
 
-<div class="viewProductSameTabHead">
+<div class="actionTabCnt labelNameCard">
     <p class="analyticsCardTitle">Название</p>
-    <div class="viewProductSameTabHeadBody">
-        <p class="viewProductSameTabHeadTitle">{{ $label->name }}</p>
-        <p class="viewProductSameTabHeadText">#{{ $label->id }}</p>
+    <div class="labelNameRow">
+        <p class="labelNameTitle">{{ $label->name }}</p>
+        <span class="labelNameId">#{{ $label->id }}</span>
     </div>
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">ОБЩАЯ ИНФОРМАЦИЯ</p>
+    <p class="analyticsCardTitle">Общая информация</p>
     <div class="actionTabCntRow8n37d">
         <div class="item"><p>{{ $usageCount }}</p><span>Раз используется</span></div>
         <div class="item"><p>{{ $label->created_at->translatedFormat('d.m.Y') }}</p><span>Создан</span></div>
@@ -92,7 +92,7 @@ $statusColors = [
                                         <div class="ordersCardUserInfoStatus {{ $statusColors[$guest->status] ?? '' }}">
                                             <span>{{ $guest->status_label }}</span>
                                         </div>
-                                        <p class="ordersCardUserInfoVisit">{{ $guest->visits_count }} {{ trans_choice('заказ|заказа|заказов', $guest->visits_count) }}</p>
+                                        <p class="ordersCardUserInfoVisit">{{ $guest->visits_count }} {{ \App\Support\Plural::ru((int) ($guest->visits_count), 'заказ', 'заказа', 'заказов') }}</p>
                                     </div>
                                 </div>
                             </div>

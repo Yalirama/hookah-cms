@@ -19,7 +19,7 @@
 </div>
 
 <div class="actionTabCnt --actionTabCnt04f2a">
-    <p class="analyticsCardTitle">ИНФОРМАЦИЯ</p>
+    <p class="analyticsCardTitle">Информация</p>
 
     @if($mix->description_long)
     <p class="actionTabCntText">{{ $mix->description_long }}</p>
@@ -56,7 +56,7 @@
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">СОСТАВ</p>
+    <p class="analyticsCardTitle">Состав</p>
 
     @foreach($mix->ingredients as $ing)
     <div class="actionTabViewOrderCard actionTabViewOrderCardHide">
@@ -72,7 +72,7 @@
 
         @if($ing->alternatives->count())
         <div class="actionTabSearchSectionResult">
-            <p class="actionTabSearchSectionResultTitle --actionTabSearchSectionResultTitle-4ex23">АЛЬТЕРНАТИВЫ</p>
+            <p class="actionTabSearchSectionResultTitle --actionTabSearchSectionResultTitle-4ex23">Альтернативы</p>
             @foreach($ing->alternatives as $alt)
             <p class="actionTabSearchSectionResultText{{ $alt->tobacco?->isInVenue() ? '' : ' --inactive' }}">{{ $alt->tobacco?->brand?->name ?? '—' }} - <span>{{ $alt->tobacco?->name ?? '—' }}</span></p>
             @endforeach
@@ -83,7 +83,7 @@
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">ОБЩАЯ СТАТИСТИКА</p>
+    <p class="analyticsCardTitle">Общая статистика</p>
     <div class="actionTabCntRow8n37d">
         <div class="item"><p>{{ $totalOrders }}</p><span>Всего заказов</span></div>
         <div class="item"><p>{{ $redoOrders }}</p><span>Запросов на переделку</span></div>
@@ -96,20 +96,21 @@
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">КОГДА ЗАКАЗЫВАЮТ</p>
+    <p class="analyticsCardTitle">Когда заказывают</p>
     <div class="actionTabCntRow6bs7c">
         @foreach($timeSlots as $key => $slot)
         <div class="item">
             <img src="{{ $slotIcons[$key] ?? '/assets/img/day-icon.svg' }}" alt="">
             <p>{{ $slot['label'] }}</p>
-            <span>x{{ $slotCounts[$key] ?? 0 }} • {{ round(($slotCounts[$key] ?? 0) / $totalSlotCount * 100) }}%</span>
+            <span>{{ round(($slotCounts[$key] ?? 0) / $totalSlotCount * 100) }}%</span>
+            <small>x{{ $slotCounts[$key] ?? 0 }}</small>
         </div>
         @endforeach
     </div>
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">ДНИ НЕДЕЛИ</p>
+    <p class="analyticsCardTitle">Дни недели</p>
     <div class="actionTabCntRow1ys7s">
         @foreach($dayOrder as $day)
         @php $count = $dayCounts[$day] ?? 0; $isActive = $count > 0 && $count >= $maxDayCount * 0.5; @endphp
@@ -169,7 +170,7 @@
 
 @if(auth()->user()->hasRole('admin'))
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">УПРАВЛЕНИЕ</p>
+    <p class="analyticsCardTitle">Управление</p>
 
     @if($mix->is_active)
     <form method="POST" action="{{ route('mixes.deactivate', $mix) }}" class="actionTabViewOrderCardAction actionTabViewOrderCardAction--d032c">

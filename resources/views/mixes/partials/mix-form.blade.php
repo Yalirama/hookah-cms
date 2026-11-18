@@ -32,7 +32,7 @@
     </div>
 
     <div class="actionTabCnt --fx1">
-        <p class="analyticsCardTitle">СОСТАВ</p>
+        <p class="analyticsCardTitle">Состав</p>
 
         <div class="mixIngredientsWrap" id="{{ $formId }}Ingredients">
             @forelse($ingredients as $i => $ing)

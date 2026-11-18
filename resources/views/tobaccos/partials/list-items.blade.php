@@ -12,7 +12,9 @@
             $tobacco->flavorTags->pluck('name')->implode(' '),
         ])), 'UTF-8');
     @endphp
+    @php $lvl = app(\App\Services\StockService::class)->level($tobacco->id); $stockKey = $lvl['key'] ?? 'off'; @endphp
     <div class="productListItem"
+            data-stock="{{ $stockKey }}"
             data-tobacco-id="{{ $tobacco->id }}"
             data-status="{{ $isActive ? 'active' : 'inactive' }}"
             data-search="{{ $searchData }}">
@@ -55,6 +57,8 @@
                     <img src="/assets/img/grade-icon.svg" alt="">
                     <span>{{ $strengthLabels[$tobacco->strength] ?? '—' }}</span>
                 </div>
+                @php $lv = app(\App\Services\StockService::class)->level($tobacco->id); @endphp
+                @if($lv)<span class="stockLevel --{{ $lv['key'] }}">{{ $lv['text'] }}</span>@elseif($isActive && auth()->user()->hasRole('admin'))<span class="stockLevel --off">Без учёта</span>@endif
             </div>
 
             <button type="button" onclick="openTobaccoSheet({{ $tobacco->id }})" class="productListItemBottomButton">

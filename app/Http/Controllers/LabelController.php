@@ -20,8 +20,9 @@ class LabelController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->hasRole('admin')) abort(403);
         $request->validate([
-            'name'        => 'required|string|max:255',
+            'name'        => ['required', 'string', 'max:255', \Illuminate\Validation\Rule::unique('labels', 'name')],
             'description' => 'nullable|string',
         ]);
 
@@ -92,8 +93,9 @@ class LabelController extends Controller
 
     public function update(Request $request, Label $label)
     {
+        if (!auth()->user()->hasRole('admin')) abort(403);
         $request->validate([
-            'name'        => 'required|string|max:255',
+            'name'        => ['required', 'string', 'max:255', \Illuminate\Validation\Rule::unique('labels', 'name')->ignore($label->id)],
             'description' => 'nullable|string',
         ]);
 
@@ -141,6 +143,7 @@ class LabelController extends Controller
 
     public function destroyNote(Label $label, LabelNote $note)
     {
+        abort_unless($note->label_id === $label->id, 404);
         if ($note->user_id !== auth()->id() && !auth()->user()->hasRole('admin')) abort(403);
 
         LabelLog::create([

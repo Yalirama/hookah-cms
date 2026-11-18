@@ -24,7 +24,10 @@
                     </div>
                 </div>
             @else
-                @foreach($rev->changed_fields as $change)
+                @foreach((array) $rev->changed_fields as $change)
+                    @if(!is_array($change))
+                        @continue
+                    @endif
                     @php
                         $dotClass = match($change['type'] ?? '') {
                             'added' => '--tabaccoAdd',

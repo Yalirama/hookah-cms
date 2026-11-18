@@ -36,12 +36,14 @@ class GuestController extends Controller
 
     private function buildGuestStats(): array
     {
+        $by = Guest::withCount(['orders as closed_orders_count' => fn($q) => $q->where('status', 'closed')])->get()->countBy('status');
+
         return [
-            'total'     => Guest::count(),
-            'vip'       => Guest::where('status_override', 'vip')->count(),
-            'permanent' => Guest::where('status_override', 'permanent')->count(),
-            'regular'   => Guest::where('status_override', 'regular')->count(),
-            'new'       => Guest::whereNull('status_override')->orWhere('status_override', 'new')->count(),
+            'total'     => $by->sum(),
+            'vip'       => $by['vip'] ?? 0,
+            'permanent' => $by['permanent'] ?? 0,
+            'regular'   => $by['regular'] ?? 0,
+            'new'       => $by['new'] ?? 0,
         ];
     }
 
@@ -110,7 +112,11 @@ class GuestController extends Controller
             ]);
         }
 
-        broadcast(new \App\Events\GuestCreated($guest))->toOthers();
+        try {
+            broadcast(new \App\Events\GuestCreated($guest))->toOthers();
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         if ($request->ajax()) {
             return response()->json(['message' => 'Гость добавлен', 'id' => $guest->id]);
@@ -337,6 +343,7 @@ class GuestController extends Controller
 
     public function destroyNote(Guest $guest, GuestNote $note)
     {
+        abort_unless($note->guest_id === $guest->id, 404);
         if ($note->user_id !== auth()->id() && !auth()->user()->hasRole('admin')) {
             abort(403);
         }
@@ -430,6 +437,7 @@ class GuestController extends Controller
 
     public function removeLabel(Request $request, Guest $guest, \App\Models\GuestLabel $guestLabel)
     {
+        abort_unless($guestLabel->guest_id === $guest->id, 404);
         $label   = $guestLabel->label;
         $oldType = $guestLabel->type;
 
@@ -532,8 +540,8 @@ class GuestController extends Controller
             ->orderByDesc('total')->with('table')->get();
         $totalTableVisits = $favTables->sum('total');
 
-        $maxSlot = max($slotCounts) ?: 1;
-        $maxDay  = max($dayCounts) ?: 1;
+        $maxSlot = max($slotCounts ?: [0]) ?: 1;
+        $maxDay  = max($dayCounts ?: [0]) ?: 1;
 
         $shortOrders = Order::where('guest_id', $guest->id)
             ->with('table', 'creator')
@@ -541,8 +549,10 @@ class GuestController extends Controller
             ->limit(5)
             ->get();
 
+        $tableMoves = \App\Services\TableMoves::build(null, null, $guest->id);
+
         return compact(
-            'timeSlots', 'slotCounts', 'dayCounts', 'maxSlot', 'maxDay',
+            'tableMoves', 'timeSlots', 'slotCounts', 'dayCounts', 'maxSlot', 'maxDay',
             'totalOrders', 'visitsCount', 'redoCount', 'lastVisitDays',
             'avgSession', 'avgServiced',
             'topMixes', 'topTobaccos', 'topBrands', 'topMasters',

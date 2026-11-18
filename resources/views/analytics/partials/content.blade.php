@@ -1,3 +1,6 @@
+@if(\App\Support\StatAccess::anyExtended())
+<a href="{{ route('stats.index') }}" class="statEntry"><div>Расширенная статистика<span>Время, гости, столы, позиции, деньги, мастера</span></div><b>Открыть</b></a>
+@endif
 {{-- ГОСТИ --}}
 <div class="analyticsCard analyticsCardQuests">
     <p class="analyticsCardTitle">гости</p>
@@ -71,14 +74,14 @@
 </div>
 
 {{-- НОВЫЕ vs ПОВТОРНЫЕ --}}
-@if($newGuests + $returningGuests > 0)
+@if($newGuests + $returningGuests > 0 && \App\Support\StatAccess::can('a_new_repeat'))
     @php
         $total = $newGuests + $returningGuests;
         $newPct = round($newGuests / $total * 100);
         $retPct = 100 - $newPct;
     @endphp
     <div class="analyticsCard analyticsCardQuestsPercent">
-        <p class="analyticsCardTitle">НОВЫЕ <span>vs</span> ПОВТОРНЫЕ</p>
+        <p class="analyticsCardTitle">Новые <span>vs</span> повторные</p>
 
         <div class="analyticsCardRow">
             <div class="analyticsQuestsItem">
@@ -109,7 +112,7 @@
 @endif
 
 {{-- КОГДА ПРИХОДЯТ --}}
-@if(count($slotCounts) > 0)
+@if(count($slotCounts) > 0 && \App\Support\StatAccess::can('a_when_come'))
     @php
         $maxSlot = max(array_column($slotCounts, 'count')) ?: 1;
         $slotIcons = [
@@ -120,7 +123,7 @@
         ];
     @endphp
     <div class="analyticsCard analyticsCardDayTime">
-        <p class="analyticsCardTitle">КОГДА ПРИХОДЯТ</p>
+        <p class="analyticsCardTitle">Когда приходят</p>
 
         <div class="analyticsCardRow">
             @foreach($slotCounts as $key => $slot)
@@ -135,7 +138,7 @@
 @endif
 
 {{-- ЗАГРУЖЕННОСТЬ ПО ЧАСАМ • НЕДЕЛЯ --}}
-@if(count($heatmapSlots) > 0 && is_array($days) && count($days) > 0)
+@if(count($heatmapSlots) > 0 && is_array($days) && count($days) > 0 && \App\Support\StatAccess::can('a_heatmap'))
     @php
         $allValues = [];
         foreach ($heatmap as $day => $slots) {
@@ -148,7 +151,7 @@
         };
     @endphp
     <div class="analyticsCard analyticsWorkloadByTimeAndWeek">
-        <p class="analyticsCardTitle">ЗАГРУЖЕННОСТЬ ПО ЧАСАМ &#8226; НЕДЕЛЯ</p>
+        <p class="analyticsCardTitle">Загруженность по часам &#8226; неделя</p>
 
         <div class="analyticsCardRow">
             <div class="analyticsQuestsItem">
@@ -194,11 +197,11 @@
 @endphp
 
 {{-- ТОП МИКСОВ --}}
-@if($topMixes->count() > 0)
+@if($topMixes->count() > 0 && \App\Support\StatAccess::can('a_top_mixes'))
     @php $maxMix = $topMixes->max('cnt') ?: 1; @endphp
     <div class="analyticsCard analyticsCardTop">
         <div class="analyticsCardTopHead">
-            <p class="analyticsCardTitle">ТОП 5 МИКСОВ</p>
+            <p class="analyticsCardTitle">Топ 5 миксов</p>
         </div>
 
         <div class="analyticsCardTopRow topListRow">
@@ -233,11 +236,11 @@
 @endif
 
 {{-- ТОП ТАБАКОВ --}}
-@if($topTobaccos->count() > 0)
+@if($topTobaccos->count() > 0 && \App\Support\StatAccess::can('a_top_tobaccos'))
     @php $maxTob = $topTobaccos->max('cnt') ?: 1; @endphp
     <div class="analyticsCard analyticsCardTop">
         <div class="analyticsCardTopHead">
-            <p class="analyticsCardTitle">ТОП 5 табаков</p>
+            <p class="analyticsCardTitle">Топ 5 табаков</p>
         </div>
 
         <div class="analyticsCardTopRow topListRow">
@@ -272,11 +275,11 @@
 @endif
 
 {{-- ТОП БРЕНДОВ --}}
-@if($topBrands->count() > 0)
+@if($topBrands->count() > 0 && \App\Support\StatAccess::can('a_top_brands'))
     @php $totalBrands = $topBrands->sum(); @endphp
     <div class="analyticsCard analyticsCardTop">
         <div class="analyticsCardTopHead">
-            <p class="analyticsCardTitle">ТОП 5 бренды</p>
+            <p class="analyticsCardTitle">Топ 5 бренды</p>
         </div>
 
         <div class="analyticsCardTopRow topListRow">
@@ -312,11 +315,11 @@
 @endif
 
 {{-- ТОП МАСТЕРОВ --}}
-@if($topMasters->count() > 0)
+@if($topMasters->count() > 0 && \App\Support\StatAccess::can('a_top_masters'))
     @php $totalMasters = $topMasters->sum('cnt'); @endphp
     <div class="analyticsCard analyticsCardTop">
         <div class="analyticsCardTopHead">
-            <p class="analyticsCardTitle">ТОП 5 мастеров</p>
+            <p class="analyticsCardTitle">Топ 5 мастеров</p>
         </div>
 
         <div class="analyticsCardTopRow topListRow">
@@ -352,14 +355,14 @@
 @endif
 
 {{-- ТОП КРЕПОСТЬ --}}
-@if($topStrengths->count() > 0)
+@if($topStrengths->count() > 0 && \App\Support\StatAccess::can('a_top_strength'))
     @php
         $strengthLabels = ['light' => 'Лёгкий', 'medium' => 'Средний', 'strong' => 'Крепкий'];
         $maxStrength = $topStrengths->max() ?: 1;
     @endphp
     <div class="analyticsCard analyticsCardTop">
         <div class="analyticsCardTopHead">
-            <p class="analyticsCardTitle">ТОП крепость</p>
+            <p class="analyticsCardTitle">Топ крепость</p>
         </div>
 
         <div class="analyticsCardTopRow">
@@ -384,11 +387,11 @@
 
 {{-- ТОП ВКУСОВ (в мокапе такой карточки не было — добавил тем же компонентом,
         чтобы не терять данные из старой страницы. Убери блок, если он не нужен) --}}
-@if($topFlavors->count() > 0)
+@if($topFlavors->count() > 0 && \App\Support\StatAccess::can('a_top_flavors'))
     @php $maxFlavor = collect($topFlavors)->max('count') ?: 1; @endphp
     <div class="analyticsCard analyticsCardTop">
         <div class="analyticsCardTopHead">
-            <p class="analyticsCardTitle">ТОП вкусов</p>
+            <p class="analyticsCardTitle">Топ вкусов</p>
         </div>
 
         <div class="analyticsCardTopRow topListRow">
@@ -422,8 +425,9 @@
     </div>
 @endif
 {{-- ВКУСЫ ПО ДНЯМ НЕДЕЛИ --}}
+@if(\App\Support\StatAccess::can('a_flavor_days'))
 <div class="analyticsCard analyticsCardTastes">
-    <p class="analyticsCardTitle">ВКУСЫ ПО ДНЯМ НЕДЕЛИ</p>
+    <p class="analyticsCardTitle">Вкусы по дням недели</p>
 
     <div class="analyticsCardTastesRow">
         @foreach($dayNames7 as $day)
@@ -445,8 +449,10 @@
     </div>
 </div>
 
+@endif
+
 {{-- ТОП МЕСТА --}}
-@if($topTables->count() > 0)
+@if($topTables->count() > 0 && \App\Support\StatAccess::can('a_top_tables'))
     @php $totalTables = $topTables->sum('cnt'); @endphp
     <div class="analyticsCard analyticsCardDayTime">
         <p class="analyticsCardTitle">Топ места</p>
@@ -463,5 +469,12 @@
     </div>
 @endif
 
+{{-- ПЕРЕСАДКИ СО СТОЛОВ --}}
+@if(\App\Support\StatAccess::can('a_table_moves'))
+@include('analytics.partials.table-moves', ['tableMoves' => $tableMoves ?? collect(), 'wrapClass' => 'analyticsCard tableMovesCard'])
+@endif
+
 {{-- ДАВНО НЕ ПРИХОДИЛИ --}}
+@if(\App\Support\StatAccess::can('a_inactive'))
 @include('analytics.partials.inactive-guests')
+@endif

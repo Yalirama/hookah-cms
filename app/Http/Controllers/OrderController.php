@@ -54,12 +54,22 @@ class OrderController extends Controller
             $query->whereNull('guest_id');
         }
         
-        $orders = $query->latest()->limit(150)->get();
+        if ($gs = $request->get('guest_status')) {
+            $ids = \App\Models\Guest::withCount(['orders as closed_orders_count' => fn($q) => $q->where('status', 'closed')])->get()
+                ->filter(fn($g) => $g->status === $gs)->pluck('id');
+            $query->whereIn('guest_id', $ids);
+        }
+
+        $perPage = 150;
+        $offset = max(0, (int) $request->get('offset', 0));
+        $orders = $query->latest()->latest('id')->offset($offset)->limit($perPage + 1)->get();
+        $hasMore = $orders->count() > $perPage;
+        $orders = $orders->take($perPage);
 
         $stats = [
             'today'  => Order::whereDate('created_at', today())->count(),
             'week'   => Order::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
-            'month'  => Order::whereMonth('created_at', now()->month)->count(),
+            'month'  => Order::whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])->count(),
             'total'  => Order::count(),
         ];
 
@@ -75,7 +85,13 @@ class OrderController extends Controller
                 return [$label => $group];
             });
 
-        return view('orders.index', compact('ordersByDay', 'stats'));
+        $nextOffset = $offset + $perPage;
+
+        if ($request->ajax()) {
+            return view('orders.partials.day-groups', compact('ordersByDay', 'hasMore', 'nextOffset'));
+        }
+
+        return view('orders.index', compact('ordersByDay', 'stats', 'hasMore', 'nextOffset'));
     }
 
     public function create()
@@ -214,6 +230,10 @@ class OrderController extends Controller
                 }
             }
 
+            if ($itemData['type'] === 'tobacco' && !$itemable->venueTobacco?->is_active) {
+                abort(response()->json(['message' => 'Табак «' . $itemable->name . '» недоступен'], 422));
+            }
+
             return [$itemData, $itemableType, $itemable];
         });
 
@@ -224,6 +244,7 @@ class OrderController extends Controller
                 'itemable_type' => $itemableType,
                 'itemable_id'   => $itemData['id'],
                 'grams'         => $itemData['grams'] ?? null,
+                'price'         => \App\Support\Price::forItem($itemable),
             ]);
 
             OrderLog::create([
@@ -240,6 +261,8 @@ class OrderController extends Controller
             ]);
         }
 
+        $this->resyncReserve($order);
+
         $this->broadcastOrder($order);
 
         return $this->done('Позиции добавлены');
@@ -247,6 +270,7 @@ class OrderController extends Controller
 
     public function removeItem(Request $request, Order $order, OrderItem $item)
     {
+        abort_unless($item->order_id === $order->id, 404);
         $request->validate([
             'comment' => 'nullable|string|max:500',
         ]);
@@ -268,6 +292,8 @@ class OrderController extends Controller
             'comment'    => $request->comment,
             'created_at' => now(),
         ]);
+
+        $this->resyncReserve($order);
 
         $this->broadcastOrder($order);
 
@@ -375,6 +401,14 @@ class OrderController extends Controller
         $oldStatus = $order->status;
         $newStatus = $request->status;
 
+        try {
+            app(\App\Services\StockService::class)->onStatusChange($order, $oldStatus, $newStatus);
+        } catch (\App\Services\StockShortage $e) {
+            return $request->ajax()
+                ? response()->json(['message' => $e->getMessage(), 'field' => 'stock'], 422)
+                : back()->withErrors(['status' => $e->getMessage()]);
+        }
+
         $order->update([
             'status'    => $newStatus,
             'closed_at' => in_array($newStatus, ['closed', 'cancelled', 'redo']) ? now() : $order->closed_at,
@@ -422,6 +456,14 @@ class OrderController extends Controller
 
         $oldStatus = $order->status;
 
+        try {
+            app(\App\Services\StockService::class)->onStatusChange($order, $oldStatus, $previousStatus);
+        } catch (\App\Services\StockShortage $e) {
+            return $request->ajax()
+                ? response()->json(['message' => $e->getMessage()], 422)
+                : back()->withErrors(['status' => $e->getMessage()]);
+        }
+
         $order->update([
             'status'    => $previousStatus,
             'closed_at' => in_array($previousStatus, ['closed', 'cancelled', 'redo']) ? $order->closed_at : null,
@@ -450,6 +492,12 @@ class OrderController extends Controller
         ]);
 
         $oldTableId = $order->table_id;
+
+        if ((int) $request->table_id === (int) $oldTableId) {
+            return $request->ajax()
+                ? response()->json(['message' => 'Заказ уже за этим столом'], 422)
+                : back()->withErrors(['table_id' => 'Заказ уже за этим столом']);
+        }
 
         // Закрываем старую запись в истории
         OrderTableHistory::where('order_id', $order->id)
@@ -535,6 +583,12 @@ class OrderController extends Controller
     {
         $oldGuest = $order->guest;
 
+        if (!$oldGuest) {
+            return $request->ajax()
+                ? response()->json(['message' => 'К заказу не привязан гость'], 422)
+                : back()->withErrors(['guest_id' => 'К заказу не привязан гость']);
+        }
+
         $order->update(['guest_id' => null]);
 
         OrderLog::create([
@@ -553,6 +607,7 @@ class OrderController extends Controller
 
     public function updateLogMaster(Request $request, Order $order, OrderLog $log)
     {
+        abort_unless($log->order_id === $order->id, 404);
         $request->validate([
             'user_id' => 'required|exists:users,id',
         ]);
@@ -578,6 +633,61 @@ class OrderController extends Controller
         $this->broadcastOrder($order);
 
         return $this->done('Мастер действия обновлён');
+    }
+
+    public function updateBowl(Request $request, Order $order)
+    {
+        $request->validate([
+            'bowl_size'        => 'nullable|numeric|min:1|max:200',
+            'fixed'            => 'nullable|array',
+            'fixed.*'          => 'nullable|string|max:12',
+            'alts'             => 'nullable|array',
+        ]);
+
+        if (!auth()->user()->hasRole('admin') && !$order->isActive()) abort(403, 'Заказ закрыт');
+
+        $order->update(['bowl_size' => $request->filled('bowl_size') ? $request->bowl_size : null]);
+
+        foreach ((array) $request->input('fixed', []) as $itemId => $raw) {
+            $item = $order->items()->whereNull('deleted_at')->find($itemId);
+            if (!$item) continue;
+            $raw = trim(str_replace(',', '.', (string) $raw));
+            $item->grams = null;
+            $item->fixed_percent = null;
+            if ($raw !== '') {
+                $isPercent = str_ends_with($raw, '%');
+                $num = (float) rtrim($raw, '% ');
+                if ($num <= 0) continue;
+                if ($isPercent) $item->fixed_percent = min($num, 100); else $item->grams = $num;
+            }
+            $item->save();
+        }
+
+        foreach ((array) $request->input('alts', []) as $itemId => $choices) {
+            $item = $order->items()->whereNull('deleted_at')->find($itemId);
+            if (!$item || !is_array($choices)) continue;
+            $clean = [];
+            foreach ($choices as $ingId => $tid) {
+                $ing = \App\Models\MixIngredient::with('alternatives')->find($ingId);
+                if (!$ing || (int) $tid === $ing->tobacco_id || !$ing->alternatives->contains('tobacco_id', (int) $tid)) continue;
+                $clean[$ingId] = (int) $tid;
+            }
+            $item->alt_choices = $clean ?: null;
+            $item->save();
+        }
+
+        $stock = app(\App\Services\StockService::class);
+        $calc = $stock->calcBowl($order->fresh());
+
+        if ($order->status === 'in_progress' && !$calc['error']) {
+            try { $stock->reserve($order); } catch (\App\Services\StockShortage $e) {
+                return response()->json(['message' => $e->getMessage(), 'calc' => $calc], 422);
+            }
+        }
+
+        if (!auth()->user()->hasRole('admin')) unset($calc['cost']);
+
+        return response()->json(['calc' => $calc]);
     }
 
     public function sheet(Order $order)
@@ -611,6 +721,12 @@ class OrderController extends Controller
         return request()->ajax()
             ? response()->json(['message' => $message])
             : back()->with('success', $message);
+    }
+
+    private function resyncReserve(Order $order): void
+    {
+        if ($order->status !== 'in_progress') return;
+        try { app(\App\Services\StockService::class)->reserve($order); } catch (\App\Services\StockShortage $e) {}
     }
 
     private function broadcastOrder(Order $order): void

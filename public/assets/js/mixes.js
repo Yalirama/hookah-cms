@@ -208,7 +208,7 @@ function addMixIngredient(formId) {
 
             <div class="actionTabSearchSectionResult">
                 <div class="actionTabSearchSectionResultHead">
-                    <p class="actionTabSearchSectionResultTitle">АЛЬТЕРНАТИВЫ</p>
+                    <p class="actionTabSearchSectionResultTitle">Альтернативы</p>
                     <button type="button" onclick="toggleMixIngredientSearch('${rowId}', 'alt')">
                         <img src="/assets/img/edit-icon-gold.svg" alt="">
                         <span>Добавить</span>

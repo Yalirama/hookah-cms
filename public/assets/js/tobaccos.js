@@ -47,6 +47,14 @@ document.addEventListener('click', function (e) {
     filterTobaccoList();
 });
 
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.filtersBtn[data-stock]');
+    if (!btn) return;
+    document.querySelectorAll('.filtersBtn[data-stock]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterTobaccoList();
+});
+
 // Поиск
 document.addEventListener('input', function (e) {
     if (e.target && e.target.id === 'tobaccoSearch') {
@@ -55,8 +63,8 @@ document.addEventListener('input', function (e) {
 });
 
 function filterTobaccoList() {
-    const activeFilterBtn = document.querySelector('.filtersBtn[data-status].active');
-    const status = activeFilterBtn ? activeFilterBtn.dataset.status : 'all';
+    const status = (document.getElementById('tobaccoStatusValue') || {}).value || 'active';
+    const stock = (document.getElementById('tobaccoStockValue') || {}).value || 'any';
     const searchInput = document.getElementById('tobaccoSearch');
     const words = searchInput ? searchInput.value.toLowerCase().split(/\s+/).filter(Boolean) : [];
 
@@ -66,7 +74,8 @@ function filterTobaccoList() {
     items.forEach(item => {
         const matchStatus = status === 'all' || item.dataset.status === status;
         const matchSearch = words.every(w => item.dataset.search.includes(w));
-        const show = matchStatus && matchSearch;
+        const matchStock = stock === 'any' || item.dataset.stock === stock;
+        const show = matchStatus && matchSearch && matchStock;
         item.style.display = show ? '' : 'none';
         if (show) visible++;
     });
@@ -279,3 +288,4 @@ function initTobaccosEcho() {
 }
 if (window.Echo) initTobaccosEcho();
 else window.addEventListener('echo-ready', initTobaccosEcho);
+document.addEventListener('customselect:change', e => { if (e.target.id === 'tobaccoStatusSelect' || e.target.id === 'tobaccoStockSelect') filterTobaccoList(); });

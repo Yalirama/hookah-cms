@@ -82,6 +82,54 @@
 
     <div class="item">
         <div class="itemInfo">
+            <p>Склад табака</p>
+            <span>Приходы, остатки, закупка, размер чаши</span>
+        </div>
+        <button type="button" onclick="openStockSheet()" class="btnOpen">Открыть</button>
+    </div>
+
+    <div class="item">
+        <div class="itemInfo">
+            <p>Отчёты склада</p>
+            <span>Закупка, расход, себестоимость, ревизии</span>
+        </div>
+        <button type="button" onclick="openStockReports()" class="btnOpen">Открыть</button>
+    </div>
+
+    <div class="item">
+        <div class="itemInfo">
+            <p>Каталог табаков</p>
+            <span>Загрузка брендов и новых вкусов, ручные табаки</span>
+        </div>
+        <button type="button" onclick="openCatalogSheet()" class="btnOpen">Открыть</button>
+    </div>
+
+    <div class="item">
+        <div class="itemInfo">
+            <p>Цены позиций</p>
+            <span>Цена табаков и миксов для выручки в статистике</span>
+        </div>
+        <button type="button" onclick="openPricesSheet()" class="btnOpen">Открыть</button>
+    </div>
+
+    <div class="item">
+        <div class="itemInfo">
+            <p>Доступ к статистике</p>
+            <span>Какие блоки видят мастера, а какие только админ</span>
+        </div>
+        <button type="button" onclick="openStatAccessSheet()" class="btnOpen">Открыть</button>
+    </div>
+
+    <div class="item">
+        <div class="itemInfo">
+            <p>Журнал администраторов</p>
+            <span>Кто что создал, изменил, отключил и сменил</span>
+        </div>
+        <button type="button" onclick="openSheet('settingsTab9')" class="btnOpen">Открыть</button>
+    </div>
+
+    <div class="item">
+        <div class="itemInfo">
             <p>Памятка</p>
             <span>Внутренняя база знаний заведения</span>
         </div>
@@ -230,7 +278,7 @@
                 <div class="item defaultForm">
                     <div class="row0vea1">
                         <span class="title">Регулярный</span><span>от</span>
-                        <input type="number" id="threshold-regular" value="{{ $settings->get('guest_regular_threshold')?->value ?? 100 }}">
+                        <input type="number" id="threshold-regular" value="{{ $settings->get('guest_regular_threshold')?->value ?? 10 }}">
                     </div>
                     
                     <span>посещений</span>
@@ -291,6 +339,7 @@
             <div class="actionTabSection"><div class="defaultForm"><input id="new-master-name" type="text" placeholder="Имя"></div></div>
             <div class="actionTabSection"><div class="defaultForm"><input id="new-master-login" type="text" placeholder="Логин"></div></div>
             <div class="actionTabSection"><div class="defaultForm"><input id="new-master-password" type="password" placeholder="Пароль"></div></div>
+            <div class="actionTabSection"><div class="defaultForm"><select id="new-master-role"><option value="master">Мастер</option><option value="admin">Администратор</option></select></div></div>
             <div class="actionTabActions --actionTabActions9f3d1 --actionTabActions9f3d1-2">
                 <div class="actionTabActionsButtons">
                     <button type="button" onclick="submitCreateMaster()" class="actionTabActionsButton --buttonPrimary">Создать</button>
@@ -565,6 +614,122 @@
     </div>
 </div>
 
+{{-- Склад --}}
+<div class="actionTab viewProductSameTab settingsTab10" id="settingsTab10">
+    <div class="actionTabWrapper">
+        <div class="actionTabHeader">
+            <h3>Склад табака</h3>
+            <div class="actionTabHeaderBtns">
+                <button type="button" onclick="stockJournal(null)" class="actionTabHeaderBtn">
+                    <img src="/assets/img/view-history.svg" alt="">
+                </button>
+                <button type="button" onclick="closeSheet('settingsTab10')" class="actionTabHeaderBtn --tabBtnClose">
+                    <img src="/assets/img/close-icon.svg" alt="">
+                </button>
+            </div>
+        </div>
+        <div id="stock-panel"></div>
+    </div>
+</div>
+
+<div class="actionTab viewProductSameTab settingsTab15" id="settingsTab15">
+    <div class="actionTabWrapper">
+        <div class="actionTabHeader">
+            <h3>Каталог табаков</h3>
+            <div class="actionTabHeaderBtns">
+                <button type="button" onclick="closeSheet('settingsTab15')" class="actionTabHeaderBtn --tabBtnClose"><img src="/assets/img/close-icon.svg" alt=""></button>
+            </div>
+        </div>
+        <div id="catalog-panel"></div>
+    </div>
+</div>
+
+<div class="actionTab viewProductSameTab settingsTab13" id="settingsTab13">
+    <div class="actionTabWrapper">
+        <div class="actionTabHeader">
+            <h3>Цены позиций</h3>
+            <div class="actionTabHeaderBtns">
+                <button type="button" onclick="closeSheet('settingsTab13')" class="actionTabHeaderBtn --tabBtnClose"><img src="/assets/img/close-icon.svg" alt=""></button>
+            </div>
+        </div>
+        <div id="prices-panel"></div>
+    </div>
+</div>
+
+<div class="actionTab viewProductSameTab settingsTab14" id="settingsTab14">
+    <div class="actionTabWrapper">
+        <div class="actionTabHeader">
+            <h3>Доступ к статистике</h3>
+            <div class="actionTabHeaderBtns">
+                <button type="button" onclick="closeSheet('settingsTab14')" class="actionTabHeaderBtn --tabBtnClose"><img src="/assets/img/close-icon.svg" alt=""></button>
+            </div>
+        </div>
+        <div id="stat-access-panel"></div>
+    </div>
+</div>
+
+<div class="actionTab viewProductSameTab settingsTab12" id="settingsTab12">
+    <div class="actionTabWrapper">
+        <div class="actionTabHeader">
+            <h3>Отчёты склада</h3>
+            <div class="actionTabHeaderBtns">
+                <button type="button" onclick="closeSheet('settingsTab12')" class="actionTabHeaderBtn --tabBtnClose">
+                    <img src="/assets/img/close-icon.svg" alt="">
+                </button>
+            </div>
+        </div>
+        <div id="stock-reports"></div>
+    </div>
+</div>
+
+<div class="actionTab viewProductSameTab settingsTab11" id="settingsTab11">
+    <div class="actionTabWrapper">
+        <div class="actionTabHeader">
+            <h3>Журнал склада</h3>
+            <div class="actionTabHeaderBtns">
+                <button type="button" onclick="closeSheet('settingsTab11')" class="actionTabHeaderBtn --tabBtnClose">
+                    <img src="/assets/img/close-icon.svg" alt="">
+                </button>
+            </div>
+        </div>
+        <div class="actionTabCnt actionTabCnt1dvp1" id="stock-journal-list"></div>
+        <div class="actionTabViewOrderCard --actionTabViewOrderCard9k2sn" id="stock-journal-more" style="display:none">
+            <div class="actionTabViewOrderCardTop">
+                <button type="button" onclick="stockJournalMore()"><img src="/assets/img/arrow-down.svg" alt=""><span>Показать ещё</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Журнал администраторов --}}
+<div class="actionTab viewProductSameTab settingsTab9" id="settingsTab9">
+    <div class="actionTabWrapper">
+        <div class="actionTabHeader">
+            <h3>Журнал администраторов</h3>
+            <div class="actionTabHeaderBtns">
+                <button type="button" onclick="closeSheet('settingsTab9')" class="actionTabHeaderBtn --tabBtnClose">
+                    <img src="/assets/img/close-icon.svg" alt="">
+                </button>
+            </div>
+        </div>
+
+        <div class="actionTabCnt actionTabCnt1dvp1" id="admin-log-list">
+            @include('settings.partials._admin-log-rows', ['logs' => $adminLogs])
+        </div>
+
+        @if($adminLogs->count() >= 30)
+        <div class="actionTabViewOrderCard --actionTabViewOrderCard9k2sn">
+            <div class="actionTabViewOrderCardTop">
+                <button type="button" id="admin-log-load-more" onclick="loadMoreAdminLog()">
+                    <img src="/assets/img/arrow-down.svg" alt="">
+                    <span>Показать ещё</span>
+                </button>
+            </div>
+        </div>
+        @endif
+    </div>
+</div>
+
 {{-- Памятка --}}
 <div class="actionTab viewProductSameTab settingsTab8" id="settingsTab8">
     <div class="actionTabWrapper">
@@ -653,6 +818,7 @@
 @endsection
 
 @push('scripts')
+<script src="/assets/js/catalog.js?v={{ filemtime(public_path('/assets/js/catalog.js')) }}"></script>
 <script>
 const csrf = '{{ csrf_token() }}';
 
@@ -737,6 +903,7 @@ function submitCreateMaster() {
         name: document.getElementById('new-master-name').value,
         login: document.getElementById('new-master-login').value,
         password: document.getElementById('new-master-password').value,
+        role: document.getElementById('new-master-role').value,
     }).then(data => {
         if (data.row) {
             const title = document.querySelector('#masters-list .analyticsCardTitle');
@@ -978,6 +1145,243 @@ function loadMoreJournal() {
         .then(html => {
             document.getElementById('journal-list').insertAdjacentHTML('beforeend', html);
             if (!html.trim()) document.getElementById('journal-load-more').style.display = 'none';
+        });
+}
+
+let stockJournalTobacco = null;
+
+const STOCK_HINTS = {
+    bowl: 'Сколько граммов табака в одной чаше. По этому значению считается списание. В конкретном заказе мастер может указать другое.',
+    lead: 'За сколько дней поставщик привозит заказ. Нужно, чтобы закупку планировать заранее.',
+    buffer: 'Сколько дней табака держать про запас сверх срока поставки. Чем больше запас, тем реже нужно заказывать и тем меньше риск остаться без табака.',
+    alert: 'Если цена за грамм в новом приходе выше средней себестоимости на этот процент или больше, при внесении прихода появится предупреждение. Сам приход сохранится.',
+    min: 'Когда доступного табака остаётся столько граммов или меньше, он получает статус «Мало» и попадает в «Что закупать». Для отдельного табака можно задать свой порог в «Параметрах».',
+    stock: 'Сверху табаки, которых нет, затем те, что заканчиваются. Ревизия: сверка учёта с фактическим остатком на полке, разница записывается как корректировка. Делайте её в конце смены, для основных табаков раз в неделю.',
+};
+
+function openPricesSheet() {
+    fetch('{{ route("settings.prices.panel") }}').then(r => r.text()).then(html => {
+        document.getElementById('prices-panel').innerHTML = html;
+        openSheet('settingsTab13');
+    });
+}
+function priceFilter(v) {
+    const q = v.trim().toLowerCase();
+    document.querySelectorAll('#price-list .priceRow').forEach(r => { r.style.display = !q || r.dataset.name.includes(q) ? '' : 'none'; });
+}
+function priceSave() {
+    const body = { default: document.getElementById('price-default').value, tobaccos: {}, mixes: {} };
+    document.querySelectorAll('#price-list input[data-kind]').forEach(i => { body[i.dataset.kind][i.dataset.id] = i.value; });
+    postJson('{{ route("settings.prices.save") }}', body).then(() => closeSheet('settingsTab13')).catch(err => {
+        const e = document.getElementById('price-error'); e.textContent = err.message; e.style.display = 'block';
+    });
+}
+function openStatAccessSheet() {
+    fetch('{{ route("settings.stat-access.panel") }}').then(r => r.text()).then(html => {
+        document.getElementById('stat-access-panel').innerHTML = html;
+        openSheet('settingsTab14');
+    });
+}
+function statAccessMode(btn) {
+    const row = btn.closest('.statAccessRow');
+    row.dataset.mode = btn.dataset.mode;
+    row.querySelectorAll('.statAccessSeg button').forEach(b => b.classList.toggle('active', b === btn));
+    row.querySelector('.statAccessUsers').style.display = btn.dataset.mode === 'users' ? '' : 'none';
+}
+function statAccessSave() {
+    const rules = {};
+    document.querySelectorAll('#stat-access-panel .statAccessRow').forEach(r => {
+        rules[r.dataset.key] = { mode: r.dataset.mode, users: [...r.querySelectorAll('.statAccessUser.active')].map(b => b.dataset.user) };
+    });
+    postJson('{{ route("settings.stat-access.save") }}', { rules }).then(() => closeSheet('settingsTab14')).catch(err => {
+        const e = document.getElementById('stat-access-error'); e.textContent = err.message; e.style.display = 'block';
+    });
+}
+
+function stockHintClose() {
+    document.querySelectorAll('.hintPop').forEach(p => p.remove());
+}
+
+function stockHint(e, key) {
+    e.stopPropagation();
+    stockHintClose();
+    const r = e.currentTarget.getBoundingClientRect();
+    const p = document.createElement('div');
+    p.className = 'hintPop';
+    p.textContent = STOCK_HINTS[key];
+    p.style.top = (r.bottom + 8) + 'px';
+    document.body.appendChild(p);
+    const over = p.getBoundingClientRect().bottom - window.innerHeight + 12;
+    if (over > 0) p.style.top = Math.max(8, r.top - p.offsetHeight - 8) + 'px';
+}
+
+document.addEventListener('click', stockHintClose);
+document.addEventListener('scroll', stockHintClose, true);
+
+function stockFilter(listId, v) {
+    const q = v.trim().toLowerCase();
+    document.querySelectorAll('#' + listId + ' .stockRow').forEach(r => {
+        const n = r.querySelector('.ordersCardUserInfoName').textContent.toLowerCase();
+        r.style.display = !q || n.includes(q) ? '' : 'none';
+    });
+}
+
+function stockReload() {
+    const keep = {};
+    ['untracked', 'rows'].forEach(k => keep[k] = (document.getElementById('stock-filter-' + k) || {}).value || '');
+    return fetch('{{ route("settings.stock.panel") }}').then(r => r.text()).then(html => {
+        document.getElementById('stock-panel').innerHTML = html;
+        stockBindSearch();
+        ['untracked', 'rows'].forEach(k => {
+            const i = document.getElementById('stock-filter-' + k);
+            if (i && keep[k]) {
+                i.value = keep[k];
+                stockFilter('stock-list-' + k, keep[k]);
+            }
+        });
+    });
+}
+
+function openStockSheet() {
+    stockReload().then(() => openSheet('settingsTab10'));
+}
+
+function stockBindSearch() {
+    const input = document.getElementById('stock-search');
+    if (!input) return;
+    let timer;
+    input.addEventListener('input', () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            fetch('{{ route("settings.stock.search") }}?q=' + encodeURIComponent(input.value.trim()))
+                .then(r => r.json()).then(list => {
+                    const box = document.getElementById('stock-search-results');
+                    box.innerHTML = '';
+                    list.forEach(t => {
+                        const el = document.createElement('div');
+                        el.className = 'ordersCardTop addItemOption';
+                        el.innerHTML = '<div class="ordersCardUser"><div class="ordersCardUserInfo"><div class="actionTabViewOrderProductListBody"><p></p></div></div></div>';
+                        el.querySelector('p').textContent = t.name;
+                        el.onclick = () => {
+                            document.getElementById('stock-tobacco-id').value = t.id;
+                            const sel = document.getElementById('stock-selected');
+                            sel.textContent = t.name;
+                            sel.style.display = '';
+                            box.innerHTML = '';
+                            input.value = '';
+                        };
+                        box.appendChild(el);
+                    });
+                });
+        }, 250);
+    });
+}
+
+function stockError(msg) {
+    const e = document.getElementById('stock-error');
+    e.textContent = msg || '';
+    e.style.display = msg ? '' : 'none';
+}
+
+function stockSaveBowl() {
+    postJson('{{ route("settings.stock.bowl") }}', { bowl_size: document.getElementById('stock-bowl').value })
+        .then(() => stockReload()).catch(err => stockError(err.message));
+}
+
+function stockReceive() {
+    postJson('{{ route("settings.stock.receive") }}', {
+        tobacco_id: document.getElementById('stock-tobacco-id').value,
+        grams: document.getElementById('stock-grams').value || null,
+        packs: document.getElementById('stock-packs').value || null,
+        price: document.getElementById('stock-price').value || null,
+        supplier: document.getElementById('stock-supplier').value,
+    }).then(data => stockReload().then(() => {
+        if (data.warning) stockError(data.warning);
+    })).catch(err => stockError(err.message));
+}
+
+function stockSaveSettings() {
+    postJson('{{ route("settings.stock.settings") }}', {
+        stock_lead_days: document.getElementById('stock-lead').value,
+        stock_buffer_days: document.getElementById('stock-buffer').value,
+        stock_price_alert: document.getElementById('stock-alert').value,
+        stock_min_default: document.getElementById('stock-min').value,
+    }).then(() => stockReload()).catch(err => stockError(err.message));
+}
+
+function stockAudit(btn) {
+    postJson('{{ route("settings.stock.audit") }}', stockFormData(btn)).then(() => stockReload()).catch(err => stockRowError(btn, err.message));
+}
+
+function openStockReports(keepOpen) {
+    fetch('{{ route("settings.stock.reports") }}').then(r => r.text()).then(html => {
+        document.getElementById('stock-reports').innerHTML = html;
+        if (!keepOpen) openSheet('settingsTab12');
+    });
+}
+
+function stockMixPrice(id, value) {
+    postJson('/settings/stock/mix-price/' + id, { price: value === '' ? null : value }).then(() => openStockReports(true));
+}
+
+function stockToggle(btn, name) {
+    const row = btn.closest('.stockRow');
+    row.querySelectorAll('.stockForm').forEach(f => {
+        f.style.display = f.dataset.form === name && f.style.display === 'none' ? '' : 'none';
+    });
+}
+
+function stockRowError(btn, msg) {
+    const p = btn.closest('.stockForm').querySelector('.formError');
+    p.textContent = msg;
+    p.style.display = '';
+}
+
+function stockFormData(btn) {
+    const form = btn.closest('.stockForm');
+    const data = { tobacco_id: btn.closest('.stockRow').dataset.tobaccoId };
+    form.querySelectorAll('[data-f]').forEach(i => data[i.dataset.f] = i.value);
+    return data;
+}
+
+function stockSaveParams(btn) {
+    postJson('{{ route("settings.stock.params") }}', stockFormData(btn)).then(() => stockReload()).catch(err => stockRowError(btn, err.message));
+}
+
+function stockWriteOff(btn) {
+    postJson('{{ route("settings.stock.write-off") }}', stockFormData(btn)).then(() => stockReload()).catch(err => stockRowError(btn, err.message));
+}
+
+function stockJournal(tobaccoId) {
+    stockJournalTobacco = tobaccoId;
+    fetch('{{ route("settings.stock.journal") }}' + (tobaccoId ? '?tobacco_id=' + tobaccoId : ''))
+        .then(r => r.text()).then(html => {
+            document.getElementById('stock-journal-list').innerHTML = html;
+            document.getElementById('stock-journal-more').style.display = document.querySelectorAll('#stock-journal-list .item').length >= 30 ? '' : 'none';
+            openSheet('settingsTab11');
+        });
+}
+
+function stockJournalMore() {
+    const rows = document.querySelectorAll('#stock-journal-list .item[data-id]');
+    const last = rows[rows.length - 1];
+    if (!last) return;
+    let url = '{{ route("settings.stock.journal") }}?before=' + last.dataset.id + (stockJournalTobacco ? '&tobacco_id=' + stockJournalTobacco : '');
+    fetch(url).then(r => r.text()).then(html => {
+        document.getElementById('stock-journal-list').insertAdjacentHTML('beforeend', html);
+        if (!html.trim()) document.getElementById('stock-journal-more').style.display = 'none';
+    });
+}
+
+function loadMoreAdminLog() {
+    const rows = document.querySelectorAll('#admin-log-list .item[data-id]');
+    const last = rows[rows.length - 1];
+    if (!last) return;
+    fetch(`{{ route('settings.admin-log.sheet') }}?before=${last.dataset.id}`)
+        .then(r => r.text())
+        .then(html => {
+            document.getElementById('admin-log-list').insertAdjacentHTML('beforeend', html);
+            if (!html.trim()) document.getElementById('admin-log-load-more').style.display = 'none';
         });
 }
 

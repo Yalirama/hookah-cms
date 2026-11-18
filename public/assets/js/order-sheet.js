@@ -293,3 +293,43 @@ function initTobaccosEcho() {
 }
 if (window.Echo) initTobaccosEcho();
 else window.addEventListener('echo-ready', initTobaccosEcho);
+
+function saveBowl(orderId) {
+    const card = document.getElementById('bowlCard');
+    const info = document.getElementById('bowlInfo');
+    const fixed = {};
+    const alts = {};
+    card.querySelectorAll('.bowlRow').forEach(r => {
+        fixed[r.dataset.itemId] = r.querySelector('.bowlFixed').value;
+        alts[r.dataset.itemId] = {};
+        r.querySelectorAll('.bowlAlt').forEach(s => alts[r.dataset.itemId][s.dataset.ingId] = s.value);
+    });
+    fetch(`/orders/${orderId}/bowl`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content },
+        body: JSON.stringify({ bowl_size: document.getElementById('bowlSize').value || null, fixed, alts }),
+    }).then(async r => ({ ok: r.ok, data: await r.json() })).then(({ ok, data }) => {
+        const calc = data.calc;
+        const g = v => String(Math.round(v * 10) / 10).replace('.', ',');
+        if (calc) {
+            card.querySelectorAll('.bowlRow').forEach(r => {
+                const it = calc.items[r.dataset.itemId];
+                r.querySelector('.bowlRowGrams').textContent = it ? g(it.grams) + ' г' : '';
+                if (it) it.lines.forEach(l => {
+                    const el = r.querySelector(`[data-ing-g="${l.ingredient_id}"]`);
+                    if (el) el.textContent = g(l.grams) + ' г';
+                });
+            });
+            const sum = Object.values(calc.items).reduce((a, i) => a + i.grams, 0);
+            info.textContent = calc.error || (calc.shortfall ? 'Недобор ' + g(calc.shortfall) + ' г' : 'Итого ' + g(sum) + ' г из ' + g(calc.bowl) + ' г');
+        }
+        const warn = document.getElementById('bowlWarn');
+        const shortages = calc ? calc.shortages : [];
+        warn.textContent = shortages.join('. ');
+        warn.style.display = shortages.length ? '' : 'none';
+        const cost = document.getElementById('bowlCost');
+        if (cost && calc && calc.cost !== undefined) cost.textContent = calc.cost > 0 ? 'Себестоимость чаши: ' + Math.round(calc.cost).toLocaleString('ru-RU') + ' ₸' : '';
+        if (!ok) info.textContent = data.message || 'Ошибка';
+        info.classList.toggle('--error', !ok || !!(calc && calc.error));
+    });
+}

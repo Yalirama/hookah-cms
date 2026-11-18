@@ -32,6 +32,9 @@ Route::middleware('auth')->group(function () {
         ->name('analytics.inactive-guests')
         ->middleware('auth');
 
+    Route::get('/stats', [App\Http\Controllers\StatsController::class, 'index'])->name('stats.index')->middleware('auth');
+    Route::get('/stats/tab/{tab}', [App\Http\Controllers\StatsController::class, 'tab'])->name('stats.tab')->middleware('auth');
+
     Route::get('/analytics/content', [App\Http\Controllers\AnalyticsController::class, 'contentPartial'])
         ->name('analytics.content')
         ->middleware('auth');
@@ -51,6 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{order}/live-data',       [OrderController::class, 'liveData'])->name('live-data');
         Route::post('/{order}/attach-guest',   [OrderController::class, 'attachGuest'])->name('attach-guest');
         Route::delete('/{order}/detach-guest', [OrderController::class, 'detachGuest'])->name('detach-guest');
+        Route::patch('/{order}/bowl', [OrderController::class, 'updateBowl'])->name('bowl');
         Route::patch('/{order}/logs/{log}/master', [OrderController::class, 'updateLogMaster'])->name('logs.master');
     });
 
@@ -111,7 +115,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/stats-partial',         [GuestController::class, 'statsPartial'])->name('stats-partial');
         Route::get('/create-form',           [GuestController::class, 'createForm'])->name('create-form');
         Route::post('/',                     [GuestController::class, 'store'])->name('store');
-        Route::get('/labels-list',           [GuestController::class, 'labelsListJson'])->name('labels-list');
         Route::get('/{guest}',               [GuestController::class, 'show'])->name('show');
         Route::get('/{guest}/sheet',         [GuestController::class, 'sheet'])->name('sheet');
         Route::get('/{guest}/edit-form',     [GuestController::class, 'editForm'])->name('edit-form');
@@ -180,8 +183,30 @@ Route::middleware('auth')->group(function () {
         Route::put('/tables/{table}', [SettingsController::class, 'updateTable'])->name('tables.update');
         Route::post('/tables/{table}/toggle', [SettingsController::class, 'toggleTable'])->name('tables.toggle');
 
+        Route::get('/stock/panel', [\App\Http\Controllers\StockController::class, 'panel'])->name('stock.panel');
+        Route::get('/stock/search', [\App\Http\Controllers\StockController::class, 'search'])->name('stock.search');
+        Route::get('/stock/journal', [\App\Http\Controllers\StockController::class, 'journal'])->name('stock.journal');
+        Route::post('/stock/receive', [\App\Http\Controllers\StockController::class, 'receive'])->name('stock.receive');
+        Route::post('/stock/write-off', [\App\Http\Controllers\StockController::class, 'writeOff'])->name('stock.write-off');
+        Route::post('/stock/params', [\App\Http\Controllers\StockController::class, 'params'])->name('stock.params');
+        Route::get('/stock/reports', [\App\Http\Controllers\StockController::class, 'reports'])->name('stock.reports');
+        Route::post('/stock/audit', [\App\Http\Controllers\StockController::class, 'audit'])->name('stock.audit');
+        Route::post('/stock/settings', [\App\Http\Controllers\StockController::class, 'settings'])->name('stock.settings');
+        Route::post('/stock/mix-price/{mix}', [\App\Http\Controllers\StockController::class, 'mixPrice'])->name('stock.mix-price');
+        Route::get('/catalog/panel', [\App\Http\Controllers\CatalogController::class, 'panel'])->name('catalog.panel');
+        Route::get('/catalog/search', [\App\Http\Controllers\CatalogController::class, 'search'])->name('catalog.search');
+        Route::get('/catalog/brand', [\App\Http\Controllers\CatalogController::class, 'brand'])->name('catalog.brand');
+        Route::post('/catalog/import', [\App\Http\Controllers\CatalogController::class, 'import'])->name('catalog.import');
+        Route::post('/catalog/manual', [\App\Http\Controllers\CatalogController::class, 'manual'])->name('catalog.manual');
+        Route::post('/catalog/link', [\App\Http\Controllers\CatalogController::class, 'link'])->name('catalog.link');
+        Route::post('/catalog/link-local', [\App\Http\Controllers\CatalogController::class, 'linkLocal'])->name('catalog.link-local');
+        Route::get('/prices/panel', [\App\Http\Controllers\StatsSettingsController::class, 'pricesPanel'])->name('prices.panel');
+        Route::post('/prices', [\App\Http\Controllers\StatsSettingsController::class, 'savePrices'])->name('prices.save');
+        Route::get('/stat-access/panel', [\App\Http\Controllers\StatsSettingsController::class, 'accessPanel'])->name('stat-access.panel');
+        Route::post('/stat-access', [\App\Http\Controllers\StatsSettingsController::class, 'saveAccess'])->name('stat-access.save');
+        Route::post('/stock/bowl', [\App\Http\Controllers\StockController::class, 'bowl'])->name('stock.bowl');
+        Route::get('/admin-log/sheet', [SettingsController::class, 'adminLogSheet'])->name('admin-log.sheet');
         Route::get('/master-changes/sheet', [SettingsController::class, 'masterChangesSheet'])->name('master-changes.sheet');
-        Route::get('/tobacco-deactivation-log', [TobaccoController::class, 'deactivationLog'])->name('tobaccos.deactivation-log');
 
         Route::get('/wiki/create-sheet', [WikiController::class, 'createSheet'])->name('wiki.create-sheet');
         Route::get('/wiki/{wikiPage}/edit-sheet', [WikiController::class, 'editSheet'])->name('wiki.edit-sheet');

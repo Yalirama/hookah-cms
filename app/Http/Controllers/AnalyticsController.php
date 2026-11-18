@@ -48,7 +48,8 @@ class AnalyticsController extends Controller
 
         $prevDiff = $to->diffInSeconds($from);
         $prevFrom = $from->copy()->subSeconds($prevDiff);
-        $prevTo   = $from->copy();
+        $elapsed  = max(0, min(now()->timestamp, $to->timestamp) - $from->timestamp);
+        $prevTo   = $prevFrom->copy()->addSeconds($elapsed)->min($from);
 
         $guestsPrev = Order::whereBetween('created_at', [$prevFrom, $prevTo])
             ->whereIn('status', ['closed', 'cancelled', 'redo'])
@@ -68,12 +69,10 @@ class AnalyticsController extends Controller
 
         $newGuests      = 0;
         $returningGuests = 0;
+        $firstVisit = Order::whereIn('status', ['closed', 'cancelled', 'redo'])->whereNotNull('guest_id')
+            ->selectRaw('guest_id, min(id) as f')->groupBy('guest_id')->pluck('f', 'guest_id');
         foreach ($closedOrders as $order) {
-            $prevVisits = Order::where('guest_id', $order->guest_id)
-                ->where('id', '<', $order->id)
-                ->whereIn('status', ['closed', 'cancelled', 'redo'])
-                ->count();
-            if ($prevVisits === 0) $newGuests++;
+            if (($firstVisit[$order->guest_id] ?? null) == $order->id) $newGuests++;
             else $returningGuests++;
         }
 
@@ -179,6 +178,8 @@ class AnalyticsController extends Controller
             ->with('table')
             ->get();
 
+        $tableMoves = \App\Services\TableMoves::build($from, $to);
+
         $topStrengths = OrderItem::whereHasMorph('itemable', [\App\Models\Tobacco::class])
             ->whereHas('order', fn($q) => $q->whereBetween('created_at', [$from, $to])
                 ->whereIn('status', ['closed', 'cancelled', 'redo']))
@@ -241,7 +242,7 @@ class AnalyticsController extends Controller
             'newGuests', 'returningGuests',
             'slotCounts', 'heatmap', 'heatmapSlots', 'days',
             'topMixes', 'topTobaccos', 'topBrands',
-            'topMasters', 'topTables',
+            'topMasters', 'topTables', 'tableMoves',
             'inactiveGuests', 'inactiveDays', 'inactiveStatus', 'topStrengths', 'topFlavors', 'flavorsByDay', 'dayNames7'
         );
     }
@@ -304,7 +305,8 @@ class AnalyticsController extends Controller
         $yearPrevFrom = $yearFrom->copy()->subYear();
         $yearPrevTo   = $yearTo->copy()->subYear();
 
-        $build = function (Carbon $from, Carbon $to, Carbon $prevFrom, Carbon $prevTo) {
+        $build = function (Carbon $from, Carbon $to, Carbon $prevFrom, Carbon $prevTo) use ($now) {
+            $prevTo = $prevFrom->copy()->addSeconds(max(0, min($now->timestamp, $to->timestamp) - $from->timestamp))->min($prevTo);
             $count = $this->countClosedOrders($from, $to);
             $prev  = $this->countClosedOrders($prevFrom, $prevTo);
             $diff  = $count - $prev;

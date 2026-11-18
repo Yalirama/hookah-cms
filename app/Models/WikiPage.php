@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class WikiPage extends Model
 {
+    use \App\Models\Concerns\LogsAdminActions;
+
     protected $fillable = [
         'title', 'description', 'content',
         'sort_order', 'is_published', 'created_by', 'updated_by',
@@ -33,5 +35,27 @@ class WikiPage extends Model
         return $this->hasMany(WikiPageView::class)
             ->select('user_id')
             ->distinct();
+    }
+
+    public function adminEntity(): string
+    {
+        return 'Страница памятки';
+    }
+
+    public function adminLabel(): string
+    {
+        return (string) $this->title;
+    }
+
+    public function adminFields(): array
+    {
+        return ['title' => 'Заголовок', 'description' => 'Описание', 'content' => 'Содержимое', 'is_published' => 'Публикация'];
+    }
+
+    public function adminFieldText(string $field, $old, $new): ?string
+    {
+        if ($field === 'is_published') return $new ? 'Опубликовал' : 'Скрыл';
+        if ($field === 'content' || $field === 'description') return 'Изменил содержимое';
+        return $field === 'title' ? 'Заголовок: ' . $old . ' → ' . $new : null;
     }
 }

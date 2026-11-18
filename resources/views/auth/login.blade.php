@@ -6,20 +6,22 @@
     <title>Вход</title>
     <link rel="apple-touch-icon" href="/assets/img/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/icons/icon-192.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
     <style>
+        :root { --resizer: 320; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: sans-serif; background: #0F0E0C; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .login-box { background: #181612; border-radius: 12px; padding: 40px; width: 360px; border: 1px solid #231F18; }
-        .login-box h1 { color: #fff; font-size: 22px;display: flex;flex-direction:column;}
-        .login-box p { color: #999; font-size: 14px; margin-bottom: 12px; }
-        .login-box h1 span {font-size: 14px; color: #CDAA7D; margin-bottom: 12px;}
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; color: #ccc; font-size: 13px; margin-bottom: 6px; }
-        .form-group input { width: 100%; padding: 10px 14px; background: #221E1A; border: 1px solid #231F18; border-radius: 6px; color: #fff; font-size: 14px; outline: none; }
-        .form-group input:focus { border-color: #c9a84c; }
-        .btn { width: 100%; padding: 12px; background: #c9a84c; color: #fff; border: none; border-radius: 6px; font-size: 15px; cursor: pointer; margin-top: 8px; }
-        .btn:hover { background: #b8943d; }
-        .error { background: #3a1f1f; color: #e07070; padding: 10px 14px; border-radius: 6px; font-size: 13px; margin-bottom: 16px; }
+        body { font-family: "Nunito", system-ui, sans-serif; background: #FFF3EA; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: calc(12vw / var(--resizer) * 100); }
+        .login-box { background: #FFFFFF; border-radius: calc(22vw / var(--resizer) * 100); padding: calc(24vw / var(--resizer) * 100); width: 100%; max-width: calc(300vw / var(--resizer) * 100); border: calc(1vw / var(--resizer) * 100) solid #F1DDD0; box-shadow: 0 calc(6vw / var(--resizer) * 100) calc(18vw / var(--resizer) * 100) rgba(212,64,26,.08); }
+        .login-box h1 { color: #3A2218; font-size: calc(26vw / var(--resizer) * 100); font-weight: 800; letter-spacing: -.02em; display: flex; flex-direction: column; }
+        .login-box p { color: #7D5F52; font-size: calc(13vw / var(--resizer) * 100); margin-bottom: calc(14vw / var(--resizer) * 100); }
+        .login-box h1 span { font-size: calc(12vw / var(--resizer) * 100); font-weight: 600; color: #7D5F52; margin-bottom: calc(10vw / var(--resizer) * 100); letter-spacing: 0; }
+        .form-group { margin-bottom: calc(14vw / var(--resizer) * 100); }
+        .form-group label { display: block; color: #7D5F52; font-size: calc(11vw / var(--resizer) * 100); font-weight: 700; margin-bottom: calc(5vw / var(--resizer) * 100); }
+        .form-group input { width: 100%; min-height: calc(42vw / var(--resizer) * 100); padding: 0 calc(14vw / var(--resizer) * 100); background: #FFF1E8; border: calc(1vw / var(--resizer) * 100) solid #F1DDD0; border-radius: calc(14vw / var(--resizer) * 100); color: #3A2218; font-family: inherit; font-size: calc(14vw / var(--resizer) * 100); outline: none; }
+        .form-group input:focus { border-color: #D4401A; }
+        .btn { width: 100%; min-height: calc(44vw / var(--resizer) * 100); background: #D4401A; color: #fff; border: none; border-radius: calc(40vw / var(--resizer) * 100); font-family: inherit; font-size: calc(13vw / var(--resizer) * 100); font-weight: 700; cursor: pointer; margin-top: calc(8vw / var(--resizer) * 100); }
+        .btn:hover { background: #B93410; }
+        .error { background: #FDE4E2; color: #B42318; padding: calc(10vw / var(--resizer) * 100) calc(14vw / var(--resizer) * 100); border-radius: calc(12vw / var(--resizer) * 100); font-size: calc(12vw / var(--resizer) * 100); margin-bottom: calc(14vw / var(--resizer) * 100); }
     </style>
 </head>
 <body>

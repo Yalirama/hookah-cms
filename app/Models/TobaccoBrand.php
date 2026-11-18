@@ -10,7 +10,9 @@ class TobaccoBrand extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'country', 'description', 'logo'];
+    protected $fillable = ['name', 'country', 'description', 'logo', 'source_slug', 'synced_at'];
+
+    protected $casts = ['synced_at' => 'datetime'];
 
     /**
      * Ручные исключения для брендов, чьё автосгенерированное имя файла

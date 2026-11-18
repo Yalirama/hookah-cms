@@ -29,7 +29,7 @@
     <div class="topNavRow0vd32">
         <div class="search">
             <img src="/assets/img/search-icon.svg" alt="">
-            <input type="text" id="guestSearch" placeholder="Имя, username, email, номер телефона...">
+            <input type="text" id="guestSearch" placeholder="Имя, телефон, username...">
         </div>
 
         <div class="headerStatsWrapperAction">

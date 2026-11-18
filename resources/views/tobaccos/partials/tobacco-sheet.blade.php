@@ -17,7 +17,7 @@
 </div>
 
 <div class="actionTabCnt --actionTabCnt04f2a">
-    <p class="analyticsCardTitle">ИНФОРМАЦИЯ</p>
+    <p class="analyticsCardTitle">Информация</p>
 
     @if($tobacco->description_short)
     <p class="actionTabCntText">{{ $tobacco->description_short }}</p>
@@ -42,7 +42,7 @@
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">ОБЩАЯ СТАТИСТИКА</p>
+    <p class="analyticsCardTitle">Общая статистика</p>
 
     <div class="actionTabCntRow8n37d">
         <div class="item">
@@ -77,21 +77,22 @@
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">КОГДА ЗАКАЗЫВАЮТ</p>
+    <p class="analyticsCardTitle">Когда заказывают</p>
 
     <div class="actionTabCntRow6bs7c">
         @foreach($timeSlots as $key => $slot)
         <div class="item">
             <img src="{{ $slotIcons[$key] ?? '/assets/img/day-icon.svg' }}" alt="">
             <p>{{ $slot['label'] }}</p>
-            <span>x{{ $slotCounts[$key] ?? 0 }} • {{ round(($slotCounts[$key] ?? 0) / $totalSlotCount * 100) }}%</span>
+            <span>{{ round(($slotCounts[$key] ?? 0) / $totalSlotCount * 100) }}%</span>
+            <small>x{{ $slotCounts[$key] ?? 0 }}</small>
         </div>
         @endforeach
     </div>
 </div>
 
 <div class="actionTabCnt">
-    <p class="analyticsCardTitle">ДНИ НЕДЕЛИ</p>
+    <p class="analyticsCardTitle">Дни недели</p>
 
     <div class="actionTabCntRow1ys7s">
         @foreach($dayOrder as $day)

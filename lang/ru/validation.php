@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'array' => 'Поле «:attribute» должно быть списком.',
+    'boolean' => 'Поле «:attribute» должно быть да или нет.',
+    'date' => 'Поле «:attribute» должно быть датой.',
+    'email' => 'Укажите корректный email в поле «:attribute».',
+    'exists' => 'Выбранное значение в поле «:attribute» не найдено.',
+    'in' => 'Выбрано недопустимое значение в поле «:attribute».',
+    'regex' => 'Поле «:attribute» имеет неверный формат.',
+    'date_format' => 'Поле «:attribute» не соответствует формату :format.',
+    'integer' => 'Поле «:attribute» должно быть целым числом.',
+    'max' => ['numeric' => 'Значение «:attribute» не должно быть больше :max.', 'string' => 'Поле «:attribute» не должно быть длиннее :max символов.', 'array' => 'В поле «:attribute» не больше :max элементов.', 'file' => 'Файл «:attribute» не должен быть больше :max КБ.'],
+    'min' => ['numeric' => 'Значение «:attribute» должно быть не меньше :min.', 'string' => 'Поле «:attribute» должно быть не короче :min символов.', 'array' => 'В поле «:attribute» не меньше :min элементов.', 'file' => 'Файл «:attribute» должен быть не меньше :min КБ.'],
+    'numeric' => 'Поле «:attribute» должно быть числом.',
+    'required' => 'Заполните поле «:attribute».',
+    'required_without' => 'Заполните поле «:attribute».',
+    'required_if' => 'Заполните поле «:attribute».',
+    'string' => 'Поле «:attribute» должно быть текстом.',
+    'unique' => 'Такое значение в поле «:attribute» уже существует.',
+    'confirmed' => 'Подтверждение поля «:attribute» не совпадает.',
+    'image' => 'Файл «:attribute» должен быть изображением.',
+    'mimes' => 'Файл «:attribute» должен быть типа :values.',
+    'custom' => [],
+    'attributes' => [
+        'name' => 'название', 'surname' => 'фамилия', 'login' => 'логин', 'password' => 'пароль', 'phone' => 'телефон', 'email' => 'email', 'username' => 'username',
+        'note' => 'заметка', 'comment' => 'комментарий', 'status' => 'статус', 'status_override' => 'статус гостя', 'table_id' => 'стол',
+        'label_id' => 'ярлык', 'type' => 'тип', 'bowl_size' => 'размер чаши', 'grams' => 'граммы', 'items' => 'состав', 'description' => 'описание', 'strength' => 'крепость',
+        'price' => 'цена', 'user_id' => 'мастер', 'guest_comment' => 'комментарий гостя', 'title' => 'заголовок', 'stock_lead_days' => 'срок поставки (дни)', 'stock_buffer_days' => 'страховой запас (дни)', 'stock_price_alert' => 'порог роста цены (%)', 'stock_min_default' => 'минимальный остаток по умолчанию', 'bowl_size' => 'размер чаши', 'default' => 'цена по умолчанию', 'price' => 'цена', 'manual_id' => 'ручной табак', 'target_id' => 'целевой табак', 'slug' => 'бренд', 'item' => 'позиция', 'brand_name' => 'название бренда', 'brand_id' => 'бренд', 'new_guest_name' => 'имя гостя', 'new_guest_username' => 'username гостя', 'new_guest_phone' => 'телефон гостя', 'new_guest_email' => 'email гостя', 'started_at' => 'время начала', 'guest_id' => 'гость', 'ingredients' => 'состав', 'ingredients.*.tobacco_id' => 'табак в составе', 'ingredients.*.grams' => 'граммы табака', 'description_short' => 'короткое описание', 'description_long' => 'полное описание', 'tobacco_id' => 'табак', 'actual' => 'фактический остаток', 'reason' => 'причина', 'min_stock' => 'минимальный остаток', 'pack_size' => 'размер пачки', 'supplier' => 'поставщик', 'rules' => 'правила', 'role' => 'роль', 'is_active' => 'активность', 'content' => 'содержимое', 'capacity' => 'вместимость',
+    ],
+];

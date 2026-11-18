@@ -21,87 +21,62 @@
     ])), 'UTF-8');
 @endphp
 
-<div class="ordersCard --{{ $visual['card'] }}"
+<div class="ordersCard ocCard --{{ $visual['card'] }}"
      data-order-id="{{ $order->id }}"
      data-status="{{ $order->status }}"
      data-guest="{{ $order->guest_id ? '1' : '0' }}"
      data-guest-status="{{ $order->guest?->status ?? '' }}"
      data-search="{{ $searchData }}">
 
-    <div class="ordersCardTop">
-        @if($order->guest)
-            @php
-                $g = $order->guest;
-                $statusClass = ['new' => '--questNew', 'regular' => '--questRegular', 'permanent' => '--questPermanent', 'vip' => '--questVip'][$g->status] ?? '';
-                $initials = mb_strtoupper(collect(explode(' ', trim($g->name)))->map(fn($w) => mb_substr($w, 0, 1))->join(''));
-            @endphp
-            <div class="ordersCardUser">
-                <div class="ordersCardUserImg"><span>{{ $initials }}</span></div>
-                <div class="ordersCardUserInfo">
-                    <div class="ordersCardUserInfoTop">
-                        <p class="ordersCardUserInfoName">{{ $g->name }}</p>
-                        <p class="ordersCardUserInfoUsername">{{ '@' . $g->username }}</p>
-                    </div>
-                    <div class="ordersCardUserInfoBtm">
-                        <div class="ordersCardUserInfoStatus {{ $statusClass }}">
-                            @if($g->status === 'vip')<img src="/assets/img/star-gold.svg" alt="">@endif
-                            <span>{{ $g->status_label }}</span>
-                        </div>
-                        @php $n = $g->visits_count ?? 0; @endphp
-                        <p class="ordersCardUserInfoVisit">{{ $n }} {{ trans_choice('заказ|заказа|заказов', $n) }}</p>
-                    </div>
-                </div>
+    <div class="ocTop">
+        <div class="ocTopL">
+            <span class="ocTable">{{ $order->table?->name ?? '—' }}</span>
+            <div>
+                <p class="ocTime">{{ ($order->started_at ?? $order->created_at)->format('H:i') }}</p>
+                <p class="ocId">#{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</p>
             </div>
-
-            <div class="ordersCardInfo">
-                <div class="ordersCardStatus"><span></span><p>{{ $visual['label'] }}</p></div>
-                <div class="ordersCardId">#{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</div>
-            </div>
-        @else
-            <div class="ordersCardInfo --orderWithoutGuest">
-                <div class="ordersCardStatus"><span></span><p>{{ $visual['label'] }}</p></div>
-                <div class="ordersCardId">#{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</div>
-            </div>
-        @endif
-    </div>
-
-    <div class="ordersCardView">
-        <div class="ordersCardViewTitle{{ $isMix ? ' --typeMix' : '' }}">
-            <span></span>
-            <p>{{ $order->name ?: ($primaryItem?->itemable?->name ?? 'Без названия') }}</p>
         </div>
-        @if($compositionLines->count())
-            <ul class="ordersCardViewInfo">
-                @foreach($compositionLines->take(4) as $line)
-                    <li>{{ $line }}</li>
-                @endforeach
-            </ul>
-        @endif
+        <span class="ocPill">{{ $visual['label'] }}</span>
     </div>
 
-    @if($order->guest_comment)
-        <p class="ordersCardComment">{{ $order->guest_comment }}</p>
+    @if($order->guest)
+        @php
+            $g = $order->guest;
+            $statusClass = ['new' => '--questNew', 'regular' => '--questRegular', 'permanent' => '--questPermanent', 'vip' => '--questVip'][$g->status] ?? '';
+            $initials = mb_strtoupper(collect(explode(' ', trim($g->name)))->map(fn($w) => mb_substr($w, 0, 1))->join(''));
+            $n = $g->visits_count ?? 0;
+        @endphp
+        <div class="ocGuest">
+            <div class="ocAvatar">{{ $initials }}</div>
+            <div class="ocGuestBody">
+                <p class="ocGuestName">{{ $g->name }}</p>
+                <p class="ocGuestMeta">{{ '@' . $g->username }} · {{ $n }} {{ \App\Support\Plural::ru((int) ($n), 'заказ', 'заказа', 'заказов') }}</p>
+            </div>
+            <span class="ocTag {{ $statusClass }}">{{ $g->status_label }}</span>
+        </div>
+    @else
+        <p class="ocNoGuest">Гость не указан</p>
     @endif
 
-    <div class="ordersCardDetails">
-        <div class="ordersCardDetailsl">
-            <div class="ordersCardDetail">
-                <img src="/assets/img/time-icon.svg" alt="">
-                <p>{{ ($order->started_at ?? $order->created_at)->format('H:i') }}</p>
-            </div>
-            <div class="ordersCardDetail">
-                <img src="/assets/img/table-icon.svg" alt="">
-                <p>{{ $order->table?->name ?? '—' }}</p>
-            </div>
-            <div class="ordersCardDetail">
-                <img src="/assets/img/master-create.svg" alt="">
-                <p>{{ $order->creator?->name ?? '—' }}</p>
-            </div>
+    <p class="ocName">{{ $order->name ?: ($primaryItem?->itemable?->name ?? 'Без названия') }}</p>
+
+    @if($compositionLines->count())
+        <div class="ocChips">
+            @foreach($compositionLines->take(4) as $line)
+                <span>{{ $line }}</span>
+            @endforeach
+        </div>
+    @endif
+
+    @if($order->guest_comment)
+        <p class="ocComment">{{ $order->guest_comment }}</p>
+    @endif
+
+    <div class="ocBottom">
+        <div class="ocWho">
+            <p>Принял: {{ $order->creator?->name ?? '—' }}</p>
             @if($order->readyLog?->user && in_array($order->status, ['ready', 'served', 'closed']))
-                <div class="ordersCardDetail">
-                    <img src="/assets/img/master-done.svg" alt="">
-                    <p>{{ $order->readyLog->user->name }}</p>
-                </div>
+                <p>Готовил: {{ $order->readyLog->user->name }}</p>
             @endif
         </div>
         <button type="button" class="btnOpen" onclick="openOrderSheet({{ $order->id }})">Открыть</button>

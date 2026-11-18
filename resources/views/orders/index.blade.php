@@ -83,16 +83,7 @@
 </div>
 
 <section class="ordersSection" id="ordersSection">
-    @forelse($ordersByDay as $dayLabel => $dayOrders)
-        <div class="ordersDayGroup">
-            <h2 class="ordersSectionDay {{ $loop->first ? 'active' : '' }}">{{ $dayLabel }}</h2>
-            @foreach($dayOrders as $order)
-                @include('orders.partials.order-card', ['order' => $order])
-            @endforeach
-        </div>
-    @empty
-        <p id="ordersEmptyState" style="color:var(--info); text-align:center; padding:30px 0;">Заказов не найдено</p>
-    @endforelse
+    @include('orders.partials.day-groups')
 </section>
 
 @endsection
@@ -118,7 +109,7 @@
         searchTimeout = setTimeout(filterOrders, 200);
     });
 
-    window.filterOrders = function () {
+    function filterLocal() {
         const q = document.getElementById('ordersSearchInput').value.trim().toLowerCase();
         document.querySelectorAll('.ordersDayGroup').forEach(group => {
             let visible = 0;
@@ -132,7 +123,53 @@
             });
             group.style.display = visible ? '' : 'none';
         });
+    }
+
+    function queryParams(offset) {
+        const p = new URLSearchParams();
+        const q = document.getElementById('ordersSearchInput').value.trim();
+        if (q) p.set('search', q);
+        if (activeStatus) p.set('status', activeStatus);
+        if (activeGuest !== '') p.set('with_guest', activeGuest);
+        if (activeGuestStatus) p.set('guest_status', activeGuestStatus);
+        if (offset) p.set('offset', offset);
+        return p;
+    }
+
+    let reqSeq = 0;
+    function reloadList() {
+        const seq = ++reqSeq;
+        fetch('/orders?' + queryParams(0), {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+            .then(r => r.text()).then(html => {
+                if (seq !== reqSeq) return;
+                document.getElementById('ordersSection').innerHTML = html;
+            });
+    }
+
+    window.filterOrders = function () {
+        filterLocal();
+        reloadList();
     };
+
+    document.getElementById('ordersSection').addEventListener('click', function (e) {
+        const btn = e.target.closest('.ordersLoadMore');
+        if (!btn) return;
+        btn.disabled = true;
+        fetch('/orders?' + queryParams(btn.dataset.offset), {headers: {'X-Requested-With': 'XMLHttpRequest'}})
+            .then(r => r.text()).then(html => {
+                const box = document.createElement('div');
+                box.innerHTML = html;
+                const section = document.getElementById('ordersSection');
+                btn.remove();
+                const last = [...section.querySelectorAll('.ordersDayGroup')].pop();
+                const first = box.querySelector('.ordersDayGroup');
+                if (last && first && last.querySelector('.ordersSectionDay').textContent.trim() === first.querySelector('.ordersSectionDay').textContent.trim()) {
+                    first.querySelectorAll('.ordersCard').forEach(c => last.appendChild(c));
+                    first.remove();
+                }
+                while (box.firstChild) section.appendChild(box.firstChild);
+            });
+    });
 
     // Real-time
     function upsertOrderCard(orderId) {
@@ -154,7 +191,7 @@
                 }
                 group.querySelector('.ordersSectionDay').insertAdjacentHTML('afterend', html);
             }
-            filterOrders();
+            filterLocal();
         });
     }
 

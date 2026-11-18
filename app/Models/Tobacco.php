@@ -10,9 +10,11 @@ class Tobacco extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'brand_id', 'name', 'description_short',
-        'description_long', 'strength',
+        'brand_id', 'name', 'alt_name', 'description_short',
+        'description_long', 'strength', 'source_slug', 'is_manual', 'merged_into',
     ];
+
+    protected $casts = ['is_manual' => 'boolean'];
 
     public function brand()
     {
