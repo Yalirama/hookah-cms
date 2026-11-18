@@ -509,7 +509,7 @@ button:not(.actionTabHeaderBtn) img[src*="edit-icon"]{display:none}
 .hintRow > .analyticsCardTitle{margin:0}
 .hintBtn{flex:none;width:calc(18vw / var(--resizer) * 100);height:calc(18vw / var(--resizer) * 100);padding:0;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--accT);font-family:'Nunito',system-ui,sans-serif;font-size:calc(11vw / var(--resizer) * 100);font-weight:800;line-height:1;display:inline-flex;align-items:center;justify-content:center}
 .hintPop{position:fixed;left:calc(14vw / var(--resizer) * 100);right:calc(14vw / var(--resizer) * 100);z-index:99999;padding:calc(12vw / var(--resizer) * 100) calc(14vw / var(--resizer) * 100);border-radius:calc(13.7vw / var(--resizer) * 100);background:var(--ink);color:#fff;font-family:'Nunito',system-ui,sans-serif;font-size:calc(12vw / var(--resizer) * 100);font-weight:600;line-height:1.4;box-shadow:0 8px 24px rgba(58,34,24,.25)}
-.stockScroll{max-height:55vh;overflow-y:auto;overscroll-behavior:contain;margin-top:calc(8vw / var(--resizer) * 100);padding-right:calc(2vw / var(--resizer) * 100)}
+.stockScroll{margin-top:calc(8vw / var(--resizer) * 100);padding-right:calc(2vw / var(--resizer) * 100)}
 .stockScroll .stockRow:first-child{margin-top:0}
 .stockSearch{height:calc(37.7vw / var(--resizer) * 100);min-height:calc(37.7vw / var(--resizer) * 100);background:#FFF1E8;border:0;box-shadow:none}
 .stockRow .stockLevel{margin:calc(4vw / var(--resizer) * 100) 0}

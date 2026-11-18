@@ -77,5 +77,12 @@
     </table>
     @endif
     <p class="analyticsCardTitle">Расход по мастерам за месяц</p>
-    @forelse($byMaster as $u)<div class="itemList"><span>{{ $u->name }}</span><p>{{ $g($u->g) }} г · заказов {{ $u->orders }}</p></div>@empty<p class="stockEmpty">Нет данных</p>@endforelse
+    @if(collect($byMaster)->isEmpty())<p class="stockEmpty">Нет данных</p>@else
+    <table class="stockTable">
+        <thead><tr><th>Мастер</th><th>Расход, г</th><th>Заказов</th></tr></thead>
+        <tbody>
+        @foreach($byMaster as $u)<tr><td>{{ $u->name }}</td><td>{{ $g($u->g) }}</td><td>{{ $u->orders }}</td></tr>@endforeach
+        </tbody>
+    </table>
+    @endif
 </div>

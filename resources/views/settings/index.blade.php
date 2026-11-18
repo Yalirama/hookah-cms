@@ -715,6 +715,7 @@
 
         <div class="actionTabCnt actionTabCnt1dvp1" id="admin-log-list">
             @include('settings.partials._admin-log-rows', ['logs' => $adminLogs])
+            @if($adminLogs->isEmpty())<p class="statNote">Записей пока нет. Здесь появятся действия администраторов.</p>@endif
         </div>
 
         @if($adminLogs->count() >= 30)
