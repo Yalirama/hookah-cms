@@ -703,3 +703,4 @@ main.tabaccos .topNav .filters .filtersRow .customSelectArrow{width:calc(8vw / v
 .actionTabCnt > .hintRow{margin-bottom:calc(12vw / var(--resizer) * 100)}
 .actionTabCnt > .analyticsCardTitle{margin-bottom:calc(10vw / var(--resizer) * 100)}
 .catRow + .catRow{margin-top:0}
+.actionTabWrapper{touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
