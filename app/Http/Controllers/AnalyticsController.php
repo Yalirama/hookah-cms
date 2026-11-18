@@ -39,18 +39,6 @@ class AnalyticsController extends Controller
 
     private function buildAnalyticsData(Request $request, string $period): array
     {
-        $ttl = match ($period) {
-            'today' => 15,
-            'week', 'month' => 60,
-            default => 180,
-        };
-        $status = (string) $request->get('inactive_status', 'all');
-
-        return \Illuminate\Support\Facades\Cache::remember("analytics:{$period}:{$status}", $ttl, fn () => $this->computeAnalyticsData($request, $period));
-    }
-
-    private function computeAnalyticsData(Request $request, string $period): array
-    {
         [$from, $to] = $this->getPeriodDates($period);
 
         // --- ГОСТИ (карточка под текущий фильтр периода, используется в остальной части страницы) ---
