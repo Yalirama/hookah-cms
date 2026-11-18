@@ -135,6 +135,7 @@ class StockService
 
     private function move(int $tobaccoId, string $type, float $grams, ?int $orderId = null, ?int $receiptId = null, ?string $note = null): void
     {
+        $this->levelCache = null;
         $avg = TobaccoStock::where('tobacco_id', $tobaccoId)->value('avg_cost');
         $cost = in_array($type, ['consume', 'writeoff', 'correction']) && $avg !== null ? round(abs($grams) * (float) $avg, 2) : null;
         StockMovement::create([
@@ -166,6 +167,7 @@ class StockService
 
     public function recalc(int $tobaccoId): void
     {
+        $this->levelCache = null;
         $sums = StockMovement::where('tobacco_id', $tobaccoId)
             ->selectRaw("SUM(CASE WHEN type IN ('receipt','consume','writeoff','correction') THEN grams ELSE 0 END) as on_hand, SUM(CASE WHEN type IN ('reserve','unreserve') THEN grams ELSE 0 END) as reserved")
             ->first();
@@ -240,8 +242,7 @@ class StockService
 
     public function level(int $tobaccoId): ?array
     {
-        $this->levelCache ??= TobaccoStock::all()->keyBy('tobacco_id')->all();
-        $st = $this->levelCache[$tobaccoId] ?? null;
+        $st = $this->stocks()[$tobaccoId] ?? null;
         if (!$st) return null;
         $av = (float) $st->available;
         if ($av <= 0.05) return ['key' => 'none', 'text' => 'Нет в наличии'];
@@ -249,9 +250,14 @@ class StockService
         return $low ? ['key' => 'low', 'text' => 'Мало'] : ['key' => 'ok', 'text' => 'Есть'];
     }
 
+    private function stocks(): array
+    {
+        return $this->levelCache ??= TobaccoStock::all()->keyBy('tobacco_id')->all();
+    }
+
     public function servingsLeft(int $tobaccoId, ?float $bowl = null): ?int
     {
-        $stock = TobaccoStock::where('tobacco_id', $tobaccoId)->first();
+        $stock = $this->stocks()[$tobaccoId] ?? null;
         if (!$stock) return null;
         $bowl = $bowl ?: $this->defaultBowl();
         return max(0, (int) floor($stock->available / $bowl));
@@ -266,7 +272,7 @@ class StockService
         if ($w->sum() <= 0) $w = $ings->map(fn () => 1.0);
         $min = null;
         foreach ($ings->values() as $idx => $ing) {
-            $stock = TobaccoStock::where('tobacco_id', $ing->tobacco_id)->first();
+            $stock = $this->stocks()[$ing->tobacco_id] ?? null;
             if (!$stock) continue;
             $need = $bowl * $w->values()[$idx] / $w->sum();
             $n = $need > 0 ? (int) floor($stock->available / $need) : 0;
