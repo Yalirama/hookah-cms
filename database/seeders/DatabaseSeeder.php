@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             SettingSeeder::class,
             TobaccoSeeder::class,
+            WikiGuideSeeder::class,
         ]);
     }
 }
