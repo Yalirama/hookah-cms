@@ -42,6 +42,12 @@
         </div>
         @endrole
     </div>
+    <div class="filters">
+        <div class="filtersRow" style="display:grid; grid-template-columns:repeat(2, 1fr);">
+            @include('partials.filter-select', ['id' => 'labelStatusSelect', 'selected' => 'active', 'options' => ['active' => 'Активные', 'inactive' => 'Деактивные', 'all' => 'Все']])
+            @include('partials.filter-select', ['id' => 'labelSortSelect', 'selected' => 'new', 'options' => ['new' => 'Сначала новые', 'count_desc' => 'Популярные', 'count_asc' => 'Непопулярные', 'name' => 'По имени']])
+        </div>
+    </div>
 </form>
 
 <section class="badgesSection" id="labels-list">
@@ -158,16 +164,22 @@
 <script>
 let currentLabel = null;
 
-document.getElementById('labels-search').addEventListener('input', function() {
-    const q = mbLower(this.value);
+function filterLabels() {
+    const q = mbLower(document.getElementById('labels-search').value);
+    const status = (document.getElementById('labelStatusSelectValue') || {}).value || 'active';
+    applyListSort('#labels-list', '.item', (document.getElementById('labelSortSelectValue') || {}).value || 'new');
     let visible = 0;
     document.querySelectorAll('#labels-list .item').forEach(el => {
-        const match = !q || el.dataset.search.includes(q);
+        const matchStatus = status === 'all' || (status === 'active' ? el.dataset.active === '1' : el.dataset.active === '0');
+        const match = matchStatus && (!q || el.dataset.search.includes(q));
         el.style.display = match ? '' : 'none';
         if (match) visible++;
     });
     document.getElementById('labels-no-results').style.display = visible === 0 ? 'block' : 'none';
-});
+}
+document.getElementById('labels-search').addEventListener('input', filterLabels);
+document.addEventListener('customselect:change', e => { if (e.target.id === 'labelStatusSelect' || e.target.id === 'labelSortSelect') filterLabels(); });
+document.addEventListener('DOMContentLoaded', filterLabels);
 
 function mbLower(s) { return s.toLowerCase(); }
 
@@ -228,6 +240,7 @@ function submitCreateBadge() {
         document.getElementById('create-description').value = '';
         document.getElementById('create-note').value = '';
         closeSheet('createBadge');
+        filterLabels();
     });
 }
 
@@ -242,6 +255,8 @@ function toggleBadge() {
         openLabelSheet(currentLabel.id);
         const row = document.querySelector(`#labels-list .item[data-id="${currentLabel.id}"]`);
         row.dataset.active = data.is_active ? '1' : '0';
+        row.classList.toggle('--deac', !data.is_active);
+        filterLabels();
     });
 }
 

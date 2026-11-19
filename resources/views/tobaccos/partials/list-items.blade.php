@@ -17,6 +17,8 @@
             data-stock="{{ $stockKey }}"
             data-tobacco-id="{{ $tobacco->id }}"
             data-status="{{ $isActive ? 'active' : 'inactive' }}"
+            data-count="{{ $tobacco->orders_count ?? 0 }}"
+            data-name="{{ mb_strtolower(trim(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name), 'UTF-8') }}"
             data-search="{{ $searchData }}">
         <div class="productListItemTop">
             <div class="productListItemTopInfo">

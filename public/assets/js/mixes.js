@@ -1,6 +1,6 @@
 function filterMixList() {
-    const activeFilterBtn = document.querySelector('#mixList').closest('main').querySelector('.filtersBtn.active');
-    const status = activeFilterBtn ? activeFilterBtn.dataset.status : 'active';
+    const status = (document.getElementById('mixStatusSelectValue') || {}).value || 'active';
+    applyListSort('#mixList', '.productListItem', (document.getElementById('mixSortSelectValue') || {}).value || 'new');
     const searchInput = document.getElementById('mixSearch');
     const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
 
@@ -23,13 +23,7 @@ function filterMixList() {
     if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
 }
 
-document.addEventListener('click', function (e) {
-    const btn = e.target.closest('.filtersBtn[data-status]');
-    if (!btn) return;
-    document.querySelectorAll('.filtersBtn[data-status]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    filterMixList();
-});
+document.addEventListener('customselect:change', e => { if (e.target.id === 'mixStatusSelect' || e.target.id === 'mixSortSelect') filterMixList(); });
 
 document.addEventListener('input', function (e) {
     if (e.target && e.target.id === 'mixSearch') filterMixList();

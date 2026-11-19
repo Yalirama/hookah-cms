@@ -19,6 +19,9 @@
             data-mix-id="{{ $mix->id }}"
             data-status="{{ $mix->is_active ? 'active' : 'inactive' }}"
             data-mine="{{ $mix->created_by == auth()->id() ? '1' : '0' }}"
+            data-count="{{ $mix->orders_count ?? 0 }}"
+            data-created="{{ $mix->created_at?->timestamp ?? 0 }}"
+            data-name="{{ mb_strtolower($mix->name, 'UTF-8') }}"
             data-search="{{ $searchData }}">
         <div class="productListItemTop">
             <div class="productListItemTopInfo">

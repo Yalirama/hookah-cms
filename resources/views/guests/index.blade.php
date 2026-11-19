@@ -40,12 +40,9 @@
     </div>
 
     <div class="filters">
-        <div class="filtersRow">
-            <button type="button" class="filtersBtn active" data-status="">Все гости</button>
-            <button type="button" class="filtersBtn" data-status="vip">VIP</button>
-            <button type="button" class="filtersBtn" data-status="permanent">Постоянный</button>
-            <button type="button" class="filtersBtn" data-status="regular">Регулярный</button>
-            <button type="button" class="filtersBtn" data-status="new">Новый</button>
+        <div class="filtersRow" style="display:grid; grid-template-columns:repeat(2, 1fr);">
+            @include('partials.filter-select', ['id' => 'guestStatusSelect', 'selected' => 'all', 'options' => ['all' => 'Все гости', 'vip' => 'VIP', 'permanent' => 'Постоянный', 'regular' => 'Регулярный', 'new' => 'Новый']])
+            @include('partials.filter-select', ['id' => 'guestSortSelect', 'selected' => 'new', 'options' => ['new' => 'Новые гости', 'old' => 'Старые гости', 'count_desc' => 'Больше заказов', 'count_asc' => 'Меньше заказов', 'name' => 'По имени']])
         </div>
     </div>
 </form>

@@ -21,6 +21,7 @@ class MixController extends Controller
             'creator',
             'ingredients' => fn($q) => $q->orderBy('sort_order')->with('tobacco.brand', 'tobacco.flavorTags.category'),
         ])
+        ->withCount(['orderItems as orders_count' => fn ($q) => $q->whereHas('order', fn ($o) => $o->where('status', 'closed'))])
         ->latest()
         ->get();
 
@@ -527,7 +528,7 @@ class MixController extends Controller
         $mixes = Mix::with([
             'creator',
             'ingredients' => fn($q) => $q->orderBy('sort_order')->with('tobacco.brand', 'tobacco.flavorTags.category'),
-        ])->latest()->get();
+        ])->withCount(['orderItems as orders_count' => fn ($q) => $q->whereHas('order', fn ($o) => $o->where('status', 'closed'))])->latest()->get();
 
         return view('mixes.partials.list-items', compact('mixes'));
     }

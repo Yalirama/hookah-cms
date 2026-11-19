@@ -441,6 +441,7 @@ class TobaccoController extends Controller
     {
         return Tobacco::whereHas('venueTobacco')
             ->with('brand', 'flavorTags.category', 'venueTobacco.deactivatedBy')
+            ->withCount(['orderItems as orders_count' => fn ($q) => $q->whereHas('order', fn ($o) => $o->where('status', 'closed'))])
             ->orderBy('name')
             ->get();
     }

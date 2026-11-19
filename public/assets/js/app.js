@@ -116,3 +116,22 @@ function toggleGuestAccordion(btn) {
     const card = btn.closest('.labelGuestAccordionCard');
     card.dataset.open = card.dataset.open === '1' ? '0' : '1';
 }
+
+function applyListSort(container, itemSelector, mode) {
+    if (typeof container === 'string') container = document.querySelector(container);
+    if (!container) return;
+    const items = [...container.querySelectorAll(itemSelector)];
+    items.forEach((el, i) => { if (el.dataset.idx === undefined) el.dataset.idx = i; });
+    const num = (el, k) => parseFloat(el.dataset[k]) || 0;
+    const byName = (a, b) => (a.dataset.name || '').localeCompare(b.dataset.name || '', 'ru', { sensitivity: 'base' });
+    const orig = (a, b) => num(a, 'idx') - num(b, 'idx');
+    const cmp = {
+        orig,
+        name: (a, b) => byName(a, b) || orig(a, b),
+        count_desc: (a, b) => num(b, 'count') - num(a, 'count') || byName(a, b) || orig(a, b),
+        count_asc: (a, b) => num(a, 'count') - num(b, 'count') || byName(a, b) || orig(a, b),
+        new: (a, b) => num(b, 'created') - num(a, 'created') || orig(a, b),
+        old: (a, b) => num(a, 'created') - num(b, 'created') || orig(b, a),
+    }[mode] || orig;
+    items.sort(cmp).forEach(el => container.appendChild(el));
+}

@@ -61,6 +61,7 @@
                 <input type="hidden" id="tobaccoStockValue" value="any">
                 <div class="customSelectDropdown"><div class="customSelectOption --active" data-value="any">Любое наличие</div><div class="customSelectOption" data-value="ok">Есть</div><div class="customSelectOption" data-value="low">Мало</div><div class="customSelectOption" data-value="none">Нет</div>@role('admin')<div class="customSelectOption" data-value="off">Без учёта</div>@endrole</div>
             </div>
+            @include('partials.filter-select', ['id' => 'tobaccoSortSelect', 'selected' => 'name', 'full' => true, 'options' => ['name' => 'По имени', 'count_desc' => 'Популярные', 'count_asc' => 'Непопулярные']])
         </div>
     </div>
     </div>

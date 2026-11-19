@@ -65,6 +65,7 @@ document.addEventListener('input', function (e) {
 function filterTobaccoList() {
     const status = (document.getElementById('tobaccoStatusValue') || {}).value || 'active';
     const stock = (document.getElementById('tobaccoStockValue') || {}).value || 'any';
+    applyListSort('#tobaccoList', '.productListItem', (document.getElementById('tobaccoSortSelectValue') || {}).value || 'name');
     const searchInput = document.getElementById('tobaccoSearch');
     const words = searchInput ? searchInput.value.toLowerCase().split(/\s+/).filter(Boolean) : [];
 
@@ -288,4 +289,4 @@ function initTobaccosEcho() {
 }
 if (window.Echo) initTobaccosEcho();
 else window.addEventListener('echo-ready', initTobaccosEcho);
-document.addEventListener('customselect:change', e => { if (e.target.id === 'tobaccoStatusSelect' || e.target.id === 'tobaccoStockSelect') filterTobaccoList(); });
+document.addEventListener('customselect:change', e => { if (e.target.id === 'tobaccoStatusSelect' || e.target.id === 'tobaccoStockSelect' || e.target.id === 'tobaccoSortSelect') filterTobaccoList(); });

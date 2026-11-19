@@ -1,6 +1,6 @@
 function filterGuestList() {
-    const activeFilterBtn = document.querySelector('.filtersBtn.active');
-    const status = activeFilterBtn ? activeFilterBtn.dataset.status : '';
+    const status = (document.getElementById('guestStatusSelectValue') || {}).value || 'all';
+    applyListSort('#guestList', '.ordersCard', (document.getElementById('guestSortSelectValue') || {}).value || 'new');
     const searchInput = document.getElementById('guestSearch');
     const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
 
@@ -8,7 +8,7 @@ function filterGuestList() {
     let visible = 0;
 
     items.forEach(item => {
-        const matchStatus = !status || item.dataset.status === status;
+        const matchStatus = status === 'all' || item.dataset.status === status;
         const matchSearch = !q || item.dataset.search.includes(q);
         const show = matchStatus && matchSearch;
         item.style.display = show ? '' : 'none';
@@ -19,13 +19,7 @@ function filterGuestList() {
     if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
 }
 
-document.addEventListener('click', function (e) {
-    const btn = e.target.closest('.filtersBtn[data-status]');
-    if (!btn) return;
-    document.querySelectorAll('.filtersBtn[data-status]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    filterGuestList();
-});
+document.addEventListener('customselect:change', e => { if (e.target.id === 'guestStatusSelect' || e.target.id === 'guestSortSelect') filterGuestList(); });
 
 document.addEventListener('input', function (e) {
     if (e.target && e.target.id === 'guestSearch') filterGuestList();

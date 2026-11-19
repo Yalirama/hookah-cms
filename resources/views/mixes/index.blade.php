@@ -48,11 +48,9 @@
         </div>
 
         <div class="filters">
-            <div class="filtersRow">
-                <button type="button" class="filtersBtn active" data-status="active">Активные</button>
-                <button type="button" class="filtersBtn" data-status="inactive">Деактивные</button>
-                <button type="button" class="filtersBtn" data-status="mine">Мои</button>
-                <button type="button" class="filtersBtn" data-status="all">Все</button>
+            <div class="filtersRow" style="display:grid; grid-template-columns:repeat(2, 1fr);">
+                @include('partials.filter-select', ['id' => 'mixStatusSelect', 'selected' => 'active', 'options' => ['active' => 'Активные', 'inactive' => 'Деактивные', 'mine' => 'Мои', 'all' => 'Все']])
+                @include('partials.filter-select', ['id' => 'mixSortSelect', 'selected' => 'new', 'options' => ['new' => 'Сначала новые', 'count_desc' => 'Популярные', 'count_asc' => 'Непопулярные', 'name' => 'По имени']])
             </div>
         </div>
     </div>

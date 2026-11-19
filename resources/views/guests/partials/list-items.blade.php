@@ -4,7 +4,7 @@
         $initials = mb_strtoupper(collect(explode(' ', trim($guest->name)))->map(fn($w) => mb_substr($w, 0, 1))->join(''), 'UTF-8');
         $searchData = mb_strtolower(implode(' ', array_filter([$guest->name, $guest->username, $guest->phone, $guest->email, (string) $guest->id])), 'UTF-8');
     @endphp
-    <div class="ordersCard" data-guest-id="{{ $guest->id }}" data-status="{{ $guest->status }}" data-search="{{ $searchData }}">
+    <div class="ordersCard" data-guest-id="{{ $guest->id }}" data-status="{{ $guest->status }}" data-count="{{ $guest->closed_orders_count ?? 0 }}" data-created="{{ $guest->created_at?->timestamp ?? 0 }}" data-name="{{ mb_strtolower($guest->name, 'UTF-8') }}" data-search="{{ $searchData }}">
         <div class="ordersCardTop">
             <div class="ordersCardUser">
                 <div class="ordersCardUserImg"><span>{{ $initials }}</span></div>
