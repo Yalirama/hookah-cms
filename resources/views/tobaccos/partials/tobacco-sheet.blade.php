@@ -104,14 +104,14 @@
     </div>
 </div>
 
-@include('partials.freq-bars', ['title' => 'Дни недели', 'items' => collect($dayOrder)->map(fn($d) => ['label' => $d, 'count' => $dayCounts[$d] ?? 0])->all()])
+@include('partials.freq-bars', ['what' => 'заказывают этот табак', 'note' => 'Считаются заказы этого табака отдельной позицией, табак внутри миксов не входит.', 'title' => 'Дни недели', 'items' => collect($dayOrder)->map(fn($d) => ['label' => $d, 'count' => $dayCounts[$d] ?? 0])->all()])
 
-@include('partials.freq-bars', ['title' => 'По месяцам', 'items' => $months])
+@include('partials.freq-bars', ['what' => 'заказывают этот табак', 'note' => 'Считаются заказы этого табака отдельной позицией, табак внутри миксов не входит.', 'title' => 'По месяцам', 'items' => $months])
 
-@include('partials.freq-bars', ['title' => 'Сезонность', 'items' => $seasons])
+@include('partials.freq-bars', ['what' => 'заказывают этот табак', 'note' => 'Считаются заказы этого табака отдельной позицией, табак внутри миксов не входит.', 'title' => 'Сезонность', 'items' => $seasons])
 
 @if(count($years))
-@include('partials.freq-bars', ['title' => 'По годам', 'items' => $years])
+@include('partials.freq-bars', ['what' => 'заказывают этот табак', 'note' => 'Считаются заказы этого табака отдельной позицией, табак внутри миксов не входит.', 'title' => 'По годам', 'items' => $years])
 @endif
 
 <div class="actionTabCnt">

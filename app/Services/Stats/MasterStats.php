@@ -28,7 +28,7 @@ class MasterStats
         $orders = DB::table('orders')->whereIn('id', $oids)->get()->keyBy('id');
         $hist = DB::table('order_status_histories')->whereIn('order_id', $oids)->get()->groupBy('order_id');
         $items = DB::table('order_items')->whereNull('deleted_at')->whereIn('order_id', $oids)->get()->groupBy('order_id');
-        $labels = ['pending' => 'Новый', 'in_progress' => 'В работе', 'ready' => 'Готов', 'served' => 'Подан', 'redo' => 'Переделка', 'closed' => 'Закрыт', 'cancelled' => 'Отменён'];
+        $labels = ['pending' => 'Новый', 'in_progress' => 'В работе', 'ready' => 'Готов', 'served' => 'У гостя', 'redo' => 'Переделка', 'closed' => 'Завершён', 'cancelled' => 'Отменён'];
 
         $m = [];
         $ev = function ($uid, $type, $log, $note = '') use (&$m, $orders, $tables) {

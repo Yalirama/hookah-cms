@@ -134,7 +134,7 @@ document.addEventListener('click', function (e) {
 <section class="analytics defaultFixed" id="analytics-content">
 @if($shift)
 <div class="analyticsCard statCard shiftCard">
-    <p class="analyticsCardTitle">{{ $shift['label'] }}</p>
+    <div class="hintRow"><p class="analyticsCardTitle">{{ $shift['label'] }}</p><button type="button" class="hintBtn" data-hint="Ваша текущая смена, а если она закрыта, последняя (не старше 12 часов). «Приготовил» — заказы, которые вы перевели в «Готов». «Среднее время» — от создания заказа до «Готов». «Переделок» — сколько из приготовленных вами заказов ушло на переделку. «Подробнее» открывает вашу статистику за любой период.">?</button></div>
     <div class="statGrid statGrid3">
         <div class="statTile"><b>{{ $shift['prepared'] }}</b><span>приготовил</span></div>
         <div class="statTile"><b>{{ $shift['avgNew'] !== null ? \App\Support\Fmt::mins($shift['avgNew']) : '—' }}</b><span>среднее время</span></div>

@@ -489,7 +489,7 @@ class StatsService
     {
         $orders = $this->orders($p->from, $p->to, true)->keyBy('id');
         $hist = DB::table('order_status_histories')->whereIn('order_id', $orders->keys()->all())->orderBy('started_at')->get()->groupBy('order_id');
-        $labels = ['pending' => 'Новый', 'in_progress' => 'В работе', 'ready' => 'Готов', 'served' => 'Подан', 'redo' => 'Переделка', 'closed' => 'Закрыт', 'cancelled' => 'Отменён'];
+        $labels = ['pending' => 'Новый', 'in_progress' => 'В работе', 'ready' => 'Готов', 'served' => 'У гостя', 'redo' => 'Переделка', 'closed' => 'Завершён', 'cancelled' => 'Отменён'];
         $dur = []; $long = []; $speed = [];
         foreach ($orders as $o) {
             $h = ($hist[$o->id] ?? collect())->values();

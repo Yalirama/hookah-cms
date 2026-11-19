@@ -4,7 +4,7 @@
 
 @if(StatAccess::can('process_time'))
 <div class="analyticsCard statCard">
-    <div class="hintRow"><p class="analyticsCardTitle">Где застревают заказы</p><button type="button" class="hintBtn" data-hint="Сколько заказ в среднем проводит в каждом статусе: «Новый» — ждёт мастера, «В работе» — готовится, «Готов» — ждёт, пока его отнесут, «Подан» — гость курит. Если какой-то статус слишком долгий, там узкое место. Интервалы дольше суток не учитываются.">?</button></div>
+    <div class="hintRow"><p class="analyticsCardTitle">Где застревают заказы</p><button type="button" class="hintBtn" data-hint="Сколько заказ в среднем проводит в каждом статусе: «Новый» — ждёт мастера, «В работе» — готовится, «Готов» — ждёт, пока его отнесут, «У гостя» — гость курит. Если какой-то статус слишком долгий, там узкое место. Интервалы дольше суток не учитываются.">?</button></div>
     <div class="statScroll"><table class="statTable"><thead><tr><th>Статус</th><th>В среднем</th><th>Максимум</th><th>Раз</th></tr></thead><tbody>
     @forelse($d['statusRows'] as $r)<tr><td>{{ $r['label'] }}</td><td>{{ Fmt::mins($r['avgMin']) }}</td><td>{{ Fmt::mins($r['maxMin']) }}</td><td>{{ $r['n'] }}</td></tr>
     @empty<tr><td colspan="4">Нет данных по статусам</td></tr>@endforelse

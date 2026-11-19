@@ -1,10 +1,10 @@
 @use('App\Support\Fmt')
-    <div class="hintRow"><p class="analyticsCardTitle">{{ $m['name'] }}</p>@if($first ?? false)<button type="button" class="hintBtn" data-hint="Всё считается по действиям из истории заказов в выбранном периоде. «Взял» — перевёл заказ из «Нового» в «В работе»; «Приготовил» — из «В работе» в «Готов»; «Подал» — из «Готов» в «Подан». «Исход» — чем сейчас закончились заказы, которые он приготовил. «Откат» — возврат заказа на прошлый статус. «Забрали / передали» — смена мастера в заказе. Время смен записывается с начала ведения истории, раньше его нет.">?</button>@endif</div>
+    <div class="hintRow"><p class="analyticsCardTitle">{{ $m['name'] }}</p>@if($first ?? false)<button type="button" class="hintBtn" data-hint="Всё считается по действиям из истории заказов в выбранном периоде. «Взял» — перевёл заказ из «Нового» в «В работе»; «Приготовил» — из «В работе» в «Готов»; «Отнёс гостю» — из «Готов» в «У гостя». «Исход» — чем сейчас закончились заказы, которые он приготовил. «Откат» — возврат заказа на прошлый статус. «Забрали / передали» — смена мастера в заказе. Время смен записывается с начала ведения истории, раньше его нет.">?</button>@endif</div>
     <div class="statGrid statGrid3">
         <div class="statTile"><b>{{ $m['created'] }}</b><span>создал</span></div>
         <div class="statTile"><b>{{ $m['took'] }}</b><span>взял в работу</span></div>
         <div class="statTile"><b>{{ $m['prepared'] }}</b><span>приготовил</span></div>
-        <div class="statTile"><b>{{ $m['delivered'] }}</b><span>подал гостю</span></div>
+        <div class="statTile"><b>{{ $m['delivered'] }}</b><span>отнёс гостю</span></div>
         <div class="statTile"><b>{{ $m['closed'] }}</b><span>закрыл</span></div>
         <div class="statTile"><b>{{ $m['serviced'] }}</b><span>обслужил</span></div>
     </div>

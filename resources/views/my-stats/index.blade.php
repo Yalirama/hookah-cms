@@ -54,16 +54,16 @@
             <p class="statNote">В этом периоде нет таких действий.</p>
             @else
             <p class="statNote">Всего: {{ $a['total'] }}</p>
-            @include('partials.freq-bars', ['title' => 'Дни недели', 'items' => $a['days']])
-            @include('partials.freq-bars', ['title' => 'Время суток', 'items' => $a['hours']])
-            @include('partials.freq-bars', ['title' => 'По месяцам', 'items' => $a['months']])
-            @include('partials.freq-bars', ['title' => 'Сезонность', 'items' => $a['seasons']])
+            @include('partials.freq-bars', ['what' => 'вы выполняете это действие', 'scope' => true, 'title' => 'Дни недели', 'items' => $a['days']])
+            @include('partials.freq-bars', ['what' => 'вы выполняете это действие', 'scope' => true, 'title' => 'Время суток', 'items' => $a['hours']])
+            @include('partials.freq-bars', ['what' => 'вы выполняете это действие', 'scope' => true, 'title' => 'По месяцам', 'items' => $a['months']])
+            @include('partials.freq-bars', ['what' => 'вы выполняете это действие', 'scope' => true, 'title' => 'Сезонность', 'items' => $a['seasons']])
             @if(count($a['years']) > 1)
-            @include('partials.freq-bars', ['title' => 'По годам', 'items' => $a['years']])
+            @include('partials.freq-bars', ['what' => 'вы выполняете это действие', 'scope' => true, 'title' => 'По годам', 'items' => $a['years']])
             @endif
             @if($a['guests'])
             <div class="actionTabCnt">
-                <p class="analyticsCardTitle">Гости: {{ mb_strtolower($a['label']) }}</p>
+                <div class="hintRow"><p class="analyticsCardTitle">Гости: {{ mb_strtolower($a['label']) }}</p><button type="button" class="hintBtn" data-hint="Гости, с которыми вы чаще всего делали это действие. Считаются только заказы, где указан гость.">?</button></div>
                 @foreach($a['guests'] as $i => $g)<p class="statTop"><i>{{ $i + 1 }}</i><span>{{ $g['name'] }}</span><b>{{ $g['n'] }} раз</b></p>@endforeach
             </div>
             @endif
@@ -74,14 +74,14 @@
 
     @if($topMixes)
     <div class="analyticsCard statCard">
-        <p class="analyticsCardTitle myTopTitle">Миксы, которые я чаще готовил</p>
+        <div class="hintRow myTopTitle"><p class="analyticsCardTitle">Миксы, которые я чаще готовил</p><button type="button" class="hintBtn" data-hint="Миксы из заказов, которые вы перевели в «Готов» за выбранный период. Число — сколько раз.">?</button></div>
         @foreach($topMixes as $i => $t)<p class="statTop"><i>{{ $i + 1 }}</i><span>{{ $t['name'] }}</span><b>{{ $t['n'] }} шт</b></p>@endforeach
     </div>
     @endif
 
     @if($topTobaccos)
     <div class="analyticsCard statCard">
-        <p class="analyticsCardTitle myTopTitle">Табаки, которые я чаще готовил</p>
+        <div class="hintRow myTopTitle"><p class="analyticsCardTitle">Табаки, которые я чаще готовил</p><button type="button" class="hintBtn" data-hint="Табаки, заказанные отдельными позициями, в заказах, которые вы перевели в «Готов». Табаки внутри миксов здесь не считаются, они видны в топе миксов.">?</button></div>
         @foreach($topTobaccos as $i => $t)<p class="statTop"><i>{{ $i + 1 }}</i><span>{{ $t['name'] }}</span><b>{{ $t['n'] }} шт</b></p>@endforeach
     </div>
     @endif
