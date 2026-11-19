@@ -6,7 +6,7 @@
     <div class="hintRow"><p class="analyticsCardTitle">Топы</p><button type="button" class="hintBtn" data-hint="Лидеры периода по разным показателям. Рейтинги по скорости и переделкам считаются, только если мастер приготовил не меньше трёх заказов, иначе цифры случайны.">?</button></div>
     @foreach($d['tops'] as $t)
     <p class="statSub">{{ $t['label'] }}</p>
-    @foreach($t['rows'] as $i => $r)<p class="statTop"><i>{{ $i + 1 }}</i><span>{{ $r['name'] }}</span><b>{{ rtrim(rtrim(number_format($r['v'], 1, ',', ''), '0'), ',') }} {{ $t['unit'] }}</b></p>@endforeach
+    @foreach($t['rows'] as $i => $r)<p class="statTop"><i>{{ $i + 1 }}</i><span>{{ $r['name'] }}</span><b>{{ rtrim(rtrim(number_format($r['v'], 1, ',', ''), '0'), ',') }} {{ $t['unit'] }}@if(($r['n'] ?? null) !== null) · {{ $r['n'] }} шт@endif</b></p>@endforeach
     @endforeach
 </div>
 @endif
@@ -26,7 +26,7 @@
     <p class="statLine">Закрыто: <b>{{ $m['outcome']['closed'] }}</b> · Отменено: <b>{{ $m['outcome']['cancelled'] }}</b> · На переделке: <b>{{ $m['outcome']['redo'] }}</b>@if($m['outcome']['other']) · В процессе: <b>{{ $m['outcome']['other'] }}</b>@endif</p>
     <p class="statSub">Скорость и нагрузка</p>
     <p class="statLine">От «Нового» до «Готов»: <b>{{ $m['avgNew'] !== null ? Fmt::mins($m['avgNew']) : '—' }}</b> · Само приготовление: <b>{{ $m['avgCook'] !== null ? Fmt::mins($m['avgCook']) : '—' }}</b></p>
-    <p class="statLine">Переделок: <b>{{ $m['redoPct'] !== null ? $m['redoPct'] . '%' : '—' }}</b> · Заменял табак на альтернативу: <b>{{ $m['alt'] }}</b></p>
+    <p class="statLine">Переделок: <b>{{ $m['redoPct'] !== null ? $m['redoPct'] . '% · ' . $m['outcome']['redo'] . ' шт' : '—' }}</b> · Заменял табак на альтернативу: <b>{{ $m['alt'] }}</b></p>
     <p class="statLine">Часов на смене: <b>{{ $m['shiftHours'] }}</b>@if($m['perHour'] !== null) · Приготовил в час: <b>{{ $m['perHour'] }}</b>@endif</p>
     @if($m['dayparts'])<p class="statLine">По времени суток: @foreach(['Утро', 'День', 'Вечер', 'Ночь'] as $dp)@if(!empty($m['dayparts'][$dp])){{ $dp }} <b>{{ $m['dayparts'][$dp] }}</b> @endif @endforeach</p>@endif
     <p class="statSub">Контроль</p>

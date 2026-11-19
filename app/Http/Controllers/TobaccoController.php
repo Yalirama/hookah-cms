@@ -52,6 +52,7 @@ class TobaccoController extends Controller
         $tobacco->load('brand', 'flavorTags.category', 'notes.user', 'venueTobacco.logs.user');
 
         $data = $this->buildTobaccoStats($tobacco);
+        $data['pairs'] = app(\App\Services\TobaccoPairs::class)->for($tobacco->id);
 
         return view('tobaccos.partials.tobacco-sheet', array_merge(['tobacco' => $tobacco], $data));
     }
@@ -101,7 +102,11 @@ class TobaccoController extends Controller
                 ->count();
         }
 
-        return compact('totalOrders', 'redoOrders', 'last7', 'last30', 'last60', 'last90', 'last365', 'timeSlots', 'slotCounts', 'dayCounts');
+        $freq = \App\Support\OrderFrequency::of($orderItemsQuery);
+        $months = $freq['months'];
+        $seasons = $freq['seasons'];
+
+        return compact('totalOrders', 'redoOrders', 'last7', 'last30', 'last60', 'last90', 'last365', 'timeSlots', 'slotCounts', 'dayCounts', 'months', 'seasons');
     }
 
     public function edit()

@@ -91,18 +91,26 @@
     </div>
 </div>
 
-<div class="actionTabCnt">
-    <p class="analyticsCardTitle">Дни недели</p>
+@include('partials.freq-bars', ['title' => 'Дни недели', 'items' => collect($dayOrder)->map(fn($d) => ['label' => $d, 'count' => $dayCounts[$d] ?? 0])->all()])
 
-    <div class="actionTabCntRow1ys7s">
-        @foreach($dayOrder as $day)
-        @php $count = $dayCounts[$day] ?? 0; $isActive = $count > 0 && $count >= $maxDayCount * 0.5; @endphp
-        <div class="item {{ $isActive ? 'active' : '' }}">
-            <span></span>
-            <p>{{ $day }}</p>
-        </div>
-        @endforeach
-    </div>
+@include('partials.freq-bars', ['title' => 'По месяцам', 'items' => $months])
+
+@include('partials.freq-bars', ['title' => 'Сезонность', 'items' => $seasons])
+
+<div class="actionTabCnt">
+    <p class="analyticsCardTitle">С чем заказывают</p>
+    <p class="statSub">Чаще всего в миксах, закрытых без проблем@if($pairs['closedTotal']) · всего {{ $pairs['closedTotal'] }}@endif</p>
+    @forelse($pairs['closed'] as $i => $r)
+    <p class="statTop"><i>{{ $i + 1 }}</i><span>{{ $r['name'] }}</span><b>{{ $r['n'] }} · {{ $r['pct'] }}%</b></p>
+    @empty
+    <p class="statNote">Пока нет завершённых заказов с миксами, где есть этот табак.</p>
+    @endforelse
+    <p class="statSub">Чаще всего в миксах, ушедших в переделку@if($pairs['redoTotal']) · всего {{ $pairs['redoTotal'] }}@endif</p>
+    @forelse($pairs['redo'] as $i => $r)
+    <p class="statTop"><i>{{ $i + 1 }}</i><span>{{ $r['name'] }}</span><b>{{ $r['n'] }} · {{ $r['pct'] }}%</b></p>
+    @empty
+    <p class="statNote">Переделок с этим табаком не было.</p>
+    @endforelse
 </div>
 
 <div class="actionTabCnt">

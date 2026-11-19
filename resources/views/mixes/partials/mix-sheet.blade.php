@@ -109,18 +109,11 @@
     </div>
 </div>
 
-<div class="actionTabCnt">
-    <p class="analyticsCardTitle">Дни недели</p>
-    <div class="actionTabCntRow1ys7s">
-        @foreach($dayOrder as $day)
-        @php $count = $dayCounts[$day] ?? 0; $isActive = $count > 0 && $count >= $maxDayCount * 0.5; @endphp
-        <div class="item {{ $isActive ? 'active' : '' }}">
-            <span></span>
-            <p>{{ $day }}</p>
-        </div>
-        @endforeach
-    </div>
-</div>
+@include('partials.freq-bars', ['title' => 'Дни недели', 'items' => collect($dayOrder)->map(fn($d) => ['label' => $d, 'count' => $dayCounts[$d] ?? 0])->all()])
+
+@include('partials.freq-bars', ['title' => 'По месяцам', 'items' => $months])
+
+@include('partials.freq-bars', ['title' => 'Сезонность', 'items' => $seasons])
 
 <div class="actionTabCnt">
     <p class="analyticsCardTitle">Заметки</p>

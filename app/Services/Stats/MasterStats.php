@@ -110,19 +110,19 @@ class MasterStats
         }
         usort($rows, fn ($a, $b) => $b['prepared'] <=> $a['prepared']);
 
-        $top = function ($key, $label, $unit, $desc = true, $filter = null) use ($rows) {
+        $top = function ($key, $label, $unit, $desc = true, $filter = null, $cnt = null) use ($rows) {
             $r = collect($rows)->filter(fn ($x) => $x[$key] !== null && ($filter ? $filter($x) : $x[$key] > 0));
             $r = $desc ? $r->sortByDesc($key) : $r->sortBy($key);
 
-            return ['label' => $label, 'unit' => $unit, 'rows' => $r->take(3)->map(fn ($x) => ['name' => $x['name'], 'v' => $x[$key]])->values()->all()];
+            return ['label' => $label, 'unit' => $unit, 'rows' => $r->take(3)->map(fn ($x) => ['name' => $x['name'], 'v' => $x[$key], 'n' => $cnt ? $cnt($x) : null])->values()->all()];
         };
         $tops = [
             $top('prepared', 'Больше всех приготовил', 'шт'),
             $top('created', 'Больше всех создал заказов', 'шт'),
             $top('closed', 'Больше всех закрыл', 'шт'),
             $top('avgNew', 'Быстрее всех: от «Нового» до «Готов»', 'мин', false, fn ($x) => $x['prepared'] >= 3),
-            $top('redoPct', 'Меньше всего переделок', '%', false, fn ($x) => $x['prepared'] >= 3),
-            $top('redoPct', 'Больше всего переделок', '%', true, fn ($x) => $x['prepared'] >= 3 && $x['redoPct'] > 0),
+            $top('redoPct', 'Меньше всего переделок', '%', false, fn ($x) => $x['prepared'] >= 3, fn ($x) => $x['outcome']['redo']),
+            $top('redoPct', 'Больше всего переделок', '%', true, fn ($x) => $x['prepared'] >= 3 && $x['redoPct'] > 0, fn ($x) => $x['outcome']['redo']),
             $top('rollbacks', 'Больше всего откатов', 'шт'),
             $top('lost', 'У кого чаще забирали заказы', 'шт'),
             $top('alt', 'Чаще заменял табак на альтернативу', 'шт'),
