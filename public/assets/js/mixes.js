@@ -116,30 +116,43 @@ function toggleMixIngredientSearch(rowId, type) {
     if (isOpening) filterMixTobaccoOptions(rowId, type, '');
 }
 
+function esc(v) {
+    return String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
 function filterMixTobaccoOptions(rowId, type, query) {
     const optionsEl = document.getElementById(`${rowId}_options_${type}`);
     if (!optionsEl) return;
 
     getMixTobaccos().then(tobaccos => {
         const q = query.trim().toLowerCase();
-        const usedIds = getMixIngredientUsedIds(rowId);
+        const mainId = parseInt(document.getElementById(`${rowId}_tobaccoId`)?.value) || 0;
+        const altIds = new Set([...document.querySelectorAll(`#${rowId}_alts input[type="hidden"]`)].map(i => parseInt(i.value)));
 
         const filtered = tobaccos
-            .filter(t => !usedIds.has(t.id))
+            .filter(t => type === 'alt' ? t.id !== mainId : !altIds.has(t.id))
             .filter(t => !q || t.search.includes(q))
-            .slice(0, q ? 50 : 20);
+            .slice(0, q ? 50 : 40);
 
-        optionsEl.innerHTML = filtered.map(t => `
-            <div class="ordersCardTop" onclick='selectMixTobacco("${rowId}", "${type}", ${t.id}, ${JSON.stringify(t.brand)}, ${JSON.stringify(t.name)})'>
+        if (!filtered.length) { optionsEl.innerHTML = '<div class="mixOptEmpty">Ничего не найдено</div>'; return; }
+
+        optionsEl.innerHTML = filtered.map(t => {
+            const on = type === 'alt' && altIds.has(t.id);
+            const handler = t.off ? '' : (type === 'alt'
+                ? `onclick='toggleMixAlt("${rowId}", ${t.id}, ${esc(JSON.stringify(t.brand))}, ${esc(JSON.stringify(t.name))}, this)'`
+                : `onclick='selectMixTobacco("${rowId}", "main", ${t.id}, ${esc(JSON.stringify(t.brand))}, ${esc(JSON.stringify(t.name))})'`);
+            return `<div class="ordersCardTop mixOpt ${type === 'alt' ? 'mixOptAlt' : ''} ${on ? '--on' : ''} ${t.off ? '--unavailable' : ''}" ${handler}>
                 <div class="ordersCardUser">
                     <div class="ordersCardUserInfo">
                         <div class="actionTabViewOrderProductListBody">
-                            <p>${t.brand} - ${t.name}</p>
+                            <p>${esc(t.brand)} - ${esc(t.name)}</p>
+                            ${t.off ? `<span class="addItemOff">${t.off}</span>` : ''}
                         </div>
                     </div>
                 </div>
-            </div>
-        `).join('');
+                ${type === 'alt' && !t.off ? '<i class="mixChk"></i>' : ''}
+            </div>`;
+        }).join('');
     });
 }
 
@@ -155,24 +168,37 @@ function getMixIngredientUsedIds(rowId) {
     return used;
 }
 
-function selectMixTobacco(rowId, type, id, brand, name) {
-    if (type === 'main') {
-        document.getElementById(`${rowId}_tobaccoId`).value = id;
-        document.getElementById(`${rowId}_label`).innerHTML = `<p>${brand}</p><span>${name}</span>`;
-        document.getElementById(`${rowId}_search_main`).style.display = 'none';
-    } else {
-        const altsWrap = document.getElementById(`${rowId}_alts`);
-        const index = document.getElementById(rowId).dataset.index;
-        const altIndex = altsWrap.children.length;
-        const tag = document.createElement('p');
-        tag.className = 'actionTabSearchSectionResultText mixAltTag';
-        tag.dataset.altIndex = altIndex;
-        tag.innerHTML = `<div class="c6xs9">${brand} - <span>${name}</span>
-            <input type="hidden" name="ingredients[${index}][alternatives][${altIndex}][tobacco_id]" value="${id}"></div>
-            <button class="--button-03f2d" type="button" onclick="this.closest('.mixAltTag').remove()"><img src="/assets/img/close-icon.svg" alt=""></button>`;
-        altsWrap.appendChild(tag);
-        document.getElementById(`${rowId}_search_alt`).style.display = 'none';
+function removeMixAlt(btn) {
+    const tag = btn.closest('.mixAltTag');
+    const row = tag.closest('.mixIngredientRow');
+    tag.remove();
+    const opts = row.querySelector('[id$="_options_alt"]');
+    if (opts && opts.offsetParent) filterMixTobaccoOptions(row.id, 'alt', row.querySelector('[id$="_search_alt"] input')?.value || '');
+}
+
+function toggleMixAlt(rowId, id, brand, name, el) {
+    const altsWrap = document.getElementById(`${rowId}_alts`);
+    const existing = [...altsWrap.querySelectorAll('input[type="hidden"]')].find(i => parseInt(i.value) === id);
+    if (existing) {
+        existing.closest('.mixAltTag').remove();
+        el.classList.remove('--on');
+        return;
     }
+    const index = document.getElementById(rowId).dataset.index;
+    const altIndex = Math.max(-1, ...[...altsWrap.children].map(c => parseInt(c.dataset.altIndex))) + 1;
+    const tag = document.createElement('p');
+    tag.className = 'actionTabSearchSectionResultText mixAltTag';
+    tag.dataset.altIndex = altIndex;
+    tag.innerHTML = `<span class="mixAltName"><b>${esc(brand)} -</b> ${esc(name)}<input type="hidden" name="ingredients[${index}][alternatives][${altIndex}][tobacco_id]" value="${id}"></span>
+        <button class="--button-03f2d" type="button" onclick="removeMixAlt(this)"><img src="/assets/img/close-icon.svg" alt=""></button>`;
+    altsWrap.appendChild(tag);
+    el.classList.add('--on');
+}
+
+function selectMixTobacco(rowId, type, id, brand, name) {
+    document.getElementById(`${rowId}_tobaccoId`).value = id;
+    document.getElementById(`${rowId}_label`).innerHTML = `<p>${esc(brand)}</p><span>${esc(name)}</span>`;
+    document.getElementById(`${rowId}_search_main`).style.display = 'none';
 }
 
 let mixIngredientIndex = 0;

@@ -781,3 +781,21 @@ main.tabaccos .topNav .filters .filtersRow .customSelectArrow{width:calc(8vw / v
 #addItemSelectedLabel{font-size:calc(11.5vw / var(--resizer) * 100);line-height:1.4;font-weight:700;padding:calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100)}
 #addItemsForm .defaultForm input,#addItemsForm .defaultForm input::placeholder{font-size:calc(12vw / var(--resizer) * 100);font-weight:600}
 #addItemsForm .v9ds{padding-bottom:calc(14vw / var(--resizer) * 100)}
+.actionTab .actionTabWrapper .mixTobaccoOptions.actionTabSearchSectionResult{height:auto;min-height:0;max-height:calc(188vw / var(--resizer) * 100);margin:0}
+.mixTobaccoOptions .mixOpt{position:relative;padding-right:calc(40vw / var(--resizer) * 100)}
+.mixTobaccoOptions .mixOpt .actionTabViewOrderProductListBody{display:flex;flex-direction:column;gap:calc(2vw / var(--resizer) * 100);align-items:flex-start}
+.mixTobaccoOptions .mixOpt .actionTabViewOrderProductListBody p{font-size:calc(11.1vw / var(--resizer) * 100);line-height:1.3}
+.mixTobaccoOptions .mixOpt.--unavailable{opacity:.55;cursor:not-allowed}
+.mixChk{position:absolute;top:50%;right:calc(12vw / var(--resizer) * 100);transform:translateY(-50%);width:calc(20vw / var(--resizer) * 100);height:calc(20vw / var(--resizer) * 100);box-sizing:border-box;border:calc(1.5vw / var(--resizer) * 100) solid #E4CDBE;border-radius:calc(7vw / var(--resizer) * 100);background:#fff center/100% 100% no-repeat}
+.mixOpt.--on .mixChk{background-color:#D4401A;border-color:#D4401A;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5.5 10.4l3 3 6-6.6' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.mixOptEmpty{justify-content:center;color:var(--mut);font-size:calc(11vw / var(--resizer) * 100)}
+.actionTab .mixIngredientRow .mixAltList{gap:calc(2vw / var(--resizer) * 100);flex-direction:column;flex-wrap:nowrap}
+.actionTab .mixIngredientRow .mixAltTag{display:flex;align-items:center;justify-content:space-between;gap:calc(8vw / var(--resizer) * 100);padding:calc(2vw / var(--resizer) * 100) 0;margin:0}
+.mixAltName{flex:1;min-width:0}
+.mixAltName b{color:var(--ink);font-weight:600;margin-right:calc(3vw / var(--resizer) * 100)}
+.mixAltName em{font-style:normal;margin-left:calc(4vw / var(--resizer) * 100)}
+.actionTab .mixAltTag button.--button-03f2d{flex:none;display:flex;align-items:center;justify-content:center;width:calc(24vw / var(--resizer) * 100);height:calc(24vw / var(--resizer) * 100);min-width:0;min-height:0;padding:0;margin:0;border-radius:50%;background:var(--accSoft)}
+.actionTab .mixAltTag button.--button-03f2d img{width:calc(10vw / var(--resizer) * 100);height:calc(10vw / var(--resizer) * 100)}
+.actionTabSearchSectionResultText.mixAltTag .mixAltName{color:var(--ink);font-weight:600}
+.actionTabSearchSectionResultText.mixAltTag .mixAltName b{color:var(--ink);font-weight:700}
+.mixIngredientMainLabel .addItemOff{display:block;color:#B42318}

@@ -1,6 +1,8 @@
 @php
     $mainName = $ing?->tobacco ? trim(($ing->tobacco->brand?->name ?? '') . ' - ' . $ing->tobacco->name) : null;
     $rowId = $formId . '_ing' . $index;
+    $stockSvc = app(\App\Services\StockService::class);
+    $offText = fn ($t) => !$t ? null : (!$t->isInVenue() ? 'Деактивирован' : ($stockSvc->servingsLeft($t->id) === 0 ? 'Закончился' : null));
 @endphp
 
 <div class="actionTabViewOrderCard mixIngredientRow" data-index="{{ $index }}" id="{{ $rowId }}">
@@ -9,6 +11,7 @@
             @if($mainName)
                 <p>{{ $ing->tobacco->brand?->name }}</p>
                 <span>{{ $ing->tobacco->name }}</span>
+                @if($offText($ing->tobacco))<span class="addItemOff">{{ $offText($ing->tobacco) }}</span>@endif
             @else
                 <p>Основной вкус #{{ $index + 1 }}</p>
             @endif
@@ -51,11 +54,8 @@
         <div class="mixAltList --mixAltList-v03dw" id="{{ $rowId }}_alts">
             @foreach($ing?->alternatives ?? [] as $j => $alt)
                 <p class="actionTabSearchSectionResultText mixAltTag" data-alt-index="{{ $j }}">
-                      
-                        <span><b>{{ $alt->tobacco?->brand?->name }} -</b> {{ $alt->tobacco?->name }}</span>
-                        <input type="hidden" name="ingredients[{{ $index }}][alternatives][{{ $j }}][tobacco_id]" value="{{ $alt->tobacco_id }}">
-                    
-                    <button class="--button-03f2d" type="button" onclick="this.closest('.mixAltTag').remove()"><img src="/assets/img/close-icon.svg" alt=""></button>
+                    <span class="mixAltName"><b>{{ $alt->tobacco?->brand?->name }} -</b> {{ $alt->tobacco?->name }}@if($offText($alt->tobacco)) <em class="addItemOff">{{ $offText($alt->tobacco) }}</em>@endif<input type="hidden" name="ingredients[{{ $index }}][alternatives][{{ $j }}][tobacco_id]" value="{{ $alt->tobacco_id }}"></span>
+                    <button class="--button-03f2d" type="button" onclick="removeMixAlt(this)"><img src="/assets/img/close-icon.svg" alt=""></button>
                 </p>
             @endforeach
         </div>

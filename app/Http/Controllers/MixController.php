@@ -485,20 +485,24 @@ class MixController extends Controller
 
     public function tobaccosListJson()
     {
-        $tobaccos = Tobacco::whereHas('venueTobacco', fn($q) => $q->where('is_active', true))
-            ->with('brand', 'flavorTags')
+        $stock = app(\App\Services\StockService::class);
+        $tobaccos = Tobacco::whereHas('venueTobacco')
+            ->with('brand', 'flavorTags', 'venueTobacco')
             ->orderBy('name')
             ->get()
             ->map(fn($t) => [
                 'id' => $t->id,
                 'brand' => $t->brand?->name ?? '',
                 'name' => $t->name,
+                'off' => !$t->isInVenue() ? 'Деактивирован' : ($stock->servingsLeft($t->id) === 0 ? 'Закончился' : null),
                 'search' => mb_strtolower(implode(' ', array_filter([
                     $t->brand?->name,
                     $t->name,
                     $t->flavorTags->pluck('name')->implode(' '),
                 ])), 'UTF-8'),
-            ]);
+            ])
+            ->sortBy(fn($t) => $t['off'] ? 1 : 0)
+            ->values();
 
         return response()->json($tobaccos);
     }
