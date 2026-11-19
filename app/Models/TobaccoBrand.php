@@ -30,13 +30,19 @@ class TobaccoBrand extends Model
 
     public function getImageUrlAttribute(): string
     {
-        $filename = self::IMAGE_OVERRIDES[$this->name]
-            ?? Str::of($this->name)->ascii()->lower()->replaceMatches('/[^a-z0-9]/', '')->toString();
+        $clean = fn (?string $v) => Str::of((string) $v)->ascii()->lower()->replaceMatches('/[^a-z0-9]/', '')->toString();
 
-        $path = "assets/img/brands/{$filename}.svg";
+        $candidates = array_filter([
+            self::IMAGE_OVERRIDES[$this->name] ?? null,
+            $clean($this->name),
+            $clean($this->source_slug),
+        ]);
 
-        return file_exists(public_path($path))
-            ? "/{$path}"
-            : '/assets/img/product-img.svg';
+        foreach ($candidates as $filename) {
+            $path = "assets/img/brands/{$filename}.svg";
+            if (file_exists(public_path($path))) return "/{$path}";
+        }
+
+        return '/assets/img/product-img.svg';
     }
 }
