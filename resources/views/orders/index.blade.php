@@ -103,7 +103,7 @@ window.ORDER_WAIT = {warn: {{ (int) \App\Models\Setting::get('order_wait_warn', 
         document.querySelectorAll('.ocCard[data-status="pending"][data-since]').forEach(function (c) {
             var m = Math.floor((now - Number(c.dataset.since)) / 60);
             if (m >= W.alert) c.dataset.wait = 'alert'; else if (m >= W.warn) c.dataset.wait = 'warn'; else delete c.dataset.wait;
-            var e = c.querySelector('.ocWait'); if (e) e.textContent = m >= 1 ? 'ждёт ' + m + ' мин' : '';
+            var e = c.querySelector('.ocWait'); if (e) e.textContent = m >= 60 ? 'ждёт ' + Math.floor(m / 60) + ' ч ' + (m % 60) + ' мин' : (m >= 1 ? 'ждёт ' + m + ' мин' : '');
         });
     }
     tick();
