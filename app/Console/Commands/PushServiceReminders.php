@@ -37,8 +37,7 @@ class PushServiceReminders extends Command
             if (!Cache::add("service_push:{$order->id}:{$last->created_at->timestamp}:{$step}", 1, now()->addHours(6))) continue;
 
             PushNotifier::toAllExcept(null, [
-                'title' => 'Пора сервис, заказ #' . $order->id,
-                'body'  => trim(($order->table?->name ?? '') . ' · ' . $minutes . ' мин у гостя', ' ·'),
+                ...\App\Support\PushText::service($order, $minutes),
                 'url'   => route('orders.index', ['open' => $order->id], false),
                 'tag'   => 'order-service-' . $order->id,
             ]);
