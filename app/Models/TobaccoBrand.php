@@ -20,6 +20,7 @@ class TobaccoBrand extends Model
      */
     protected const IMAGE_OVERRIDES = [
         'Хулиган' => 'huligan',
+        'Табак Шпаковского' => 'tabakshpakovskogo',
         'Nаш'     => 'naw',
     ];
 
@@ -40,7 +41,7 @@ class TobaccoBrand extends Model
 
         foreach ($candidates as $filename) {
             $path = "assets/img/brands/{$filename}.svg";
-            if (file_exists(public_path($path))) return "/{$path}";
+            if (file_exists(public_path($path))) return "/{$path}?v=" . filemtime(public_path($path));
         }
 
         return '/assets/img/product-img.svg';
