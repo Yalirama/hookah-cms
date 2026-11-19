@@ -25,9 +25,8 @@
             <span>Всего</span>
         </div>
     </div>
+    @include('partials.catalog-tabs')
 </header>
-
-@include('partials.catalog-tabs')
 
 <form action="#" class="topNav" onsubmit="return false;">
     <div class="topNavRow0vd32">

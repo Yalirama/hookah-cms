@@ -704,6 +704,6 @@ main.tabaccos .topNav .filters .filtersRow .customSelectArrow{width:calc(8vw / v
 .actionTabCnt > .analyticsCardTitle{margin-bottom:calc(10vw / var(--resizer) * 100)}
 .catRow + .catRow{margin-top:0}
 .actionTabWrapper{touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
-.catalogTabs{display:flex;gap:calc(6.8vw / var(--resizer) * 100);margin:calc(8.6vw / var(--resizer) * 100) calc(10.3vw / var(--resizer) * 100) 0;padding:calc(3.4vw / var(--resizer) * 100);border:calc(1vw / var(--resizer) * 100) solid var(--line);border-radius:calc(852.5vw / var(--resizer) * 100);background:#fff}
-.catalogTabs a{flex:1;text-align:center;padding:calc(8.6vw / var(--resizer) * 100) 0;border-radius:calc(852.5vw / var(--resizer) * 100);font-size:calc(12vw / var(--resizer) * 100);font-weight:600;line-height:1;color:var(--mut)}
+.catalogTabs{display:flex;gap:calc(6.8vw / var(--resizer) * 100);margin:calc(8.6vw / var(--resizer) * 100) 0 calc(8.6vw / var(--resizer) * 100);padding:calc(3.4vw / var(--resizer) * 100);border:calc(1vw / var(--resizer) * 100) solid var(--line);border-radius:calc(852.5vw / var(--resizer) * 100);background:#fff}
+.catalogTabs a{text-decoration:none;flex:1;text-align:center;padding:calc(8.6vw / var(--resizer) * 100) 0;border-radius:calc(852.5vw / var(--resizer) * 100);font-size:calc(12vw / var(--resizer) * 100);font-weight:600;line-height:1;color:var(--mut)}
 .catalogTabs a.active{background:var(--acc);color:#fff;font-weight:800}

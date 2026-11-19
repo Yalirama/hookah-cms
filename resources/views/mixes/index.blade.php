@@ -26,6 +26,8 @@
             @include('mixes.partials.header-stats')
         </div>
 
+        @include('partials.catalog-tabs')
+
         <div class="headerStatsWrapperAction">
             <button onclick="openMixCreateSheet()" class="headerStatsButtonPrimary">
                 <span>Создать микс</span>
@@ -55,8 +57,6 @@
         </div>
     </div>
 </header>
-
-@include('partials.catalog-tabs')
 
 <section class="productList" id="mixList">
     @include('mixes.partials.list-items')

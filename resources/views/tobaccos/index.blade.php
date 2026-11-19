@@ -26,6 +26,8 @@
             @include('tobaccos.partials.header-stats')
         </div>
 
+        @include('partials.catalog-tabs')
+
         @role('admin')
         <div class="headerStatsWrapperAction">
             <button onclick="openTobaccoEditSheet()" class="headerStatsButtonPrimary">
@@ -63,8 +65,6 @@
     </div>
     </div>
 </header>
-
-@include('partials.catalog-tabs')
 
 <section class="productList" id="tobaccoList">
     @include('tobaccos.partials.list-items')
