@@ -774,12 +774,13 @@ class OrderController extends Controller
                 fn($a, $b) => $a->name <=> $b->name,
             ])
             ->values();
-        $mixes = Mix::where('is_active', true)
-            ->with('ingredients.tobacco.venueTobacco', 'ingredients.alternatives.tobacco.venueTobacco')
+        $mixes = Mix::with('ingredients.tobacco.venueTobacco', 'ingredients.alternatives.tobacco.venueTobacco')
             ->get()
-            ->filter->isAvailable()
+            ->sortBy(fn ($m) => $m->is_active ? 0 : 1)
             ->values();
-                $tobaccos = Tobacco::whereHas('venueTobacco', fn($q) => $q->where('is_active', true))->with('brand')->orderBy('name')->get();
+        $tobaccos = Tobacco::whereHas('venueTobacco')->with('brand', 'venueTobacco')->orderBy('name')->get()
+            ->sortBy(fn ($t) => $t->isInVenue() ? 0 : 1)
+            ->values();
 
         return [$order, $tables, $mixes, $tobaccos, $masters];
     }

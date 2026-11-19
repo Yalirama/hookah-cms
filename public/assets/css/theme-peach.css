@@ -762,3 +762,22 @@ main.tabaccos .topNav .filters .filtersRow .customSelectArrow{width:calc(8vw / v
 
 .actionTabOpt{margin-left:calc(6vw / var(--resizer) * 100);font-size:calc(10vw / var(--resizer) * 100);font-weight:600;color:var(--mut)}
 #createOrderTableError{color:#B42318;font-weight:700;padding:calc(4vw / var(--resizer) * 100) calc(8vw / var(--resizer) * 100) 0;font-size:calc(11vw / var(--resizer) * 100)}
+.addItemTabs{margin:calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100) 0}
+.addItemTabs .filtersBtn{flex:1;justify-content:center;font-size:calc(11.5vw / var(--resizer) * 100);gap:calc(4vw / var(--resizer) * 100)}
+.addItemTabCnt{font-weight:800}
+.addItemOption.ordersCardTop{align-items:center}
+.addItemOption .ordersCardUser{flex:1;min-width:0;padding-right:calc(40vw / var(--resizer) * 100)}
+.addItemOption .ordersCardUserInfo{min-width:0}
+.addItemOption .actionTabViewOrderProductListBody{display:flex;flex-direction:column;align-items:flex-start;gap:calc(4vw / var(--resizer) * 100)}
+.addItemOption .addItemSub{font-size:calc(11vw / var(--resizer) * 100);font-weight:600;color:var(--mut);line-height:1.3}
+.addItemOption .servBadge{margin-top:calc(2vw / var(--resizer) * 100)}
+.addItemOff{font-size:calc(10.5vw / var(--resizer) * 100);font-weight:700;color:#B42318;line-height:1.3}
+.addItemOption.--unavailable{opacity:.55;cursor:not-allowed}
+.addItemOption.--unavailable::after,.addItemOption.--unavailable::before{display:none}
+.addItemOption.ordersCardTop::after{width:calc(20vw / var(--resizer) * 100);height:calc(20vw / var(--resizer) * 100);border:calc(1.5vw / var(--resizer) * 100) solid #E4CDBE;border-radius:calc(7vw / var(--resizer) * 100);background:#fff;box-sizing:border-box;right:calc(12vw / var(--resizer) * 100)}
+.addItemOption.ordersCardTop::before{width:calc(20vw / var(--resizer) * 100);height:calc(20vw / var(--resizer) * 100);right:calc(12vw / var(--resizer) * 100);transform:translateY(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5.5 10.4l3 3 6-6.6' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.addItemOption.--actionTabSearchSectionResultActive.ordersCardTop::after{background:#D4401A;border-color:#D4401A}
+.addItemOption.--alreadyAdded .addItemAlreadyBadge{margin-right:calc(30vw / var(--resizer) * 100)}
+#addItemSelectedLabel{font-size:calc(11.5vw / var(--resizer) * 100);line-height:1.4;font-weight:700;padding:calc(8vw / var(--resizer) * 100) calc(10vw / var(--resizer) * 100)}
+#addItemsForm .defaultForm input,#addItemsForm .defaultForm input::placeholder{font-size:calc(12vw / var(--resizer) * 100);font-weight:600}
+#addItemsForm .v9ds{padding-bottom:calc(14vw / var(--resizer) * 100)}

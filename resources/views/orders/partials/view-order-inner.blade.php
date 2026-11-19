@@ -232,6 +232,20 @@
     <div id="addItemFormWrap" style="display:none;">
         <form method="POST" action="{{ route('orders.items.add', $order) }}" id="addItemsForm">
             @csrf
+            @php
+                $stockSvc = app(\App\Services\StockService::class);
+                $tobWhy = function ($t) use ($stockSvc) {
+                    if (!$t) return null;
+                    if (!$t->isInVenue()) return 'деактивирован';
+                    return $stockSvc->servingsLeft($t->id) === 0 ? 'закончился' : null;
+                };
+                $mixCount = $mixes->count();
+                $tobCount = $tobaccos->count();
+            @endphp
+            <div class="subTabs addItemTabs">
+                <button type="button" class="filtersBtn active" data-add-tab="mix" onclick="setAddItemTab('mix')">Миксы <span class="addItemTabCnt" data-cnt="mix"></span></button>
+                <button type="button" class="filtersBtn" data-add-tab="tobacco" onclick="setAddItemTab('tobacco')">Табаки <span class="addItemTabCnt" data-cnt="tobacco"></span></button>
+            </div>
             <div class="v8ds">
                 <div class="search" style="margin-top: calc(8vw / var(--resizer) * 100);">
                     <img src="/assets/img/search-icon.svg" alt="">
@@ -241,16 +255,37 @@
 
             <div class="actionTabSearchSectionResult" id="addItemResults">
                 @foreach($mixes as $mix)
-                    @php $mixAlreadyAdded = $activeItemKeys->contains('mix_' . $mix->id); @endphp
-                    <div class="ordersCardTop addItemOption {{ $mixAlreadyAdded ? '--alreadyAdded' : '' }}" data-key="mix_{{ $mix->id }}" data-name="{{ mb_strtolower($mix->name . ' ' . $mix->ingredients->pluck('tobacco.name')->filter()->join(' '), 'UTF-8') }}" @if(!$mixAlreadyAdded) onclick="toggleItemSelect(this, 'mix', {{ $mix->id }}, '{{ addslashes($mix->name) }}')" @endif>
+                    @php
+                        $mixAlreadyAdded = $activeItemKeys->contains('mix_' . $mix->id);
+                        $mixOff = null;
+                        if (!$mix->is_active) {
+                            $mixOff = 'Микс деактивирован';
+                        } elseif ($mix->ingredients->isEmpty()) {
+                            $mixOff = 'В миксе нет табаков';
+                        } else {
+                            $bad = [];
+                            foreach ($mix->ingredients as $ing) {
+                                $w = $tobWhy($ing->tobacco);
+                                if (!$w) continue;
+                                if ($ing->alternatives->contains(fn ($alt) => $alt->tobacco && !$tobWhy($alt->tobacco))) continue;
+                                $bad[] = ($ing->tobacco?->name ?? 'табак') . ' ' . $w;
+                            }
+                            if ($bad) $mixOff = 'Нельзя добавить: ' . implode('; ', $bad);
+                        }
+                    @endphp
+                    <div class="ordersCardTop addItemOption {{ $mixAlreadyAdded ? '--alreadyAdded' : '' }} {{ $mixOff ? '--unavailable' : '' }}" data-type="mix" data-key="mix_{{ $mix->id }}" data-name="{{ mb_strtolower($mix->name . ' ' . $mix->ingredients->pluck('tobacco.name')->filter()->join(' '), 'UTF-8') }}" @if(!$mixAlreadyAdded && !$mixOff) onclick="toggleItemSelect(this, 'mix', {{ $mix->id }}, '{{ addslashes($mix->name) }}')" @endif>
                         <div class="ordersCardUser">
                             <div class="ordersCardUserImg"><img src="/assets/img/brands/mix.svg" alt=""></div>
                             <div class="ordersCardUserInfo">
                                 <div class="actionTabViewOrderProductListBody">
                                     <p>{{ $mix->name }}</p>
-                                    <span>{{ $mix->ingredients->pluck('tobacco.name')->filter()->join(', ') }}</span>
-                                    @php $sv = app(\App\Services\StockService::class)->servingsForMix($mix); @endphp
-                                    @if($sv !== null)<span class="servBadge {{ $sv === 0 ? '--zero' : ($sv <= 2 ? '--low' : '') }}">{{ app(\App\Services\StockService::class)->servingsText($sv) }}</span>@endif
+                                    <span class="addItemSub">{{ $mix->ingredients->pluck('tobacco.name')->filter()->join(', ') }}</span>
+                                    @if($mixOff)
+                                        <span class="addItemOff">{{ $mixOff }}</span>
+                                    @else
+                                        @php $sv = $stockSvc->servingsForMix($mix); @endphp
+                                        @if($sv !== null)<span class="servBadge {{ $sv === 0 ? '--zero' : ($sv <= 2 ? '--low' : '') }}">{{ $stockSvc->servingsText($sv) }}</span>@endif
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -260,15 +295,22 @@
                     </div>
                 @endforeach
                 @foreach($tobaccos as $tobacco)
-                    @php $tobaccoAlreadyAdded = $activeItemKeys->contains('tobacco_' . $tobacco->id); @endphp
-                    <div class="ordersCardTop addItemOption {{ $tobaccoAlreadyAdded ? '--alreadyAdded' : '' }}" data-key="tobacco_{{ $tobacco->id }}" data-name="{{ mb_strtolower(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name, 'UTF-8') }}" @if(!$tobaccoAlreadyAdded) onclick="toggleItemSelect(this, 'tobacco', {{ $tobacco->id }}, '{{ addslashes(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name) }}')" @endif>
+                    @php
+                        $tobaccoAlreadyAdded = $activeItemKeys->contains('tobacco_' . $tobacco->id);
+                        $tobOff = $tobWhy($tobacco);
+                    @endphp
+                    <div class="ordersCardTop addItemOption {{ $tobaccoAlreadyAdded ? '--alreadyAdded' : '' }} {{ $tobOff ? '--unavailable' : '' }}" data-type="tobacco" data-key="tobacco_{{ $tobacco->id }}" data-name="{{ mb_strtolower(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name, 'UTF-8') }}" style="display:none" @if(!$tobaccoAlreadyAdded && !$tobOff) onclick="toggleItemSelect(this, 'tobacco', {{ $tobacco->id }}, '{{ addslashes(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name) }}')" @endif>
                         <div class="ordersCardUser">
                             <div class="ordersCardUserImg"><img src="{{ $tobacco->brand?->image_url ?? '/assets/img/brands/product-img.svg' }}" alt=""></div>
                             <div class="ordersCardUserInfo">
                                 <div class="actionTabViewOrderProductListBody">
                                     <p>{{ trim(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name) }}</p>
-                                    @php $sv = app(\App\Services\StockService::class)->servingsLeft($tobacco->id); @endphp
-                                    @if($sv !== null)<span class="servBadge {{ $sv === 0 ? '--zero' : ($sv <= 2 ? '--low' : '') }}">{{ app(\App\Services\StockService::class)->servingsText($sv) }}</span>@endif
+                                    @if($tobOff)
+                                        <span class="addItemOff">{{ $tobOff === 'закончился' ? 'Закончился' : 'Деактивирован' }}</span>
+                                    @else
+                                        @php $sv = $stockSvc->servingsLeft($tobacco->id); @endphp
+                                        @if($sv !== null)<span class="servBadge {{ $sv === 0 ? '--zero' : ($sv <= 2 ? '--low' : '') }}">{{ $stockSvc->servingsText($sv) }}</span>@endif
+                                    @endif
                                 </div>
                             </div>
                         </div>

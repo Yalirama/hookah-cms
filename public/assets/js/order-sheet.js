@@ -65,6 +65,7 @@ document.addEventListener('click', (e) => {
 document.addEventListener('DOMContentLoaded', () => initAllCustomSelects());
 
 function openOrderSheet(orderId) {
+    if (currentOrderSheetId !== orderId) { selectedAddItems = {}; addItemState = { open: false, tab: 'mix', q: '', comment: '' }; }
     currentOrderSheetId = orderId;
     document.getElementById('viewOrderIdLabel').textContent = '#' + String(orderId).padStart(4, '0');
     document.getElementById('viewOrderInner').innerHTML = '<p style="padding:20px; color:var(--info); text-align:center;">Загрузка...</p>';
@@ -73,9 +74,39 @@ function openOrderSheet(orderId) {
     initOrderSheetEcho(orderId);
 }
 
+function captureAddItemState() {
+    const wrap = document.getElementById('addItemFormWrap');
+    if (!wrap) return;
+    addItemState = {
+        open: wrap.style.display !== 'none',
+        tab: addItemState.tab,
+        q: document.getElementById('addItemSearch')?.value || '',
+        comment: document.querySelector('#addItemsForm input[name="comment"]')?.value || ''
+    };
+}
+
+function restoreAddItemState() {
+    const wrap = document.getElementById('addItemFormWrap');
+    if (!wrap) return;
+    Object.keys(selectedAddItems).forEach(key => {
+        const el = document.querySelector(`#addItemResults .addItemOption[data-key="${key}"]:not(.--alreadyAdded):not(.--unavailable)`);
+        if (el) el.classList.add('--actionTabSearchSectionResultActive');
+        else delete selectedAddItems[key];
+    });
+    const search = document.getElementById('addItemSearch');
+    if (search) search.value = addItemState.q;
+    const c = document.querySelector('#addItemsForm input[name="comment"]');
+    if (c) c.value = addItemState.comment;
+    if (addItemState.open) wrap.style.display = 'block';
+    renderSelectedAddItems();
+    applyAddItemFilter();
+}
+
 function renderOrderSheet(html) {
     const el = document.getElementById('viewOrderInner');
+    captureAddItemState();
     el.innerHTML = html;
+    restoreAddItemState();
     initAllCustomSelects(el);
     initAllCustomTimes(el);
     tickTimers(el);
@@ -159,7 +190,8 @@ function toggleAddItemForm(btn) {
     const wrap = document.getElementById('addItemFormWrap');
     const show = wrap.style.display === 'none';
     wrap.style.display = show ? 'block' : 'none';
-    if (show) refreshAddItemResults();
+    addItemState.open = show;
+    if (show) { applyAddItemFilter(); refreshAddItemResults(); }
 }
 
 function toggleRemoveItemForm(itemId) {
@@ -169,6 +201,23 @@ function toggleRemoveItemForm(itemId) {
 
 // Выбор позиций для добавления
 let selectedAddItems = {};
+let addItemState = { open: false, tab: 'mix', q: '', comment: '' };
+
+function setAddItemTab(tab) {
+    addItemState.tab = tab;
+    applyAddItemFilter();
+}
+
+function applyAddItemFilter() {
+    const box = document.getElementById('addItemResults');
+    if (!box) return;
+    const q = (document.getElementById('addItemSearch')?.value || '').trim().toLowerCase();
+    box.querySelectorAll('.addItemOption').forEach(el => {
+        el.style.display = el.dataset.type === addItemState.tab && (!q || el.dataset.name.includes(q)) ? 'flex' : 'none';
+    });
+    document.querySelectorAll('.addItemTabs [data-add-tab]').forEach(b => b.classList.toggle('active', b.dataset.addTab === addItemState.tab));
+}
+
 function toggleItemSelect(el, type, id, name) {
     const key = type + '_' + id;
     if (selectedAddItems[key]) {
@@ -187,6 +236,11 @@ function renderSelectedAddItems() {
     const names = document.getElementById('addItemSelectedNames');
     const hiddenWrap = document.getElementById('addItemHiddenInputs');
     if (!label) return;
+    ['mix', 'tobacco'].forEach(t => {
+        const n = keys.filter(k => selectedAddItems[k].type === t).length;
+        const c = document.querySelector(`.addItemTabCnt[data-cnt="${t}"]`);
+        if (c) c.textContent = n ? '· ' + n : '';
+    });
 
     if (keys.length === 0) { label.style.display = 'none'; hiddenWrap.innerHTML = ''; return; }
 
@@ -201,10 +255,8 @@ function renderSelectedAddItems() {
 // Поиск позиций для добавления
 document.addEventListener('input', function (e) {
     if (e.target && e.target.id === 'addItemSearch') {
-        const q = e.target.value.trim().toLowerCase();
-        document.querySelectorAll('#addItemResults .addItemOption').forEach(el => {
-            el.style.display = !q || el.dataset.name.includes(q) ? 'flex' : 'none';
-        });
+        addItemState.q = e.target.value;
+        applyAddItemFilter();
     }
 
     // Поиск гостя внутри карточки заказа
@@ -279,12 +331,12 @@ function refreshAddItemResults() {
             if (!fresh) return;
             box.innerHTML = fresh.innerHTML;
             Object.keys(selectedAddItems).forEach(key => {
-                const el = box.querySelector(`.addItemOption[data-key="${key}"]:not(.--alreadyAdded)`);
+                const el = box.querySelector(`.addItemOption[data-key="${key}"]:not(.--alreadyAdded):not(.--unavailable)`);
                 if (el) el.classList.add('--actionTabSearchSectionResultActive');
                 else delete selectedAddItems[key];
             });
             renderSelectedAddItems();
-            document.getElementById('addItemSearch')?.dispatchEvent(new Event('input'));
+            applyAddItemFilter();
         });
 }
 
