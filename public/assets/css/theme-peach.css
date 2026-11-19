@@ -319,7 +319,7 @@ main._ordersShow section.ordersSection .ordersCardUserImg{flex:none}
 .ocCard[data-status=in_progress] .ocPill{background:#E0EDFF;color:#175CD3}
 .ocCard[data-status=served] .ocPill{background:#EDE7FF;color:#5925DC}
 .ocCard[data-status=pending] .ocPill{background:#F97316;color:#fff}
-.ocCard[data-status=ready] .ocPill{background:#DDF3EA;color:#0A5C4B}
+.ocCard[data-status=ready] .ocPill{background:#BFF0D4;color:#05603A}
 .ocCard[data-status=redo] .ocPill{background:#FEF0C7;color:#93370D}
 .ocCard[data-status=closed] .ocPill{background:#DDF3EA;color:#0A5C4B}
 .ocCard[data-status=cancelled] .ocPill{background:#FDE4E2;color:#B42318}
