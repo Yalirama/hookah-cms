@@ -1616,6 +1616,7 @@ function submitWikiForm() {
         description: document.getElementById('wiki-description').value,
         sort_order: document.getElementById('wiki-sort-order').value,
         is_published: document.getElementById('wiki-is-published').checked,
+        admin_only: document.getElementById('wiki-admin-only').checked,
         content: content,
     };
 

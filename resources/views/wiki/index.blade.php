@@ -44,6 +44,9 @@
             <span>{{ $page->description ?? '—' }}</span>
         </div>
 
+        @if($page->admin_only)
+            <span class="badge" style="background:#E0EDFF; color:#175CD3;">Только админ</span>
+        @endif
         @unless($page->is_published)
             <span class="badge" style="background:#e2e3e5; color:#383d41;">Скрыта</span>
         @endunless

@@ -11,6 +11,7 @@ class WikiController extends Controller
     public function index()
     {
         $pages = WikiPage::where('is_published', true)
+            ->when(!auth()->user()->hasRole('admin'), fn ($q) => $q->where('admin_only', false))
             ->orderBy('sort_order')
             ->orderBy('created_at')
             ->get();
@@ -20,7 +21,7 @@ class WikiController extends Controller
 
    public function show(WikiPage $wikiPage)
     {
-        if (!$wikiPage->is_published && !auth()->user()->hasRole('admin')) {
+        if ((!$wikiPage->is_published || $wikiPage->admin_only) && !auth()->user()->hasRole('admin')) {
             abort(404);
         }
 
@@ -61,6 +62,7 @@ class WikiController extends Controller
             'content'      => 'nullable|string',
             'sort_order'   => 'nullable|integer',
             'is_published' => 'boolean',
+            'admin_only'   => 'boolean',
         ]);
 
         WikiPage::create([
@@ -69,6 +71,7 @@ class WikiController extends Controller
             'content'      => $request->content,
             'sort_order'   => $request->sort_order ?? 0,
             'is_published' => $request->boolean('is_published', true),
+            'admin_only'   => $request->boolean('admin_only'),
             'created_by'   => auth()->id(),
         ]);
 
@@ -92,6 +95,7 @@ class WikiController extends Controller
             'content'      => 'nullable|string',
             'sort_order'   => 'nullable|integer',
             'is_published' => 'boolean',
+            'admin_only'   => 'boolean',
         ]);
 
         $wikiPage->update([
@@ -100,6 +104,7 @@ class WikiController extends Controller
             'content'      => $request->content,
             'sort_order'   => $request->sort_order ?? $wikiPage->sort_order,
             'is_published' => $request->boolean('is_published', true),
+            'admin_only'   => $request->boolean('admin_only'),
             'updated_by'   => auth()->id(),
         ]);
 
@@ -171,6 +176,7 @@ class WikiController extends Controller
             'content'      => 'nullable|string',
             'sort_order'   => 'nullable|integer',
             'is_published' => 'boolean',
+            'admin_only'   => 'boolean',
         ]);
 
         $page = WikiPage::create([
@@ -179,6 +185,7 @@ class WikiController extends Controller
             'content'      => $request->content,
             'sort_order'   => $request->sort_order ?? 0,
             'is_published' => $request->boolean('is_published', true),
+            'admin_only'   => $request->boolean('admin_only'),
             'created_by'   => auth()->id(),
         ]);
 
@@ -195,6 +202,7 @@ class WikiController extends Controller
             'content'      => 'nullable|string',
             'sort_order'   => 'nullable|integer',
             'is_published' => 'boolean',
+            'admin_only'   => 'boolean',
         ]);
 
         $wikiPage->update([
@@ -203,6 +211,7 @@ class WikiController extends Controller
             'content'      => $request->content,
             'sort_order'   => $request->sort_order ?? $wikiPage->sort_order,
             'is_published' => $request->boolean('is_published', true),
+            'admin_only'   => $request->boolean('admin_only'),
             'updated_by'   => auth()->id(),
         ]);
 
@@ -220,7 +229,7 @@ class WikiController extends Controller
 
     public function showSheet(WikiPage $wikiPage)
     {
-        if (!$wikiPage->is_published && !auth()->user()->hasRole('admin')) {
+        if ((!$wikiPage->is_published || $wikiPage->admin_only) && !auth()->user()->hasRole('admin')) {
             abort(404);
         }
 

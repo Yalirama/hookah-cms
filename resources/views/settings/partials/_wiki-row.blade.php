@@ -4,6 +4,10 @@
         <span>{{ $page->description ?? '—' }}</span>
     </div>
 
+    @if($page->admin_only)
+        <span class="badge" style="color:#175CD3;font-size: calc(12vw / var(--resizer) * 100);line-height: calc(12vw / var(--resizer) * 100);">Только админ</span>
+    @endif
+
     @unless($page->is_published)
         <span class="badge" style="color:rgba(192, 87, 74, 1);font-size: calc(12vw / var(--resizer) * 100);line-height: calc(12vw / var(--resizer) * 100);">Скрыта</span>
     @endunless

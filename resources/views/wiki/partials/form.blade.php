@@ -23,6 +23,13 @@
 </div>
 
 <div class="form-group">
+    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+        <input type="checkbox" name="admin_only" value="1" {{ old('admin_only', ($page->admin_only ?? false) ? '1' : '') ? 'checked' : '' }}>
+        Только для админа (мастер не увидит)
+    </label>
+</div>
+
+<div class="form-group">
     <label>Содержание</label>
     <textarea name="content" id="editor">{{ old('content', $page->content ?? '') }}</textarea>
 </div>

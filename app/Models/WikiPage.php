@@ -10,10 +10,10 @@ class WikiPage extends Model
 
     protected $fillable = [
         'title', 'description', 'content',
-        'sort_order', 'is_published', 'created_by', 'updated_by',
+        'sort_order', 'is_published', 'admin_only', 'created_by', 'updated_by',
     ];
 
-    protected $casts = ['is_published' => 'boolean'];
+    protected $casts = ['is_published' => 'boolean', 'admin_only' => 'boolean'];
 
     public function creator()
     {

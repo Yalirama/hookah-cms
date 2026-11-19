@@ -24,6 +24,14 @@
 </div>
 
 <div class="actionTabSection">
+    <label class="switchToggle">
+        <input type="checkbox" id="wiki-admin-only" {{ ($isEdit ? $page->admin_only : false) ? 'checked' : '' }}>
+        <span class="switchToggleTrack"><span class="switchToggleThumb"></span></span>
+    </label>
+    <span style="margin-left:8px;">Только для админа (мастер не увидит)</span>
+</div>
+
+<div class="actionTabSection">
     <label class="actionTabTitle">Содержание</label>
     <textarea id="wiki-editor-content">{{ $isEdit ? $page->content : '' }}</textarea>
 </div>
