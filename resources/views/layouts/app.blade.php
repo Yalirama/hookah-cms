@@ -52,19 +52,7 @@
         <span>Заказы</span>
     </a>
 
-    <a href="{{ route('tobaccos.index') }}" class="menuItem {{ request()->routeIs('tobaccos.*') ? 'active' : '' }}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></svg>
-
-        <span>Табаки</span>
-    </a>
-
     <button class="menuItemCreateOrder" onclick="openSheet('createOrder')"></button>
-
-    <a href="{{ route('mixes.index') }}" class="menuItem {{ request()->routeIs('mixes.*') ? 'active' : '' }}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4.6 18.6A1.6 1.6 0 0 0 6 21h12a1.6 1.6 0 0 0 1.4-2.4L14 9V3"/><path d="M7.5 15h9"/></svg>
-
-        <span>Миксы</span>
-    </a>
 
     <a href="{{ route('guests.index') }}" class="menuItem {{ request()->routeIs('guests.*') ? 'active' : '' }}">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.4c2.2.7 3.5 2.6 3.5 5.6"/></svg>
@@ -72,12 +60,13 @@
         <span>Гости</span>
     </a>
 
-    <a href="{{ route('labels.index') }}" class="menuItem {{ request()->routeIs('labels.*') ? 'active' : '' }}">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.5V4.5h8l9 9-8 8z"/><circle cx="8" cy="9" r="1.3"/></svg>
+    <a href="{{ route('tobaccos.index') }}" id="menuCatalog" data-urls='@json(['tobaccos' => route('tobaccos.index'), 'mixes' => route('mixes.index'), 'labels' => route('labels.index')])' class="menuItem {{ request()->routeIs('tobaccos.*', 'mixes.*', 'labels.*') ? 'active' : '' }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></svg>
 
-        <span>Ярлыки</span>
+        <span>Каталог</span>
     </a>
 </nav>
+<script>try{var m=document.getElementById('menuCatalog'),u=JSON.parse(m.dataset.urls),k=localStorage.getItem('catalogTab');if(u[k])m.href=u[k]}catch(e){}</script>
 
 @include('partials.create-order-sheet')
 

@@ -27,6 +27,8 @@
     </div>
 </header>
 
+@include('partials.catalog-tabs')
+
 <form action="#" class="topNav" onsubmit="return false;">
     <div class="topNavRow0vd32">
         <div class="search">

@@ -56,6 +56,8 @@
     </div>
 </header>
 
+@include('partials.catalog-tabs')
+
 <section class="productList" id="mixList">
     @include('mixes.partials.list-items')
 </section>

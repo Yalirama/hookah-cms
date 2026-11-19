@@ -64,6 +64,8 @@
     </div>
 </header>
 
+@include('partials.catalog-tabs')
+
 <section class="productList" id="tobaccoList">
     @include('tobaccos.partials.list-items')
 </section>
