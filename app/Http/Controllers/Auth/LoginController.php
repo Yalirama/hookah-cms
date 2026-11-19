@@ -23,7 +23,13 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = \App\Models\User::where('login', $credentials['login'])->first();
+        $login = trim($credentials['login']);
+        $user = \App\Models\User::where('login', $login)->first();
+        if (!$user && !str_contains($login, '@')) {
+            $login .= '@' . \App\Support\AccountRules::DOMAIN;
+            $user = \App\Models\User::where('login', $login)->first();
+        }
+        $credentials['login'] = $login;
 
         if (!$user || !$user->is_active) {
             return back()->withErrors(['login' => 'Пользователь не найден или деактивирован.']);

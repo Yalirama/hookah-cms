@@ -37,7 +37,7 @@
             @csrf
             <div class="form-group">
                 <label>Логин</label>
-                <input type="text" name="login" value="{{ old('login') }}" placeholder="Введите логин" autofocus>
+                <input type="text" name="login" value="{{ old('login') }}" placeholder="Логин (@iys.kz добавится само)" autofocus>
             </div>
             <div class="form-group">
                 <label>Пароль</label>
