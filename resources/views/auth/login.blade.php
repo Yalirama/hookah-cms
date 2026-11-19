@@ -37,7 +37,7 @@
             @csrf
             <div class="form-group">
                 <label>Логин</label>
-                <input type="text" name="login" value="{{ old('login') }}" placeholder="Логин (@iys.kz добавится само)" autofocus>
+                <input type="text" name="login" value="{{ old('login') }}" placeholder="Логин (@iys.kz добавится само)" autocapitalize="off" autocorrect="off" spellcheck="false" autofocus>
             </div>
             <div class="form-group">
                 <label>Пароль</label>
@@ -50,5 +50,11 @@
             <button type="submit" class="btn">Войти</button>
         </form>
     </div>
+<script>
+document.querySelector('input[name=login]').addEventListener('blur', function () {
+    var v = this.value.trim();
+    if (v && v.indexOf('@') === -1) this.value = v + '@iys.kz';
+});
+</script>
 </body>
 </html>

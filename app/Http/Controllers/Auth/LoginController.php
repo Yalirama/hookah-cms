@@ -29,6 +29,11 @@ class LoginController extends Controller
             $login .= '@' . \App\Support\AccountRules::DOMAIN;
             $user = \App\Models\User::where('login', $login)->first();
         }
+        $domain = '@' . \App\Support\AccountRules::DOMAIN;
+        if (!$user && str_ends_with(strtolower($login), $domain)) {
+            $login = substr($login, 0, -strlen($domain));
+            $user = \App\Models\User::where('login', $login)->first();
+        }
         $credentials['login'] = $login;
 
         if (!$user || !$user->is_active) {
