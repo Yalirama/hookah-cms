@@ -712,5 +712,5 @@ main.tabaccos .topNav .filters .filtersRow .customSelectArrow{width:calc(8vw / v
 .ordersCard.ocCard{border-width:calc(1.3vw / var(--resizer) * 100)}
 .ordersCard.ocCard[data-status="pending"]{border-color:#F97316;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(17vw / var(--resizer) * 100) rgba(249,115,22,.38)}
 .ordersCard.ocCard[data-status="in_progress"]{border-color:#2E90FA;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(46,144,250,.20)}
-.ordersCard.ocCard[data-status="ready"]{border-color:#12B76A;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(18,183,106,.20)}
+.ordersCard.ocCard[data-status="ready"]{border-color:#32D583;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(50,213,131,.24)}
 .ordersCard.ocCard[data-status="served"]{border-color:#7A5AF8;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(122,90,248,.20)}
