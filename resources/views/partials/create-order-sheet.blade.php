@@ -22,15 +22,15 @@
 
             <div class="actionTabInner --flex1">
                 <div class="actionTabSection">
-                    <label class="actionTabTitle">Название заказа</label>
+                    <div class="hintRow"><label class="actionTabTitle">Название заказа <span class="actionTabOpt">необязательно</span></label><button type="button" class="hintBtn" data-hint="Своё название заказа, например «Для именинника». Если оставить пустым, заказ будет называться «Заказ #номер».">?</button></div>
                     <div class="defaultForm">
-                        <input name="name" type="text" placeholder="Классика (по умолчанию)">
+                        <input name="name" type="text" placeholder="Заказ #номер (по умолчанию)">
                     </div>
                 </div>
 
                 <div class="actionTabSectionRow _mt10">
                     <div class="actionTabSectionItem">
-                        <div class="actionTabTitle">Время</div>
+                        <div class="hintRow"><div class="actionTabTitle">Время</div><button type="button" class="hintBtn" data-hint="Во сколько гость сел за стол. Если не выбирать, подставится текущее время.">?</button></div>
                         <div class="defaultForm customTime" id="createOrderTimePicker">
                             <div class="customTimeValue">
                                 <span class="customTimeHH">--</span><span>:</span><span class="customTimeMM">--</span>
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="actionTabSectionItem">
-                        <div class="actionTabTitle">Стол</div>
+                        <div class="hintRow"><div class="actionTabTitle">Стол</div><button type="button" class="hintBtn" data-hint="Обязательное поле. В списке только включённые столы, сгруппированные по типам. Если гость пересядет, стол можно сменить в карточке заказа.">?</button></div>
                         <div class="defaultForm customSelect" id="createOrderTableSelect">
                             <div class="customSelectValue" data-placeholder="Стол">Стол</div>
                             <svg class="customSelectArrow" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -78,11 +78,12 @@
                                 @endforeach
                             </div>
                         </div>
+                        <p class="formInlineError" id="createOrderTableError" style="display:none">Выберите стол</p>
                     </div>
                 </div>
 
                 <div class="actionTabSection _mt10">
-                    <label class="actionTabTitle">Комментарий гостя</label>
+                    <div class="hintRow"><label class="actionTabTitle">Комментарий гостя <span class="actionTabOpt">необязательно</span></label><button type="button" class="hintBtn" data-hint="Пожелание гостя к заказу, например «покрепче» или «без мяты». Мастер увидит его в карточке заказа.">?</button></div>
                     <div class="defaultForm">
                         <textarea name="guest_comment" id="createOrderComment" rows="4"></textarea>
                     </div>
@@ -90,7 +91,7 @@
 
                 <div class="actionTabSearchSection --flex1">
                     <div>
-                        <label for="createOrderSearchGuests" class="actionTabTitle">Гость</label>
+                        <div class="hintRow"><label for="createOrderSearchGuests" class="actionTabTitle">Гость <span class="actionTabOpt">необязательно</span></label><button type="button" class="hintBtn" data-hint="Найдите гостя в базе по имени, телефону или username либо создайте нового. Можно пропустить: гостя можно привязать позже в карточке заказа.">?</button></div>
                         <div class="search">
                             <img src="/assets/img/search-icon.svg" alt="">
                             <input id="createOrderSearchGuests" type="text" placeholder="Имя, номер телефона, username..." autocomplete="off">
@@ -235,6 +236,8 @@
         document.getElementById('createOrderNewGuestForm').style.display = 'none';
         document.getElementById('createOrderGuestResults').innerHTML = '';
 
+        tableSelectRoot?.classList.remove('--invalid');
+        const te = document.getElementById('createOrderTableError'); if (te) te.style.display = 'none';
         if (tableSelectRoot?.resetCustom) tableSelectRoot.resetCustom();
         if (timePickerRoot?.resetCustom) timePickerRoot.resetCustom();
     };
@@ -321,7 +324,8 @@
     if (tableSelectRoot) initCustomSelect(tableSelectRoot);
     if (timePickerRoot)  initCustomTime(timePickerRoot);
 
-    tableSelectRoot.addEventListener('customselect:change', () => tableSelectRoot.classList.remove('--invalid'));
+    const tableError = document.getElementById('createOrderTableError');
+    tableSelectRoot.addEventListener('customselect:change', () => { tableSelectRoot.classList.remove('--invalid'); tableError.style.display = 'none'; });
 
     document.addEventListener('submit', function (e) {
         if (!e.target || e.target.id !== 'createOrderForm') return;
@@ -329,6 +333,7 @@
         if (!document.getElementById('createOrderTable').value) {
             e.preventDefault();
             tableSelectRoot.classList.add('--invalid');
+            tableError.style.display = 'block';
             tableSelectRoot.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
