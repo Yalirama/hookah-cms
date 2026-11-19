@@ -114,6 +114,22 @@ class SettingsController extends Controller
         return response()->json(['ok' => true]);
     }
 
+    private function cleanName(string $name): string
+    {
+        return trim(preg_replace('/\s+/u', ' ', $name));
+    }
+
+    private function assertNameFree(string $name, ?User $ignore): void
+    {
+        $full = mb_strtolower(trim($name . ' ' . ($ignore?->surname ?? '')));
+        $taken = User::when($ignore, fn ($q) => $q->where('id', '!=', $ignore->id))
+            ->whereRaw("LOWER(TRIM(CONCAT(name, ' ', COALESCE(surname, '')))) = ?", [$full])
+            ->exists();
+        if ($taken) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['name' => 'Имя «' . trim($name . ' ' . ($ignore?->surname ?? '')) . '» уже занято. Добавьте ещё буквы, например «' . $name . 'л».']);
+        }
+    }
+
     public function storeMaster(Request $request)
     {
         $request->validate([
@@ -122,6 +138,8 @@ class SettingsController extends Controller
             'password' => 'required|string',
             'role'     => 'nullable|in:admin,master',
         ]);
+        $name = $this->cleanName($request->name);
+        $this->assertNameFree($name, null);
         [$login, $loginError] = \App\Support\AccountRules::login($request->login);
         if ($loginError) throw \Illuminate\Validation\ValidationException::withMessages(['login' => $loginError]);
         if ($passwordError = \App\Support\AccountRules::password($request->password, $login)) throw \Illuminate\Validation\ValidationException::withMessages(['password' => $passwordError]);
@@ -130,7 +148,7 @@ class SettingsController extends Controller
         $role = $request->input('role', 'master');
 
         $user = User::create([
-            'name'      => $request->name,
+            'name'      => $name,
             'login'     => $login,
             'password'  => Hash::make($request->password),
             'is_active' => true,
@@ -147,6 +165,8 @@ class SettingsController extends Controller
             'name'  => 'required|string|max:255',
             'login' => 'required|string|max:255',
         ]);
+        $name = $this->cleanName($request->name);
+        $this->assertNameFree($name, $user);
         $login = trim($request->login);
         if ($login !== $user->login) {
             [$login, $loginError] = \App\Support\AccountRules::login($login);
@@ -154,7 +174,7 @@ class SettingsController extends Controller
             if (User::where('login', $login)->where('id', '!=', $user->id)->exists()) throw \Illuminate\Validation\ValidationException::withMessages(['login' => 'Такой логин уже используется.']);
         }
 
-        $data = ['name' => $request->name, 'login' => $login];
+        $data = ['name' => $name, 'login' => $login];
         if ($request->filled('password')) {
             if ($passwordError = \App\Support\AccountRules::password($request->password, $login)) throw \Illuminate\Validation\ValidationException::withMessages(['password' => $passwordError]);
             $data['password'] = Hash::make($request->password);
