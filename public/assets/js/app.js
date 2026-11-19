@@ -135,3 +135,7 @@ function applyListSort(container, itemSelector, mode) {
     }[mode] || orig;
     items.sort(cmp).forEach(el => container.appendChild(el));
 }
+
+
+document.addEventListener('contextmenu', e => { if (e.target.closest && e.target.closest('img')) e.preventDefault(); });
+document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });

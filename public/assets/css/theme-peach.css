@@ -806,3 +806,4 @@ main.tabaccos .topNav .filters .filtersRow .customSelectArrow{width:calc(8vw / v
 .analyticsCardDayTime .analyticsQuestsItem small{margin-top:calc(2.6vw / var(--resizer) * 100);font-size:calc(8.6vw / var(--resizer) * 100);font-weight:600;color:var(--mut)}
 .analyticsCardDayTime .analyticsQuestsItem.active p,.analyticsCardDayTime .analyticsQuestsItem.active span,.analyticsCardDayTime .analyticsQuestsItem.active small{color:var(--accT)}
 .actionTabActionsButtons>.actionTabActionsButton:last-child:nth-child(odd){grid-column:1/-1}
+img,svg{-webkit-touch-callout:none;-webkit-user-drag:none;-webkit-user-select:none;user-select:none}
