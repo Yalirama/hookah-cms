@@ -240,6 +240,26 @@
             </div>
         </div>
 
+        <div class="actionTabCnt actionTabCnt6nsd5 --actionTabCnt-a2dpd">
+            <p class="analyticsCardTitle">Новый заказ ждёт: оранжевый</p>
+            <div class="actionTabCntRow7vh31">
+                <div class="item defaultForm">
+                    <input type="number" id="order-wait-warn" value="{{ (int) \App\Models\Setting::get('order_wait_warn', 5) }}" min="1" max="120">
+                    <span>(минут)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="actionTabCnt actionTabCnt6nsd5 --actionTabCnt-a2dpd">
+            <p class="analyticsCardTitle">Новый заказ ждёт: красный</p>
+            <div class="actionTabCntRow7vh31">
+                <div class="item defaultForm">
+                    <input type="number" id="order-wait-alert" value="{{ (int) \App\Models\Setting::get('order_wait_alert', 10) }}" min="1" max="240">
+                    <span>(минут)</span>
+                </div>
+            </div>
+        </div>
+
         {{-- Включить напоминания об обслуживании --}}
         <div class="actionTabCnt">
             <p class="analyticsCardTitle">Включить напоминания об обслуживании</p>
@@ -883,6 +903,8 @@ function submitNotifications() {
     postJson('{{ route("settings.notifications") }}', {
         service_reminder_enabled: document.getElementById('service-reminder-enabled').checked,
         service_reminder_interval: document.getElementById('service-reminder-interval').value,
+        order_wait_warn: document.getElementById('order-wait-warn').value,
+        order_wait_alert: document.getElementById('order-wait-alert').value,
     }).then(() => closeSheet('settingsTab2'));
 }
 

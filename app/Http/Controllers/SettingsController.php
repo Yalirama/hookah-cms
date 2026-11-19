@@ -78,10 +78,16 @@ class SettingsController extends Controller
 
     public function updateNotifications(Request $request)
     {
-        $request->validate(['service_reminder_interval' => 'nullable|integer|min:1|max:600'], [], ['service_reminder_interval' => 'интервал напоминания']);
+        $request->validate([
+            'service_reminder_interval' => 'nullable|integer|min:1|max:600',
+            'order_wait_warn' => 'nullable|integer|min:1|max:120',
+            'order_wait_alert' => 'nullable|integer|min:1|max:240|gt:order_wait_warn',
+        ], [], ['service_reminder_interval' => 'интервал напоминания', 'order_wait_warn' => 'оранжевый порог', 'order_wait_alert' => 'красный порог']);
         Setting::set('notifications_enabled', $request->boolean('notifications_enabled') ? '1' : '0');
         Setting::set('service_reminder_enabled', $request->boolean('service_reminder_enabled') ? '1' : '0');
         if ($request->filled('service_reminder_interval')) Setting::set('service_reminder_interval', $request->input('service_reminder_interval'));
+        if ($request->filled('order_wait_warn')) Setting::set('order_wait_warn', $request->input('order_wait_warn'));
+        if ($request->filled('order_wait_alert')) Setting::set('order_wait_alert', $request->input('order_wait_alert'));
 
         return response()->json(['ok' => true]);
     }
