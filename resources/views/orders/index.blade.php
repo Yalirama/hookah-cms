@@ -92,6 +92,26 @@
 @include('partials.guest-sheets')
 <script src="/assets/js/guest-sheet.js?v={{ filemtime(public_path('/assets/js/guest-sheet.js')) }}"></script>
 <script>
+window.ORDER_WAIT = {warn: {{ (int) \App\Models\Setting::get('order_wait_warn', 5) }}, alert: {{ (int) \App\Models\Setting::get('order_wait_alert', 10) }}};
+(function () {
+    function tick() {
+        var now = Date.now() / 1000, W = window.ORDER_WAIT;
+        document.querySelectorAll('.ocCard[data-wait]:not([data-status="pending"])').forEach(function (c) {
+            delete c.dataset.wait;
+            var e = c.querySelector('.ocWait'); if (e) e.textContent = '';
+        });
+        document.querySelectorAll('.ocCard[data-status="pending"][data-since]').forEach(function (c) {
+            var m = Math.floor((now - Number(c.dataset.since)) / 60);
+            if (m >= W.alert) c.dataset.wait = 'alert'; else if (m >= W.warn) c.dataset.wait = 'warn'; else delete c.dataset.wait;
+            var e = c.querySelector('.ocWait'); if (e) e.textContent = m >= 1 ? 'ждёт ' + m + ' мин' : '';
+        });
+    }
+    tick();
+    setInterval(tick, 15000);
+    document.addEventListener('visibilitychange', tick);
+})();
+</script>
+<script>
 (function () {
     let activeStatus = '', activeGuest = '', activeGuestStatus = '';
 

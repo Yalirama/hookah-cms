@@ -24,6 +24,7 @@
 <div class="ordersCard ocCard --{{ $visual['card'] }}"
      data-order-id="{{ $order->id }}"
      data-status="{{ $order->status }}"
+     data-since="{{ $order->created_at->timestamp }}"
      data-guest="{{ $order->guest_id ? '1' : '0' }}"
      data-guest-status="{{ $order->guest?->status ?? '' }}"
      data-search="{{ $searchData }}">
@@ -34,6 +35,7 @@
             <div>
                 <p class="ocTime">{{ ($order->started_at ?? $order->created_at)->format('H:i') }}</p>
                 <p class="ocId">#{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</p>
+                <p class="ocWait"></p>
             </div>
         </div>
         <span class="ocPill">{{ $visual['label'] }}</span>

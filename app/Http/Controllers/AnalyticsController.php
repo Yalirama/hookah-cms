@@ -19,7 +19,7 @@ class AnalyticsController extends Controller
         }
 
         $period = $request->get('period', 'today');
-        return view('analytics.index', ['period' => $period, 'contentHtml' => $this->renderedContent($request, $period)]);
+        return view('analytics.index', ['period' => $period, 'contentHtml' => $this->renderedContent($request, $period), 'shift' => $this->myShiftSummary()]);
     }
 
     public function contentPartial(Request $request)
@@ -31,6 +31,47 @@ class AnalyticsController extends Controller
 
         $period = $request->get('period', 'today');
         return response($this->renderedContent($request, $period));
+    }
+
+    private function myShiftSummary(): ?array
+    {
+        $u = auth()->user();
+        $open = \App\Models\ShiftLog::where('user_id', $u->id)->whereNull('ended_at')->latest('id')->first();
+        $last = $open ?: \App\Models\ShiftLog::where('user_id', $u->id)->latest('id')->first();
+        if (!$last) {
+            return null;
+        }
+        if ($open) {
+            $from = $open->started_at;
+            $to = now();
+            $label = 'Моя смена сейчас';
+        } elseif ($last->ended_at && $last->ended_at->gt(now()->subHours(12))) {
+            $from = $last->started_at;
+            $to = $last->ended_at;
+            $label = 'Моя прошлая смена';
+        } else {
+            return null;
+        }
+
+        return \Illuminate\Support\Facades\Cache::remember("shift-summary:{$u->id}:{$from->timestamp}:" . intdiv(now()->timestamp, 60), 120, function () use ($u, $from, $to, $label) {
+            $p = new \App\Support\Period();
+            $p->from = $from;
+            $p->to = $to;
+            $p->key = 'shift';
+            $p->label = $label;
+            $d = app(\App\Services\Stats\MasterStats::class)->build($p);
+            $row = collect($d['rows'])->firstWhere('id', $u->id);
+
+            return [
+                'label' => $label,
+                'hours' => round(abs($to->diffInSeconds($from)) / 3600, 1),
+                'prepared' => $row['prepared'] ?? 0,
+                'avgNew' => $row['avgNew'] ?? null,
+                'redo' => $row['outcome']['redo'] ?? 0,
+                'serviced' => $row['serviced'] ?? 0,
+                'closed' => $row['closed'] ?? 0,
+            ];
+        });
     }
 
     public function renderedContent(Request $request, string $period): string

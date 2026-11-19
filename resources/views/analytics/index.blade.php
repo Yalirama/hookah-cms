@@ -132,6 +132,17 @@ document.addEventListener('click', function (e) {
 </header>
 
 <section class="analytics defaultFixed" id="analytics-content">
+@if($shift)
+<div class="analyticsCard statCard">
+    <p class="analyticsCardTitle">{{ $shift['label'] }}</p>
+    <div class="statGrid statGrid3">
+        <div class="statTile"><b>{{ $shift['prepared'] }}</b><span>приготовил</span></div>
+        <div class="statTile"><b>{{ $shift['avgNew'] !== null ? \App\Support\Fmt::mins($shift['avgNew']) : '—' }}</b><span>среднее время</span></div>
+        <div class="statTile"><b>{{ $shift['redo'] }}</b><span>переделок</span></div>
+    </div>
+    <p class="statLine">Обслужил: <b>{{ $shift['serviced'] }}</b> · Закрыл: <b>{{ $shift['closed'] }}</b> · На смене: <b>{{ $shift['hours'] }} ч</b></p>
+</div>
+@endif
     {!! $contentHtml !!}
 </section>
 
