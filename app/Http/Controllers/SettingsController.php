@@ -126,7 +126,7 @@ class SettingsController extends Controller
             ->whereRaw("LOWER(TRIM(CONCAT(name, ' ', COALESCE(surname, '')))) = ?", [$full])
             ->exists();
         if ($taken) {
-            throw \Illuminate\Validation\ValidationException::withMessages(['name' => 'Имя «' . trim($name . ' ' . ($ignore?->surname ?? '')) . '» уже занято. Добавьте ещё буквы, например «' . $name . 'л».']);
+            throw \Illuminate\Validation\ValidationException::withMessages(['name' => 'Имя «' . trim($name . ' ' . ($ignore?->surname ?? '')) . '» уже занято. Добавьте ещё буквы, например «Куплинов А» → «Куплинов Ал».']);
         }
     }
 
