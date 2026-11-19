@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
         ->middleware('auth');
 
     Route::get('/stats', [App\Http\Controllers\StatsController::class, 'index'])->name('stats.index')->middleware('auth');
+    Route::get('/my-stats', [App\Http\Controllers\MyStatsController::class, 'index'])->name('my-stats')->middleware('auth');
     Route::get('/stats/tab/{tab}', [App\Http\Controllers\StatsController::class, 'tab'])->name('stats.tab')->middleware('auth');
 
     Route::get('/analytics/content', [App\Http\Controllers\AnalyticsController::class, 'contentPartial'])

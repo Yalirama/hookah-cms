@@ -133,7 +133,7 @@ document.addEventListener('click', function (e) {
 
 <section class="analytics defaultFixed" id="analytics-content">
 @if($shift)
-<div class="analyticsCard statCard">
+<div class="analyticsCard statCard shiftCard">
     <p class="analyticsCardTitle">{{ $shift['label'] }}</p>
     <div class="statGrid statGrid3">
         <div class="statTile"><b>{{ $shift['prepared'] }}</b><span>приготовил</span></div>
@@ -141,6 +141,7 @@ document.addEventListener('click', function (e) {
         <div class="statTile"><b>{{ $shift['redo'] }}</b><span>переделок</span></div>
     </div>
     <p class="statLine">Обслужил: <b>{{ $shift['serviced'] }}</b> · Закрыл: <b>{{ $shift['closed'] }}</b> · На смене: <b>{{ $shift['hours'] }} ч</b></p>
+    <a href="{{ route('my-stats') }}" class="statMoreBtn">Подробнее</a>
 </div>
 @endif
     {!! $contentHtml !!}
