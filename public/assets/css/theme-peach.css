@@ -316,9 +316,11 @@ main._ordersShow section.ordersSection .ordersCardUserImg{flex:none}
 .ocTime{font-size:calc(18.8vw / var(--resizer) * 100);font-weight:700;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
 .ocId{margin-top:calc(4.3vw / var(--resizer) * 100);font-size:calc(10.3vw / var(--resizer) * 100);font-weight:600;line-height:1;color:var(--mut)}
 .ocPill,.ocTag{display:inline-flex;align-items:center;justify-content:center;flex:none;min-height:calc(24vw / var(--resizer) * 100);padding:0 calc(10.3vw / var(--resizer) * 100);border-radius:999px;font-size:calc(10.3vw / var(--resizer) * 100);font-weight:700;line-height:1;white-space:nowrap;background:#ECEDF0;color:#3E4350}
-.ocCard[data-status=in_progress] .ocPill,.ocCard[data-status=served] .ocPill{background:#E0EDFF;color:#175CD3}
-.ocCard[data-status=ready] .ocPill{background:#FEF0C7;color:#93370D}
-.ocCard[data-status=redo] .ocPill{background:#F1E6FD;color:#6941C6}
+.ocCard[data-status=in_progress] .ocPill{background:#E0EDFF;color:#175CD3}
+.ocCard[data-status=served] .ocPill{background:#EDE7FF;color:#5925DC}
+.ocCard[data-status=pending] .ocPill{background:#F97316;color:#fff}
+.ocCard[data-status=ready] .ocPill{background:#DDF3EA;color:#0A5C4B}
+.ocCard[data-status=redo] .ocPill{background:#FEF0C7;color:#93370D}
 .ocCard[data-status=closed] .ocPill{background:#DDF3EA;color:#0A5C4B}
 .ocCard[data-status=cancelled] .ocPill{background:#FDE4E2;color:#B42318}
 .ocTag.--questVip{background:#F1E6FD;color:#6941C6}
@@ -708,9 +710,7 @@ main.tabaccos .topNav .filters .filtersRow .customSelectArrow{width:calc(8vw / v
 .catalogTabs a{text-decoration:none;flex:1;text-align:center;padding:calc(8.6vw / var(--resizer) * 100) 0;border-radius:calc(852.5vw / var(--resizer) * 100);font-size:calc(12vw / var(--resizer) * 100);font-weight:600;line-height:1;color:var(--mut)}
 .catalogTabs a.active{background:var(--acc);color:#fff;font-weight:800}
 .ordersCard.ocCard{border-width:calc(1.3vw / var(--resizer) * 100)}
-.ordersCard.ocCard[data-status="pending"],.ordersCard.ocCard[data-status="redo"]{border-color:#F79009;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(247,144,9,.20)}
+.ordersCard.ocCard[data-status="pending"]{border-color:#F97316;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(17vw / var(--resizer) * 100) rgba(249,115,22,.38)}
 .ordersCard.ocCard[data-status="in_progress"]{border-color:#2E90FA;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(46,144,250,.20)}
 .ordersCard.ocCard[data-status="ready"]{border-color:#12B76A;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(18,183,106,.20)}
 .ordersCard.ocCard[data-status="served"]{border-color:#7A5AF8;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(122,90,248,.20)}
-.ordersCard.ocCard[data-status="served"] .ordersCardStatus{background:#EDE7FF}
-.ordersCard.ocCard[data-status="served"] .ordersCardStatus p{color:#5925DC}
