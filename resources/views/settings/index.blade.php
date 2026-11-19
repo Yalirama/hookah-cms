@@ -898,8 +898,86 @@ function submitThresholds() {
     });
 }
 
+const ACC_DOMAIN = 'iys.kz';
+function accLoginCheck(value) {
+    value = value.trim();
+    if (!value) return { value, error: 'Введите логин.' };
+    let local = value;
+    if (value.includes('@')) {
+        const i = value.indexOf('@'); local = value.slice(0, i);
+        if (value.slice(i + 1).toLowerCase() !== ACC_DOMAIN) return { value, error: 'Домен не допустим. Пишите логин без домена или с @' + ACC_DOMAIN + '.' };
+    }
+    if (/\p{Lu}/u.test(local)) return { value, error: 'Логин только строчными буквами.' };
+    const bad = local.match(/[^a-z0-9_.\-]/);
+    if (bad) return { value, error: 'Символ «' + bad[0] + '» не допустим. Разрешены строчные латинские буквы, цифры и _ . -' };
+    if (local.length < 3) return { value, error: 'Логин не короче 3 символов.' };
+    return { value: local + '@' + ACC_DOMAIN, error: null };
+}
+function accPasswordCheck(p, login) {
+    const miss = [];
+    if (p.length < 8) miss.push('не менее 8 символов');
+    if (!/\p{Lu}/u.test(p)) miss.push('заглавная буква');
+    if (!/\d/.test(p)) miss.push('цифра');
+    if (!/[^\p{L}\d]/u.test(p)) miss.push('символ');
+    if (miss.length) return 'В пароле нужно: ' + miss.join(', ') + '.';
+    const local = (login || '').split('@')[0].toLowerCase();
+    if (local.length >= 3 && p.toLowerCase().includes(local)) return 'Пароль не должен содержать логин.';
+    return null;
+}
+function accNote(inp, hint) {
+    let n = inp.closest('.actionTabSection').querySelector('.accHint');
+    if (!n) { n = document.createElement('p'); n.className = 'accHint'; n.dataset.hint = hint; n.textContent = hint; inp.closest('.actionTabSection').appendChild(n); }
+    return n;
+}
+function accMark(inp, hint, error) {
+    const n = accNote(inp, hint);
+    inp.closest('.defaultForm').classList.toggle('fieldBad', !!error);
+    n.classList.toggle('bad', !!error);
+    n.textContent = error || n.dataset.hint;
+    return !error;
+}
+const ACC_LOGIN_HINT = 'Строчные латинские буквы, цифры, _ . - ; @' + ACC_DOMAIN + ' добавится само.';
+const ACC_PASS_HINT = 'Не менее 8 символов, заглавная буква, цифра и символ.';
+function accBindLogin(id, getOriginal) {
+    const inp = document.getElementById(id);
+    accMark(inp, ACC_LOGIN_HINT, null);
+    inp.addEventListener('blur', () => {
+        const orig = getOriginal();
+        if (orig !== null && inp.value.trim() === orig) return accMark(inp, ACC_LOGIN_HINT, null);
+        const r = accLoginCheck(inp.value);
+        if (!r.error) inp.value = r.value;
+        accMark(inp, ACC_LOGIN_HINT, inp.value.trim() ? r.error : null);
+    });
+    inp.addEventListener('input', () => accMark(inp, ACC_LOGIN_HINT, null));
+}
+function accBindPassword(id, loginId, optional) {
+    const inp = document.getElementById(id);
+    accMark(inp, ACC_PASS_HINT, null);
+    const run = () => { const v = inp.value; accMark(inp, ACC_PASS_HINT, v || !optional ? (v ? accPasswordCheck(v, document.getElementById(loginId).value) : null) : null); };
+    inp.addEventListener('input', run); inp.addEventListener('blur', run);
+}
+function accValidateForm(loginId, passId, origLogin, passOptional) {
+    const li = document.getElementById(loginId), pi = document.getElementById(passId);
+    let ok = true;
+    if (origLogin === null || li.value.trim() !== origLogin) {
+        const r = accLoginCheck(li.value);
+        if (!r.error) li.value = r.value;
+        ok = accMark(li, ACC_LOGIN_HINT, r.error) && ok;
+    }
+    if (pi.value || !passOptional) ok = accMark(pi, ACC_PASS_HINT, pi.value ? accPasswordCheck(pi.value, li.value) : 'Введите пароль.') && ok;
+    return ok;
+}
+let editingOriginalLogin = null;
+document.addEventListener('DOMContentLoaded', () => {
+    accBindLogin('new-master-login', () => null);
+    accBindPassword('new-master-password', 'new-master-login', false);
+    accBindLogin('edit-master-login', () => editingOriginalLogin);
+    accBindPassword('edit-master-password', 'edit-master-login', true);
+});
+
 function submitCreateMaster() {
     clearFormError('settingsTab4');
+    if (!accValidateForm('new-master-login', 'new-master-password', null, false)) return;
     postJson('{{ route("settings.masters.store") }}', {
         name: document.getElementById('new-master-name').value,
         login: document.getElementById('new-master-login').value,
@@ -913,6 +991,7 @@ function submitCreateMaster() {
             document.getElementById('new-master-name').value = '';
             document.getElementById('new-master-login').value = '';
             document.getElementById('new-master-password').value = '';
+            ['new-master-login', 'new-master-password'].forEach(i => accMark(document.getElementById(i), '', null));
         }
     }).catch(err => showFormError('settingsTab4', err.message));
 }
@@ -920,6 +999,8 @@ function submitCreateMaster() {
 let editingMasterId = null;
 function openEditMaster(id, name, login) {
     editingMasterId = id;
+    editingOriginalLogin = login;
+    ['edit-master-login', 'edit-master-password'].forEach(i => accMark(document.getElementById(i), '', null));
     document.getElementById('edit-master-name').value = name;
     document.getElementById('edit-master-login').value = login;
     document.getElementById('edit-master-password').value = '';
@@ -928,6 +1009,7 @@ function openEditMaster(id, name, login) {
 
 function submitEditMaster() {
     clearFormError('editMaster');
+    if (!accValidateForm('edit-master-login', 'edit-master-password', editingOriginalLogin, true)) return;
     putJson(`/settings/masters/${editingMasterId}`, {
         name: document.getElementById('edit-master-name').value,
         login: document.getElementById('edit-master-login').value,

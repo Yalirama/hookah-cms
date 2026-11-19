@@ -116,18 +116,22 @@ class SettingsController extends Controller
 
     public function storeMaster(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'name'     => 'required|string|max:255',
-            'login'    => 'required|string|unique:users,login|max:255',
-            'password' => 'required|string|min:6',
+            'login'    => 'required|string|max:255',
+            'password' => 'required|string',
             'role'     => 'nullable|in:admin,master',
         ]);
+        [$login, $loginError] = \App\Support\AccountRules::login($request->login);
+        if ($loginError) throw \Illuminate\Validation\ValidationException::withMessages(['login' => $loginError]);
+        if ($passwordError = \App\Support\AccountRules::password($request->password, $login)) throw \Illuminate\Validation\ValidationException::withMessages(['password' => $passwordError]);
+        if (User::where('login', $login)->exists()) throw \Illuminate\Validation\ValidationException::withMessages(['login' => 'Такой логин уже используется.']);
 
         $role = $request->input('role', 'master');
 
         $user = User::create([
             'name'      => $request->name,
-            'login'     => $request->login,
+            'login'     => $login,
             'password'  => Hash::make($request->password),
             'is_active' => true,
         ]);
@@ -141,12 +145,18 @@ class SettingsController extends Controller
     {
         $request->validate([
             'name'  => 'required|string|max:255',
-            'login' => 'required|string|unique:users,login,' . $user->id . '|max:255',
+            'login' => 'required|string|max:255',
         ]);
+        $login = trim($request->login);
+        if ($login !== $user->login) {
+            [$login, $loginError] = \App\Support\AccountRules::login($login);
+            if ($loginError) throw \Illuminate\Validation\ValidationException::withMessages(['login' => $loginError]);
+            if (User::where('login', $login)->where('id', '!=', $user->id)->exists()) throw \Illuminate\Validation\ValidationException::withMessages(['login' => 'Такой логин уже используется.']);
+        }
 
-        $data = ['name' => $request->name, 'login' => $request->login];
+        $data = ['name' => $request->name, 'login' => $login];
         if ($request->filled('password')) {
-            $request->validate(['password' => 'min:6']);
+            if ($passwordError = \App\Support\AccountRules::password($request->password, $login)) throw \Illuminate\Validation\ValidationException::withMessages(['password' => $passwordError]);
             $data['password'] = Hash::make($request->password);
         }
         $user->update($data);
