@@ -115,6 +115,10 @@
 
 @include('partials.freq-bars', ['title' => 'Сезонность', 'items' => $seasons])
 
+@if(count($years))
+@include('partials.freq-bars', ['title' => 'По годам', 'items' => $years])
+@endif
+
 <div class="actionTabCnt">
     <p class="analyticsCardTitle">Заметки</p>
 

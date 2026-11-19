@@ -55,6 +55,17 @@ class OrderFrequency
             $seasons[] = ['label' => $label, 'count' => $sum];
         }
 
-        return compact('months', 'seasons');
+        $byYear = [];
+        foreach ($byMonth as $ym => $c) {
+            $y = substr($ym, 0, 4);
+            $byYear[$y] = ($byYear[$y] ?? 0) + $c;
+        }
+        ksort($byYear);
+        $years = [];
+        foreach ($byYear as $y => $c) {
+            $years[] = ['label' => (string) $y, 'count' => $c];
+        }
+
+        return compact('months', 'seasons', 'years');
     }
 }

@@ -105,8 +105,9 @@ class TobaccoController extends Controller
         $freq = \App\Support\OrderFrequency::of($orderItemsQuery);
         $months = $freq['months'];
         $seasons = $freq['seasons'];
+        $years = $freq['years'];
 
-        return compact('totalOrders', 'redoOrders', 'last7', 'last30', 'last60', 'last90', 'last365', 'timeSlots', 'slotCounts', 'dayCounts', 'months', 'seasons');
+        return compact('totalOrders', 'redoOrders', 'last7', 'last30', 'last60', 'last90', 'last365', 'timeSlots', 'slotCounts', 'dayCounts', 'months', 'seasons', 'years');
     }
 
     public function edit()

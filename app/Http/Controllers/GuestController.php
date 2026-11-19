@@ -546,6 +546,7 @@ class GuestController extends Controller
         $freq = \App\Support\OrderFrequency::ofOrders($ordersQuery);
         $months = $freq['months'];
         $seasons = $freq['seasons'];
+        $years = $freq['years'];
 
         $shortOrders = Order::where('guest_id', $guest->id)
             ->with('table', 'creator')
@@ -556,7 +557,7 @@ class GuestController extends Controller
         $tableMoves = \App\Services\TableMoves::build(null, null, $guest->id);
 
         return compact(
-            'tableMoves', 'timeSlots', 'slotCounts', 'dayCounts', 'maxSlot', 'maxDay', 'months', 'seasons',
+            'tableMoves', 'timeSlots', 'slotCounts', 'dayCounts', 'maxSlot', 'maxDay', 'months', 'seasons', 'years',
             'totalOrders', 'visitsCount', 'redoCount', 'lastVisitDays',
             'avgSession', 'avgServiced',
             'topMixes', 'topTobaccos', 'topBrands', 'topMasters',

@@ -97,6 +97,10 @@
 
 @include('partials.freq-bars', ['title' => 'Сезонность', 'items' => $seasons])
 
+@if(count($years))
+@include('partials.freq-bars', ['title' => 'По годам', 'items' => $years])
+@endif
+
 <div class="actionTabCnt">
     <p class="analyticsCardTitle">С чем заказывают</p>
     <p class="statSub">Чаще всего в миксах, закрытых без проблем@if($pairs['closedTotal']) · всего {{ $pairs['closedTotal'] }}@endif</p>

@@ -89,6 +89,10 @@
 
 @include('partials.freq-bars', ['title' => 'Сезонность', 'items' => $seasons])
 
+@if(count($years))
+@include('partials.freq-bars', ['title' => 'По годам', 'items' => $years])
+@endif
+
 @if($topTobaccos->isNotEmpty())
 @include('guests.partials.top-list', ['title' => 'Топ табаков', 'items' => $topTobaccos, 'labelFn' => fn($i) => trim(($i->itemable?->brand?->name ?? '') . ' ' . ($i->itemable?->name ?? '—'))])
 @endif
