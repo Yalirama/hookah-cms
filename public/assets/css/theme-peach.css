@@ -707,10 +707,10 @@ main.tabaccos .topNav .filters .filtersRow .customSelectArrow{width:calc(8vw / v
 .catalogTabs{display:flex;gap:calc(6.8vw / var(--resizer) * 100);margin:calc(8.6vw / var(--resizer) * 100) 0 calc(8.6vw / var(--resizer) * 100);padding:calc(3.4vw / var(--resizer) * 100);border:calc(1vw / var(--resizer) * 100) solid var(--line);border-radius:calc(852.5vw / var(--resizer) * 100);background:#fff}
 .catalogTabs a{text-decoration:none;flex:1;text-align:center;padding:calc(8.6vw / var(--resizer) * 100) 0;border-radius:calc(852.5vw / var(--resizer) * 100);font-size:calc(12vw / var(--resizer) * 100);font-weight:600;line-height:1;color:var(--mut)}
 .catalogTabs a.active{background:var(--acc);color:#fff;font-weight:800}
-.ordersCard.ocCard{border-width:calc(2.2vw / var(--resizer) * 100)}
-.ordersCard.ocCard[data-status="pending"],.ordersCard.ocCard[data-status="redo"]{border-color:#F79009}
-.ordersCard.ocCard[data-status="in_progress"]{border-color:#2E90FA}
-.ordersCard.ocCard[data-status="ready"]{border-color:#12B76A}
-.ordersCard.ocCard[data-status="served"]{border-color:#7A5AF8}
+.ordersCard.ocCard{border-width:calc(1.3vw / var(--resizer) * 100)}
+.ordersCard.ocCard[data-status="pending"],.ordersCard.ocCard[data-status="redo"]{border-color:#F79009;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(247,144,9,.20)}
+.ordersCard.ocCard[data-status="in_progress"]{border-color:#2E90FA;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(46,144,250,.20)}
+.ordersCard.ocCard[data-status="ready"]{border-color:#12B76A;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(18,183,106,.20)}
+.ordersCard.ocCard[data-status="served"]{border-color:#7A5AF8;box-shadow:0 calc(3.4vw / var(--resizer) * 100) calc(13.7vw / var(--resizer) * 100) rgba(122,90,248,.20)}
 .ordersCard.ocCard[data-status="served"] .ordersCardStatus{background:#EDE7FF}
 .ordersCard.ocCard[data-status="served"] .ordersCardStatus p{color:#5925DC}
