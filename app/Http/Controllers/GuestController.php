@@ -543,6 +543,10 @@ class GuestController extends Controller
         $maxSlot = max($slotCounts ?: [0]) ?: 1;
         $maxDay  = max($dayCounts ?: [0]) ?: 1;
 
+        $freq = \App\Support\OrderFrequency::ofOrders($ordersQuery);
+        $months = $freq['months'];
+        $seasons = $freq['seasons'];
+
         $shortOrders = Order::where('guest_id', $guest->id)
             ->with('table', 'creator')
             ->orderByDesc('id')
@@ -552,7 +556,7 @@ class GuestController extends Controller
         $tableMoves = \App\Services\TableMoves::build(null, null, $guest->id);
 
         return compact(
-            'tableMoves', 'timeSlots', 'slotCounts', 'dayCounts', 'maxSlot', 'maxDay',
+            'tableMoves', 'timeSlots', 'slotCounts', 'dayCounts', 'maxSlot', 'maxDay', 'months', 'seasons',
             'totalOrders', 'visitsCount', 'redoCount', 'lastVisitDays',
             'avgSession', 'avgServiced',
             'topMixes', 'topTobaccos', 'topBrands', 'topMasters',

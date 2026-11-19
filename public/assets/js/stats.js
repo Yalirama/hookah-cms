@@ -41,6 +41,13 @@
     ['statMonth', 'statFrom', 'statTo'].forEach(id => q(id).addEventListener('change', () => { clearTimeout(timer); timer = setTimeout(load, 300); }));
 
     box.addEventListener('click', e => {
+        const b = e.target.closest('.subTab'); if (!b) return;
+        const row = b.closest('.subTabs'), g = row.dataset.group;
+        row.querySelectorAll('.subTab').forEach(x => x.classList.toggle('active', x === b));
+        box.querySelectorAll('[data-pane-group="' + g + '"]').forEach(p => { p.hidden = p.dataset.pane !== b.dataset.pane; });
+    });
+
+    box.addEventListener('click', e => {
         const t = e.target.closest('.statFold'); if (!t) return;
         t.closest('.statFoldBox').classList.toggle('open');
     });

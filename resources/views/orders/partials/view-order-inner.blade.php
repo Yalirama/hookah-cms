@@ -603,7 +603,7 @@
                     <div class="actionTabHistoryItemCircle"><span></span></div>
                     <div class="actionTabHistoryItemInfo">
                         <p class="actionTabHistoryItemSubtitle">
-                            Смена мастера{{ $changedLog ? ': ' . ($selectActionLabels[$changedLog->action] ?? $changedLog->action) : '' }} <br>
+                            Смена мастера{{ $changedLog ? ': ' . $changedLog->describeAction() : '' }} <br>
                             <span>{{ $log->old_value['user_name'] ?? '—' }}</span> &#8594; <span>{{ $log->new_value['user_name'] ?? '—' }}</span>
                         </p>
                         <div class="actionTabHistoryItemRow">

@@ -10,12 +10,28 @@ class OrderFrequency
 
     public static function of($orderItemsQuery): array
     {
-        $byMonth = [];
         $rows = (clone $orderItemsQuery)
             ->join('orders', 'orders.id', '=', 'order_items.order_id')
             ->selectRaw("DATE_FORMAT(orders.created_at, '%Y-%m') as ym, COUNT(*) as c")
             ->groupBy('ym')
             ->get();
+
+        return self::build($rows);
+    }
+
+    public static function ofOrders($ordersQuery): array
+    {
+        $rows = (clone $ordersQuery)
+            ->selectRaw("DATE_FORMAT(created_at, '%Y-%m') as ym, COUNT(*) as c")
+            ->groupBy('ym')
+            ->get();
+
+        return self::build($rows);
+    }
+
+    private static function build($rows): array
+    {
+        $byMonth = [];
         foreach ($rows as $r) {
             $byMonth[$r->ym] = (int) $r->c;
         }

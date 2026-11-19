@@ -114,7 +114,7 @@ class MasterStats
             $r = collect($rows)->filter(fn ($x) => $x[$key] !== null && ($filter ? $filter($x) : $x[$key] > 0));
             $r = $desc ? $r->sortByDesc($key) : $r->sortBy($key);
 
-            return ['label' => $label, 'unit' => $unit, 'rows' => $r->take(3)->map(fn ($x) => ['name' => $x['name'], 'v' => $x[$key], 'n' => $cnt ? $cnt($x) : null])->values()->all()];
+            return ['key' => $key, 'label' => $label, 'unit' => $unit, 'rows' => $r->take(3)->map(fn ($x) => ['name' => $x['name'], 'v' => $x[$key], 'n' => $cnt ? $cnt($x) : null])->values()->all()];
         };
         $tops = [
             $top('prepared', 'Больше всех приготовил', 'шт'),

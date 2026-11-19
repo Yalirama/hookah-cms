@@ -28,4 +28,23 @@ class OrderLog extends Model
     {
         return $this->belongsTo(User::class)->withTrashed();
     }
+
+    public function describeAction(): string
+    {
+        $st = $this->new_value['status'] ?? null;
+        $lbl = $st ? (Order::statusVisualMap()[$st]['label'] ?? $st) : null;
+
+        return match ($this->action) {
+            'created' => 'Создание заказа',
+            'status_changed' => $lbl ? "Статус: {$lbl}" : 'Смена статуса',
+            'rolled_back' => $lbl ? "Откат на: {$lbl}" : 'Откат статуса',
+            'serviced' => 'Обслуживание',
+            'table_changed' => 'Смена стола',
+            'item_added' => 'Добавление позиции',
+            'item_removed' => 'Удаление позиции',
+            'guest_changed' => 'Смена гостя',
+            'guest_comment_changed' => 'Комментарий гостя',
+            default => $this->action,
+        };
+    }
 }

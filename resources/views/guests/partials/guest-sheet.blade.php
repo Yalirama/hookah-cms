@@ -76,22 +76,18 @@
         <div class="item">
             <img src="{{ $slotIcons[$key] ?? '/assets/img/day-icon.svg' }}" alt="">
             <p>{{ $slot['label'] }}</p>
-            <span>{{ round(($slotCounts[$key] ?? 0) / $maxSlot * 100) }}%</span>
+            <span>{{ round(($slotCounts[$key] ?? 0) / (array_sum($slotCounts) ?: 1) * 100) }}%</span>
             <small>x{{ $slotCounts[$key] ?? 0 }}</small>
         </div>
         @endforeach
     </div>
 </div>
 
-<div class="actionTabCnt">
-    <p class="analyticsCardTitle">Дни недели</p>
-    <div class="actionTabCntRow1ys7s">
-        @foreach($dayOrder as $day)
-        @php $c = $dayCounts[$day] ?? 0; $isActive = $c > 0 && $c >= $maxDay * 0.5; @endphp
-        <div class="item {{ $isActive ? 'active' : '' }}"><span></span><p>{{ $day }}</p></div>
-        @endforeach
-    </div>
-</div>
+@include('partials.freq-bars', ['title' => 'Дни недели', 'items' => collect($dayOrder)->map(fn($d) => ['label' => $d, 'count' => $dayCounts[$d] ?? 0])->all()])
+
+@include('partials.freq-bars', ['title' => 'По месяцам', 'items' => $months])
+
+@include('partials.freq-bars', ['title' => 'Сезонность', 'items' => $seasons])
 
 @if($topTobaccos->isNotEmpty())
 @include('guests.partials.top-list', ['title' => 'Топ табаков', 'items' => $topTobaccos, 'labelFn' => fn($i) => trim(($i->itemable?->brand?->name ?? '') . ' ' . ($i->itemable?->name ?? '—'))])
