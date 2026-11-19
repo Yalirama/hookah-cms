@@ -53,6 +53,7 @@ class TobaccoController extends Controller
 
         $data = $this->buildTobaccoStats($tobacco);
         $data['pairs'] = app(\App\Services\TobaccoPairs::class)->for($tobacco->id);
+        $data['forecast'] = auth()->user()->hasRole('admin') ? app(\App\Services\StockService::class)->forecast($tobacco->id) : null;
 
         return view('tobaccos.partials.tobacco-sheet', array_merge(['tobacco' => $tobacco], $data));
     }

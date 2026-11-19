@@ -151,12 +151,14 @@ class StatsService
         $days = array_fill(1, 31, ['orders' => 0, 'revenue' => 0]);
         $hours = array_fill(0, 24, ['orders' => 0, 'revenue' => 0]);
         $dowAgg = [];
+        $heatRaw = [];
         foreach ($per as $o) {
             $d = $this->c($o->created_at);
             $r = $revP[$o->id] ?? 0;
             $days[$d->day]['orders']++; $days[$d->day]['revenue'] += $r;
             $hours[$d->hour]['orders']++; $hours[$d->hour]['revenue'] += $r;
             $dow = $d->dayOfWeek;
+            $heatRaw[$dow][$d->hour] = ($heatRaw[$dow][$d->hour] ?? 0) + 1;
             $dowAgg[$dow]['orders'] = ($dowAgg[$dow]['orders'] ?? 0) + 1;
             $dowAgg[$dow]['revenue'] = ($dowAgg[$dow]['revenue'] ?? 0) + $r;
             $dowAgg[$dow]['dates'][$d->toDateString()] = 1;
@@ -176,7 +178,20 @@ class StatsService
                 'avgRevenue' => $money && $dd ? round($rows->sum('revenue') / $dd) : null];
         }
 
-        return compact('months', 'seasons', 'days', 'hours', 'dowRows', 'wkRows');
+        $heatRows = [];
+        $heatMax = 0;
+        foreach ([1, 2, 3, 4, 5, 6, 0] as $n) {
+            $cells = [];
+            for ($h = 0; $h < 24; $h++) {
+                $v = $heatRaw[$n][$h] ?? 0;
+                $heatMax = max($heatMax, $v);
+                $cells[] = $v;
+            }
+            $heatRows[] = ['label' => self::DOW[$n], 'cells' => $cells];
+        }
+        $heat = ['rows' => $heatRows, 'max' => $heatMax];
+
+        return compact('months', 'seasons', 'days', 'hours', 'dowRows', 'wkRows', 'heat');
     }
 
     /* ---------------- ГОСТИ ---------------- */

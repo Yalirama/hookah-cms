@@ -16,6 +16,7 @@ class StatAccess
         'time_monthdays'     => ['time', 'По дням месяца', 0],
         'time_hours'         => ['time', 'По часам', 0],
         'time_weekend'       => ['time', 'Выходные и будни', 0],
+        'time_heatmap'       => ['time', 'Карта загрузки: день и час', 0],
         'guests_return'      => ['guests', 'Возвраты гостей', 0],
         'guests_growth'      => ['guests', 'Рост базы гостей', 0],
         'guests_top'         => ['guests', 'Топ и ценные гости', 0],

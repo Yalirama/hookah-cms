@@ -136,6 +136,7 @@ class StockService
     private function move(int $tobaccoId, string $type, float $grams, ?int $orderId = null, ?int $receiptId = null, ?string $note = null): void
     {
         $this->levelCache = null;
+        $before = $this->level($tobaccoId)['key'] ?? null;
         $avg = TobaccoStock::where('tobacco_id', $tobaccoId)->value('avg_cost');
         $cost = in_array($type, ['consume', 'writeoff', 'correction']) && $avg !== null ? round(abs($grams) * (float) $avg, 2) : null;
         StockMovement::create([
@@ -145,6 +146,44 @@ class StockService
         ]);
         $this->recalc($tobaccoId);
         if (in_array($type, ['consume', 'writeoff', 'correction'])) $this->autoDeactivate($tobaccoId);
+        $this->notifyIfLow($tobaccoId, $before);
+    }
+
+    private function notifyIfLow(int $tobaccoId, ?string $before): void
+    {
+        try {
+            $this->levelCache = null;
+            $after = $this->level($tobaccoId)['key'] ?? null;
+            $worse = ($after === 'low' && $before === 'ok') || ($after === 'none' && in_array($before, ['ok', 'low'], true));
+            if (!$worse || !\Illuminate\Support\Facades\Cache::add("stock-alert:{$tobaccoId}:{$after}", 1, now()->addHours(6))) return;
+
+            $t = Tobacco::with('brand')->find($tobaccoId);
+            $name = trim(($t?->brand?->name ?? '') . ' ' . ($t?->name ?? 'Табак'));
+            $left = round((float) ($this->stocks()[$tobaccoId]->available ?? 0));
+            PushNotifier::send(\App\Models\User::role('admin')->where('is_active', true)->pluck('id'), [
+                'title' => $after === 'none' ? 'Табак закончился' : 'Табак заканчивается',
+                'body'  => $after === 'none' ? $name : $name . ' · осталось ' . $left . ' г',
+                'url'   => route('tobaccos.index', [], false),
+                'tag'   => 'stock-' . $tobaccoId,
+            ]);
+        } catch (\Throwable $e) {
+            report($e);
+        }
+    }
+
+    public function forecast(int $tobaccoId): ?array
+    {
+        $st = $this->stocks()[$tobaccoId] ?? null;
+        if (!$st) return null;
+        $perDay = ($this->consumption(30)[$tobaccoId]['g'] ?? 0) / 30;
+        $avail = (float) $st->available;
+
+        return [
+            'available' => round($avail),
+            'perDay'    => round($perDay, 1),
+            'days'      => $perDay > 0.05 ? (int) floor($avail / $perDay) : null,
+            'servings'  => $this->servingsLeft($tobaccoId),
+        ];
     }
 
     private function autoDeactivate(int $tobaccoId): void

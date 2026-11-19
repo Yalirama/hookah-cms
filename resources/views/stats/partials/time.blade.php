@@ -45,6 +45,22 @@
 </div>
 @endif
 
+@if(StatAccess::can('time_heatmap'))
+<div class="analyticsCard statCard">
+    <div class="hintRow"><p class="analyticsCardTitle">Карта загрузки</p><button type="button" class="hintBtn" data-hint="Сколько заказов создавали в каждый день недели и час за выбранный период. Чем темнее клетка, тем больше заказов. Помогает понять, когда нужно больше мастеров. Цифра в клетке — число заказов, пустая клетка — заказов не было.">?</button></div>
+    <div class="statScroll">
+    <table class="heatTable">
+        <thead><tr><th></th>@for($h = 0; $h < 24; $h++)<th>{{ $h }}</th>@endfor</tr></thead>
+        <tbody>
+        @foreach($d['heat']['rows'] as $row)
+        <tr><th>{{ $row['label'] }}</th>@foreach($row['cells'] as $v)<td @if($v > 0)style="background:rgba(212,64,26,{{ round(0.1 + 0.8 * $v / max(1, $d['heat']['max']), 2) }});{{ $v / max(1, $d['heat']['max']) > 0.55 ? 'color:#fff' : '' }}"@endif>{{ $v ?: '' }}</td>@endforeach</tr>
+        @endforeach
+        </tbody>
+    </table>
+    </div>
+</div>
+@endif
+
 @if(StatAccess::can('time_weekend'))
 <div class="analyticsCard statCard">
     <div class="hintRow"><p class="analyticsCardTitle">Выходные и будни</p><button type="button" class="hintBtn" data-hint="Выходные — суббота и воскресенье, будни — с понедельника по пятницу. «В день» — среднее число заказов за один такой день: считаем только дни, в которые были заказы.">?</button></div>

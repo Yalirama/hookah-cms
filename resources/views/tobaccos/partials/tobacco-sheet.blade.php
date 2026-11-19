@@ -76,6 +76,19 @@
     </div>
 </div>
 
+@if($forecast)
+<div class="actionTabCnt">
+    <p class="analyticsCardTitle">Остаток и прогноз</p>
+    <p class="statLine">На складе: <b>{{ $forecast['available'] }} г</b>@if($forecast['servings'] !== null) · это примерно <b>{{ $forecast['servings'] }}</b> {{ \App\Support\Plural::ru($forecast['servings'], 'чаша', 'чаши', 'чаш') }}@endif</p>
+    <p class="statLine">Расход за 30 дней: <b>{{ $forecast['perDay'] }} г в день</b></p>
+    @if($forecast['days'] !== null)
+    <p class="statLine {{ $forecast['days'] <= 7 ? 'statNote bad' : '' }}">При таком расходе хватит примерно на <b>{{ $forecast['days'] }} {{ \App\Support\Plural::ru($forecast['days'], 'день', 'дня', 'дней') }}</b></p>
+    @else
+    <p class="statNote">За последние 30 дней расхода не было, прогноз не посчитать.</p>
+    @endif
+</div>
+
+@endif
 <div class="actionTabCnt">
     <p class="analyticsCardTitle">Когда заказывают</p>
 

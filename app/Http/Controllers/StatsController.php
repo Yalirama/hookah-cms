@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class StatsController extends Controller
 {
     public const TABS = [
-        'time' => ['Время', ['time_months', 'time_monthdays', 'time_hours', 'time_weekend']],
+        'time' => ['Время', ['time_months', 'time_monthdays', 'time_hours', 'time_heatmap', 'time_weekend']],
         'guests' => ['Гости', ['guests_return', 'guests_growth', 'guests_top', 'guests_risk']],
         'tables' => ['Столы', ['tables_load', 'tables_moves', 'tables_flow']],
         'items' => ['Позиции', ['items_trend', 'items_pairs', 'items_dead', 'items_seasons', 'items_comments']],
