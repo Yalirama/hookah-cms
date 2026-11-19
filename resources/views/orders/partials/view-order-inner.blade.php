@@ -196,7 +196,7 @@
                     @php
                         $itemImage = $item->itemable_type === \App\Models\Mix::class
                             ? '/assets/img/brands/mix.svg'
-                            : ($item->itemable?->brand?->image_url ?? '/assets/img/brands/product-img.svg');
+                            : ($item->itemable?->brand?->image_url ?? '/assets/img/brands/def-ic.svg');
                     @endphp
                     <img src="{{ $itemImage }}" alt="">
                     <div class="actionTabViewOrderProductListBody">
@@ -301,7 +301,7 @@
                     @endphp
                     <div class="ordersCardTop addItemOption {{ $tobaccoAlreadyAdded ? '--alreadyAdded' : '' }} {{ $tobOff ? '--unavailable' : '' }}" data-type="tobacco" data-key="tobacco_{{ $tobacco->id }}" data-name="{{ mb_strtolower(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name, 'UTF-8') }}" style="display:none" @if(!$tobaccoAlreadyAdded && !$tobOff) onclick="toggleItemSelect(this, 'tobacco', {{ $tobacco->id }}, '{{ addslashes(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name) }}')" @endif>
                         <div class="ordersCardUser">
-                            <div class="ordersCardUserImg"><img src="{{ $tobacco->brand?->image_url ?? '/assets/img/brands/product-img.svg' }}" alt=""></div>
+                            <div class="ordersCardUserImg"><img src="{{ $tobacco->brand?->image_url ?? '/assets/img/brands/def-ic.svg' }}" alt=""></div>
                             <div class="ordersCardUserInfo">
                                 <div class="actionTabViewOrderProductListBody">
                                     <p>{{ trim(($tobacco->brand?->name ?? '') . ' ' . $tobacco->name) }}</p>

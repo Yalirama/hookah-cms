@@ -799,3 +799,9 @@ main.tabaccos .topNav .filters .filtersRow .customSelectArrow{width:calc(8vw / v
 .actionTabSearchSectionResultText.mixAltTag .mixAltName{color:var(--ink);font-weight:600}
 .actionTabSearchSectionResultText.mixAltTag .mixAltName b{color:var(--ink);font-weight:700}
 .mixIngredientMainLabel .addItemOff{display:block;color:#B42318}
+.analyticsCardDayTime .analyticsQuestsItem{align-items:flex-start;text-align:left;padding:calc(8.6vw / var(--resizer) * 100) calc(10.3vw / var(--resizer) * 100)}
+.analyticsCardDayTime .analyticsQuestsItem img{display:none}
+.analyticsCardDayTime .analyticsQuestsItem p{margin:0;font-size:calc(10.3vw / var(--resizer) * 100);font-weight:600;color:var(--mut)}
+.analyticsCardDayTime .analyticsQuestsItem span{margin:calc(3.4vw / var(--resizer) * 100) 0 0;font-size:calc(15.4vw / var(--resizer) * 100);font-weight:800;line-height:1;color:var(--ink)}
+.analyticsCardDayTime .analyticsQuestsItem small{margin-top:calc(2.6vw / var(--resizer) * 100);font-size:calc(8.6vw / var(--resizer) * 100);font-weight:600;color:var(--mut)}
+.analyticsCardDayTime .analyticsQuestsItem.active p,.analyticsCardDayTime .analyticsQuestsItem.active span,.analyticsCardDayTime .analyticsQuestsItem.active small{color:var(--accT)}

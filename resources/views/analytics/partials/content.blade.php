@@ -115,12 +115,6 @@
 @if(count($slotCounts) > 0 && \App\Support\StatAccess::can('a_when_come'))
     @php
         $maxSlot = max(array_column($slotCounts, 'count')) ?: 1;
-        $slotIcons = [
-            'morning' => 'sunrise-icon.svg',
-            'day'     => 'day-icon.svg',
-            'evening' => 'evening-icon.svg',
-            'night'   => 'night-icon.svg',
-        ];
     @endphp
     <div class="analyticsCard analyticsCardDayTime">
         <p class="analyticsCardTitle">Когда приходят</p>
@@ -128,9 +122,9 @@
         <div class="analyticsCardRow">
             @foreach($slotCounts as $key => $slot)
                 <div class="analyticsQuestsItem {{ $slot['count'] === $maxSlot ? 'active' : '' }}">
-                    <img src="/assets/img/{{ $slotIcons[$key] ?? 'day-icon.svg' }}" alt="">
                     <p>{{ $slot['label'] }}</p>
                     <span>{{ round($slot['count'] / (array_sum(array_column($slotCounts, 'count')) ?: 1) * 100) }}%</span>
+                    <small>x{{ $slot['count'] }}</small>
                 </div>
             @endforeach
         </div>

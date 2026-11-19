@@ -44,6 +44,6 @@ class TobaccoBrand extends Model
             if (file_exists(public_path($path))) return "/{$path}?v=" . filemtime(public_path($path));
         }
 
-        return '/assets/img/product-img.svg';
+        return '/assets/img/def-ic.svg';
     }
 }
