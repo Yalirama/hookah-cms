@@ -74,14 +74,14 @@
 
     @if($topMixes)
     <div class="analyticsCard statCard">
-        <p class="analyticsCardTitle">Миксы, которые я чаще готовил</p>
+        <p class="analyticsCardTitle myTopTitle">Миксы, которые я чаще готовил</p>
         @foreach($topMixes as $i => $t)<p class="statTop"><i>{{ $i + 1 }}</i><span>{{ $t['name'] }}</span><b>{{ $t['n'] }} шт</b></p>@endforeach
     </div>
     @endif
 
     @if($topTobaccos)
     <div class="analyticsCard statCard">
-        <p class="analyticsCardTitle">Табаки, которые я чаще готовил</p>
+        <p class="analyticsCardTitle myTopTitle">Табаки, которые я чаще готовил</p>
         @foreach($topTobaccos as $i => $t)<p class="statTop"><i>{{ $i + 1 }}</i><span>{{ $t['name'] }}</span><b>{{ $t['n'] }} шт</b></p>@endforeach
     </div>
     @endif

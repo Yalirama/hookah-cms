@@ -747,3 +747,5 @@ main.tabaccos .topNav .filters .filtersRow .customSelectArrow{width:calc(8vw / v
 .statMoreBtn{display:flex;align-items:center;justify-content:center;margin-top:calc(12vw / var(--resizer) * 100);min-height:calc(37.5vw / var(--resizer) * 100);border-radius:calc(852.5vw / var(--resizer) * 100);background:var(--accSoft);color:var(--accT);font-size:calc(11.1vw / var(--resizer) * 100);font-weight:700;text-decoration:none}
 .myStatsDates{display:flex;gap:calc(6vw / var(--resizer) * 100);align-items:center;margin-top:calc(6vw / var(--resizer) * 100)}
 .myStatsDates input{flex:1;min-width:0}
+
+.myTopTitle{margin-bottom:calc(12vw / var(--resizer) * 100)}
