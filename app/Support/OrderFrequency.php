@@ -29,7 +29,7 @@ class OrderFrequency
         return self::build($rows);
     }
 
-    private static function build($rows): array
+    public static function build($rows): array
     {
         $byMonth = [];
         foreach ($rows as $r) {

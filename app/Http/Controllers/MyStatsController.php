@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Services\Stats\MasterStats;
+use App\Services\Stats\MyActions;
 use App\Support\Period;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MyStatsController extends Controller
 {
-    public function index(Request $r, MasterStats $masters)
+    public function index(Request $r, MasterStats $masters, MyActions $myActions)
     {
         if (!$r->has('p')) {
             $r->merge(['p' => 'all']);
@@ -73,6 +74,6 @@ class MyStatsController extends Controller
             }
         }
 
-        return view('my-stats.index', compact('p', 'me', 'ranks', 'topMixes', 'topTobaccos') + ['period' => $p]);
+        return view('my-stats.index', compact('p', 'me', 'ranks', 'topMixes', 'topTobaccos') + ['actions' => $myActions->build($uid, $p)] + ['period' => $p]);
     }
 }

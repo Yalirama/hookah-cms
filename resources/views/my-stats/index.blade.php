@@ -43,6 +43,35 @@
         @include('stats.partials._master-card', ['m' => $me, 'first' => false])
     </div>
 
+    <div class="analyticsCard statCard">
+        <p class="analyticsCardTitle">Когда и с кем я работаю</p>
+        <div class="subTabs" data-group="act">
+            @foreach($actions as $a)<button type="button" class="filtersBtn subTab {{ $loop->first ? 'active' : '' }}" data-pane="{{ $a['key'] }}">{{ $a['label'] }}</button>@endforeach
+        </div>
+        @foreach($actions as $a)
+        <div data-pane-group="act" data-pane="{{ $a['key'] }}" @if(!$loop->first) hidden @endif>
+            @if($a['total'] === 0)
+            <p class="statNote">В этом периоде нет таких действий.</p>
+            @else
+            <p class="statNote">Всего: {{ $a['total'] }}</p>
+            @include('partials.freq-bars', ['title' => 'Дни недели', 'items' => $a['days']])
+            @include('partials.freq-bars', ['title' => 'Время суток', 'items' => $a['hours']])
+            @include('partials.freq-bars', ['title' => 'По месяцам', 'items' => $a['months']])
+            @include('partials.freq-bars', ['title' => 'Сезонность', 'items' => $a['seasons']])
+            @if(count($a['years']) > 1)
+            @include('partials.freq-bars', ['title' => 'По годам', 'items' => $a['years']])
+            @endif
+            @if($a['guests'])
+            <div class="actionTabCnt">
+                <p class="analyticsCardTitle">Гости: {{ mb_strtolower($a['label']) }}</p>
+                @foreach($a['guests'] as $i => $g)<p class="statTop"><i>{{ $i + 1 }}</i><span>{{ $g['name'] }}</span><b>{{ $g['n'] }} раз</b></p>@endforeach
+            </div>
+            @endif
+            @endif
+        </div>
+        @endforeach
+    </div>
+
     @if($topMixes)
     <div class="analyticsCard statCard">
         <p class="analyticsCardTitle">Миксы, которые я чаще готовил</p>
@@ -66,6 +95,13 @@
     fit(); window.addEventListener('resize', fit);
 })();
 document.addEventListener('click', function (e) {
+    var b = e.target.closest('.subTab');
+    if (b) {
+        var row = b.closest('.subTabs'), g = row.dataset.group;
+        row.querySelectorAll('.subTab').forEach(function (x) { x.classList.toggle('active', x === b); });
+        document.querySelectorAll('[data-pane-group="' + g + '"]').forEach(function (p) { p.hidden = p.dataset.pane !== b.dataset.pane; });
+        return;
+    }
     var t = e.target.closest('.statFold'); if (!t) return;
     t.closest('.statFoldBox').classList.toggle('open');
 });
