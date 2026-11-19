@@ -135,12 +135,16 @@ document.addEventListener('click', function (e) {
 @if($shift)
 <div class="analyticsCard statCard shiftCard">
     <div class="hintRow"><p class="analyticsCardTitle">{{ $shift['label'] }}</p><button type="button" class="hintBtn" data-hint="Ваша текущая смена, а если она закрыта, последняя (не старше 12 часов). «Приготовил» — заказы, которые вы перевели в «Готов». «Среднее время» — от создания заказа до «Готов». «Переделок» — сколько из приготовленных вами заказов ушло на переделку. «Подробнее» открывает вашу статистику за любой период.">?</button></div>
+    @if(empty($shift['idle']))
     <div class="statGrid statGrid3">
         <div class="statTile"><b>{{ $shift['prepared'] }}</b><span>приготовил</span></div>
         <div class="statTile"><b>{{ $shift['avgNew'] !== null ? \App\Support\Fmt::mins($shift['avgNew']) : '—' }}</b><span>среднее время</span></div>
         <div class="statTile"><b>{{ $shift['redo'] }}</b><span>переделок</span></div>
     </div>
     <p class="statLine">Обслужил: <b>{{ $shift['serviced'] }}</b> · Закрыл: <b>{{ $shift['closed'] }}</b> · На смене: <b>{{ $shift['hours'] }} ч</b></p>
+    @else
+    <p class="statNote">Смена не включена. Включите её вверху справа, и здесь появятся цифры смены.</p>
+    @endif
     <a href="{{ route('my-stats') }}" class="statMoreBtn">Подробнее</a>
 </div>
 @endif

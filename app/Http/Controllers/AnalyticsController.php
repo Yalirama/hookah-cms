@@ -38,8 +38,9 @@ class AnalyticsController extends Controller
         $u = auth()->user();
         $open = \App\Models\ShiftLog::where('user_id', $u->id)->whereNull('ended_at')->latest('id')->first();
         $last = $open ?: \App\Models\ShiftLog::where('user_id', $u->id)->latest('id')->first();
+        $idle = ['label' => 'Моя статистика', 'idle' => true];
         if (!$last) {
-            return null;
+            return $idle;
         }
         if ($open) {
             $from = $open->started_at;
@@ -50,7 +51,7 @@ class AnalyticsController extends Controller
             $to = $last->ended_at;
             $label = 'Моя прошлая смена';
         } else {
-            return null;
+            return $idle;
         }
 
         return \Illuminate\Support\Facades\Cache::remember("shift-summary:{$u->id}:{$from->timestamp}:" . intdiv(now()->timestamp, 60), 120, function () use ($u, $from, $to, $label) {
