@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 // Auth
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:10,1')->name('login.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
