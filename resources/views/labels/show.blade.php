@@ -108,7 +108,7 @@ $statusColors = [
                         @if($note->user_id === auth()->id() || auth()->user()->hasRole('admin'))
                         <form method="POST" action="{{ route('labels.notes.destroy', [$label, $note]) }}">
                             @csrf @method('DELETE')
-                            <button type="submit" style="background:none; border:none; cursor:pointer; color:#999; font-size:18px;" onclick="return confirm('Удалить?')">×</button>
+                            <button type="submit" style="background:none; border:none; cursor:pointer; color:#999; font-size:18px;" data-confirm="Удалить?">×</button>
                         </form>
                         @endif
                     </div>

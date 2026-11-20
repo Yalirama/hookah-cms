@@ -47,7 +47,7 @@ document.addEventListener('click', function (e) {
         .then(html => {
             document.getElementById('inactiveGuestsCard').outerHTML = html;
         })
-        .catch(() => alert('Не удалось загрузить фильтр'));
+        .catch(() => appToast('Не удалось загрузить фильтр'));
 });
 
 document.addEventListener('click', function (e) {

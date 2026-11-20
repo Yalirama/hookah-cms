@@ -139,3 +139,53 @@ function applyListSort(container, itemSelector, mode) {
 
 document.addEventListener('contextmenu', e => { if (e.target.closest && e.target.closest('img')) e.preventDefault(); });
 document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
+
+window.appToast = function (msg, type) {
+    const el = document.createElement('div');
+    el.className = 'flashToast --' + (type === 'success' ? 'success' : 'error');
+    el.setAttribute('role', type === 'success' ? 'status' : 'alert');
+    el.textContent = msg;
+    el.addEventListener('animationend', () => el.remove());
+    document.body.appendChild(el);
+};
+
+window.appConfirm = function (message, okText) {
+    return new Promise(resolve => {
+        const wrap = document.createElement('div');
+        wrap.className = 'appConfirm';
+        wrap.innerHTML = '<div class="appConfirmBox" role="dialog" aria-modal="true"><p></p><div class="appConfirmBtns"><button type="button" class="appConfirmNo">Нет</button><button type="button" class="appConfirmYes"></button></div></div>';
+        wrap.querySelector('p').textContent = message;
+        wrap.querySelector('.appConfirmYes').textContent = okText || 'Да';
+        const done = v => { wrap.remove(); resolve(v); };
+        wrap.querySelector('.appConfirmNo').onclick = () => done(false);
+        wrap.querySelector('.appConfirmYes').onclick = () => done(true);
+        wrap.addEventListener('click', e => { if (e.target === wrap) done(false); });
+        document.body.appendChild(wrap);
+    });
+};
+
+document.addEventListener('click', e => {
+    const el = e.target.closest('button[data-confirm],a[data-confirm]');
+    if (!el || el._confirmed) return;
+    e.preventDefault();
+    e.stopPropagation();
+    window.appConfirm(el.dataset.confirm).then(ok => {
+        if (!ok) return;
+        el._confirmed = true;
+        el.click();
+        el._confirmed = false;
+    });
+}, true);
+
+document.addEventListener('submit', e => {
+    const form = e.target;
+    if (!form.dataset || !form.dataset.confirm || form._confirmed) return;
+    e.preventDefault();
+    e.stopPropagation();
+    window.appConfirm(form.dataset.confirm).then(ok => {
+        if (!ok) return;
+        form._confirmed = true;
+        form.requestSubmit();
+        form._confirmed = false;
+    });
+}, true);

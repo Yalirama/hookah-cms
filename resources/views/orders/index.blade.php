@@ -129,7 +129,19 @@ window.ORDER_WAIT = {warn: {{ (int) \App\Models\Setting::get('order_wait_warn', 
         searchTimeout = setTimeout(filterOrders, 200);
     });
 
+    function sortOrderGroups() {
+        const prio = {pending: 0, ready: 1, in_progress: 2, served: 3};
+        document.querySelectorAll('.ordersDayGroup').forEach(group => {
+            [...group.querySelectorAll(':scope > .ordersCard')].sort((a, b) =>
+                ((prio[a.dataset.status] ?? 4) - (prio[b.dataset.status] ?? 4))
+                || (b.dataset.created - a.dataset.created)
+                || (b.dataset.orderId - a.dataset.orderId)
+            ).forEach(c => group.appendChild(c));
+        });
+    }
+
     function filterLocal() {
+        sortOrderGroups();
         const q = document.getElementById('ordersSearchInput').value.trim().toLowerCase();
         document.querySelectorAll('.ordersDayGroup').forEach(group => {
             let visible = 0;

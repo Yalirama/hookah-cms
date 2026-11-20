@@ -172,7 +172,7 @@ $maxSlot = max(array_values($slotCounts) ?: [1]);
                         @if($note->user_id === auth()->id() || auth()->user()->hasRole('admin'))
                             <form method="POST" action="{{ route('mixes.notes.destroy', [$mix, $note]) }}">
                                 @csrf @method('DELETE')
-                                <button type="submit" style="background:none; border:none; cursor:pointer; color:#999; font-size:18px;" onclick="return confirm('Удалить?')">×</button>
+                                <button type="submit" style="background:none; border:none; cursor:pointer; color:#999; font-size:18px;" data-confirm="Удалить?">×</button>
                             </form>
                         @endif
                     </div>
@@ -207,7 +207,7 @@ $maxSlot = max(array_values($slotCounts) ?: [1]);
             @if($mix->is_active)
                 <form method="POST" action="{{ route('mixes.deactivate', $mix) }}" style="margin-top:16px;">
                     @csrf
-                    <button type="submit" class="btn btn-danger" style="width:100%;" onclick="return confirm('Деактивировать микс?')">Деактивировать</button>
+                    <button type="submit" class="btn btn-danger" style="width:100%;" data-confirm="Деактивировать микс?">Деактивировать</button>
                 </form>
             @endif
             @endrole

@@ -816,3 +816,10 @@ img,svg{-webkit-touch-callout:none;-webkit-user-drag:none;-webkit-user-select:no
 
 .cancelOrderConfirm[hidden],.actionTabViewOrderCardActionButtons[hidden]{display:none!important}
 .cancelOrderConfirm p{margin:0 0 8px;font-weight:600;text-align:center}
+.appConfirm{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.35)}
+.appConfirmBox{width:100%;max-width:340px;background:#fff;border-radius:18px;padding:20px;box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.appConfirmBox p{margin:0 0 16px;font-size:16px;font-weight:600;text-align:center}
+.appConfirmBtns{display:flex;gap:10px}
+.appConfirmBtns button{flex:1;min-height:44px;border:0;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer}
+.appConfirmNo{background:#F2F4F7;color:#344054}
+.appConfirmYes{background:#D92D20;color:#fff}

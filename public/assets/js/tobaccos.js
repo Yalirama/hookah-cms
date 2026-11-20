@@ -34,7 +34,7 @@ document.addEventListener('submit', function (e) {
                 return r;
             })
             .then(() => loadTobaccoSheet(currentTobaccoSheetId))
-            .catch(err => alert(err.message || 'Ошибка при сохранении'));
+            .catch(err => appToast(err.message || 'Ошибка при сохранении'));
     }
 });
 

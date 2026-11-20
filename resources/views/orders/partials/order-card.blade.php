@@ -23,6 +23,7 @@
 
 <div class="ordersCard ocCard --{{ $visual['card'] }}"
      data-order-id="{{ $order->id }}"
+     data-created="{{ $order->created_at->timestamp }}"
      data-status="{{ $order->status }}"
      data-since="{{ $order->created_at->timestamp }}"
      data-guest="{{ $order->guest_id ? '1' : '0' }}"

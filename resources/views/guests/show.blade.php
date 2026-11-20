@@ -295,7 +295,7 @@ $maxSlot = max(array_values($slotCounts) ?: [1]);
                         <span>{{ $gl->label->name }}</span>
                         <form method="POST" action="{{ route('guests.labels.remove', [$guest, $gl]) }}" style="display:inline;">
                             @csrf @method('DELETE')
-                            <button type="submit" style="background:none; border:none; cursor:pointer; color:{{ $group['color'] }}; font-size:14px; padding:0 0 0 4px; line-height:1;" onclick="return confirm('Снять ярлык?')">×</button>
+                            <button type="submit" style="background:none; border:none; cursor:pointer; color:{{ $group['color'] }}; font-size:14px; padding:0 0 0 4px; line-height:1;" data-confirm="Снять ярлык?">×</button>
                         </form>
                     </div>
                     @empty
@@ -354,7 +354,7 @@ $maxSlot = max(array_values($slotCounts) ?: [1]);
                         @if($note->user_id === auth()->id() || auth()->user()->hasRole('admin'))
                         <form method="POST" action="{{ route('guests.notes.destroy', [$guest, $note]) }}">
                             @csrf @method('DELETE')
-                            <button type="submit" style="background:none; border:none; cursor:pointer; color:#999; font-size:18px;" onclick="return confirm('Удалить?')">×</button>
+                            <button type="submit" style="background:none; border:none; cursor:pointer; color:#999; font-size:18px;" data-confirm="Удалить?">×</button>
                         </form>
                         @endif
                     </div>

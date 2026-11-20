@@ -157,7 +157,7 @@ $maxSlot = max(array_values($slotCounts) ?: [1]);
                         @if($note->user_id === auth()->id() || auth()->user()->hasRole('admin'))
                             <form method="POST" action="{{ route('tobaccos.notes.destroy', [$tobacco, $note]) }}">
                                 @csrf @method('DELETE')
-                                <button type="submit" style="background:none; border:none; cursor:pointer; color:#999; font-size:18px;" onclick="return confirm('Удалить заметку?')">×</button>
+                                <button type="submit" style="background:none; border:none; cursor:pointer; color:#999; font-size:18px;" data-confirm="Удалить заметку?">×</button>
                             </form>
                         @endif
                     </div>

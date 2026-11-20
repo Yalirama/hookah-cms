@@ -79,7 +79,7 @@ document.addEventListener('submit', function (e) {
                 return r;
             })
             .then(() => { loadMixSheet(currentMixSheetId); loadMixList(); })
-            .catch(err => alert(err.message || 'Ошибка при сохранении'));
+            .catch(err => appToast(err.message || 'Ошибка при сохранении'));
     }
 });
 
@@ -297,7 +297,7 @@ document.addEventListener('submit', function (e) {
                 loadMixList();
                 if (isEdit && currentMixSheetId) loadMixSheet(currentMixSheetId);
             })
-            .catch(err => alert(err.message || 'Ошибка при сохранении'));
+            .catch(err => appToast(err.message || 'Ошибка при сохранении'));
     }
 });
 

@@ -164,7 +164,7 @@
                     </div>
                 </div>
                 @if($note->user_id === auth()->id() || auth()->user()->hasRole('admin'))
-                <form method="POST" action="{{ route('tobaccos.notes.destroy', [$tobacco, $note]) }}" onsubmit="return confirm('Удалить заметку?')">
+                <form method="POST" action="{{ route('tobaccos.notes.destroy', [$tobacco, $note]) }}" data-confirm="Удалить заметку?">
                     @csrf @method('DELETE')
                     <button type="submit">
                         <img src="/assets/img/close-icon.svg" alt="">
