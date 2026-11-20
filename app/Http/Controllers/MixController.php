@@ -127,8 +127,13 @@ class MixController extends Controller
             'strength'          => 'nullable|in:light,medium,strong',
             'note'              => 'nullable|string|max:1000',
             'ingredients'       => 'required|array|min:1',
-            'ingredients.*.tobacco_id' => 'required|exists:tobaccos,id',
+            'ingredients.*.tobacco_id' => 'required|exists:tobaccos,id|distinct',
             'ingredients.*.grams' => 'nullable|numeric|min:0',
+            'ingredients.*.alternatives.*.tobacco_id' => 'nullable|exists:tobaccos,id|different:ingredients.*.tobacco_id',
+        ], [
+            'ingredients.*.tobacco_id.required' => 'Выберите табак в каждой строке состава.',
+            'ingredients.*.tobacco_id.distinct' => 'Один и тот же табак нельзя добавить в микс дважды.',
+            'ingredients.*.alternatives.*.tobacco_id.different' => 'Альтернатива не может совпадать с основным табаком.',
         ]);
 
         $mix = Mix::create([
@@ -213,8 +218,13 @@ class MixController extends Controller
             'description_long'  => 'nullable|string',
             'strength'          => 'nullable|in:light,medium,strong',
             'ingredients'       => 'required|array|min:1',
-            'ingredients.*.tobacco_id' => 'required|exists:tobaccos,id',
+            'ingredients.*.tobacco_id' => 'required|exists:tobaccos,id|distinct',
             'ingredients.*.grams' => 'nullable|numeric|min:0',
+            'ingredients.*.alternatives.*.tobacco_id' => 'nullable|exists:tobaccos,id|different:ingredients.*.tobacco_id',
+        ], [
+            'ingredients.*.tobacco_id.required' => 'Выберите табак в каждой строке состава.',
+            'ingredients.*.tobacco_id.distinct' => 'Один и тот же табак нельзя добавить в микс дважды.',
+            'ingredients.*.alternatives.*.tobacco_id.different' => 'Альтернатива не может совпадать с основным табаком.',
         ]);
 
         $fieldLabels = ['name' => 'Название', 'description_short' => 'Короткое описание', 'description_long' => 'Полное описание', 'strength' => 'Крепость'];

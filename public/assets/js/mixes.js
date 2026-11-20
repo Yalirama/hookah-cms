@@ -122,6 +122,9 @@ function filterMixTobaccoOptions(rowId, type, query) {
         const q = query.trim().toLowerCase();
         const mainId = parseInt(document.getElementById(`${rowId}_tobaccoId`)?.value) || 0;
         const altIds = new Set([...document.querySelectorAll(`#${rowId}_alts input[type="hidden"]`)].map(i => parseInt(i.value)));
+        const form = document.getElementById(rowId).closest('form') || document;
+        const otherMain = new Set([...form.querySelectorAll('.mixIngredientRow input[id$="_tobaccoId"]')]
+            .filter(i => i.id !== `${rowId}_tobaccoId`).map(i => parseInt(i.value)).filter(Boolean));
 
         const filtered = tobaccos
             .filter(t => type === 'alt' ? t.id !== mainId : !altIds.has(t.id))
@@ -132,19 +135,20 @@ function filterMixTobaccoOptions(rowId, type, query) {
 
         optionsEl.innerHTML = filtered.map(t => {
             const on = type === 'alt' && altIds.has(t.id);
-            const handler = t.off ? '' : (type === 'alt'
+            const off = t.off || (type === 'main' && otherMain.has(t.id) ? 'Уже в миксе' : '');
+            const handler = off ? '' : (type === 'alt'
                 ? `onclick='toggleMixAlt("${rowId}", ${t.id}, ${esc(JSON.stringify(t.brand))}, ${esc(JSON.stringify(t.name))}, this)'`
                 : `onclick='selectMixTobacco("${rowId}", "main", ${t.id}, ${esc(JSON.stringify(t.brand))}, ${esc(JSON.stringify(t.name))})'`);
-            return `<div class="ordersCardTop mixOpt ${type === 'alt' ? 'mixOptAlt' : ''} ${on ? '--on' : ''} ${t.off ? '--unavailable' : ''}" ${handler}>
+            return `<div class="ordersCardTop mixOpt ${type === 'alt' ? 'mixOptAlt' : ''} ${on ? '--on' : ''} ${off ? '--unavailable' : ''}" ${handler}>
                 <div class="ordersCardUser">
                     <div class="ordersCardUserInfo">
                         <div class="actionTabViewOrderProductListBody">
                             <p>${esc(t.brand)} - ${esc(t.name)}</p>
-                            ${t.off ? `<span class="addItemOff">${t.off}</span>` : ''}
+                            ${off ? `<span class="addItemOff">${off}</span>` : ''}
                         </div>
                     </div>
                 </div>
-                ${type === 'alt' && !t.off ? '<i class="mixChk"></i>' : ''}
+                ${type === 'alt' && !off ? '<i class="mixChk"></i>' : ''}
             </div>`;
         }).join('');
     });

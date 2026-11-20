@@ -29,9 +29,6 @@
 <body>
 
 <main class="@yield('main-class')">
-    @if(session('success'))
-        <div class="flashToast --success" role="status">{{ session('success') }}</div>
-    @endif
     @if(session('error'))
         <div class="flashToast --error" role="alert">{{ session('error') }}</div>
     @endif
