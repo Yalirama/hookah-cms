@@ -199,7 +199,7 @@ class OrderController extends Controller
             'tag'   => 'order-new-' . $order->id,
         ]);
 
-        return redirect()->route('orders.index')->with('success', 'Заказ #' . $order->id . ' создан');
+        return redirect()->route('orders.index');
     }
 
     public function addItem(Request $request, Order $order)
