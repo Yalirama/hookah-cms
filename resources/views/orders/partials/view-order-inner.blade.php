@@ -57,7 +57,7 @@
             </div>
         @else
             <div class="ovTimers">
-                <span class="ovTimer">{{ $order->closed_at ? $order->created_at->diff($order->closed_at)->format('%H:%I:%S') : '—' }}</span>
+                <span class="ovTimer">{{ $order->closed_at ? sprintf('%02d:%02d:%02d', intdiv($order->closed_at->timestamp - $order->created_at->timestamp, 3600), intdiv(($order->closed_at->timestamp - $order->created_at->timestamp) % 3600, 60), ($order->closed_at->timestamp - $order->created_at->timestamp) % 60) : '—' }}</span>
             </div>
         @endif
     </div>
@@ -493,8 +493,8 @@
                     <div class="actionTabHistoryItemInfo">
                         <p class="actionTabHistoryItemTitle">{{ $title }}</p>
                         <div class="actionTabHistoryItemRow">
-                            <span>{{ $history->started_at->format('H:i:s') }}</span>
-                            @if($history->corrected_from)<span style="text-decoration:line-through; opacity:.5;">{{ $history->corrected_from->format('H:i:s') }}</span>@endif
+                            <span>{{ $history->started_at->format('d.m.Y H:i:s') }}</span>
+                            @if($history->corrected_from)<span style="text-decoration:line-through; opacity:.5;">{{ $history->corrected_from->format('d.m.Y H:i:s') }}</span>@endif
                         </div>
                     </div>
                 </div>
