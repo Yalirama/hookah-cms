@@ -83,24 +83,29 @@
 
                 @if($order->status === 'served')
                 <button type="submit" formaction="{{ route('orders.service', $order) }}" class="actionTabViewOrderCardButton --orderService">Сервис</button>
-                <button type="submit" name="status" value="closed" class="actionTabViewOrderCardButton --orderDone">Завершить</button>
-                <button type="submit" name="status" value="redo" class="actionTabViewOrderCardButton --orderCancel">Переделка</button>
+                <button type="button" class="actionTabViewOrderCardButton --orderDone" onclick="askCancelOrder(this,'closed')">Завершить</button>
+                <button type="button" class="actionTabViewOrderCardButton --orderCancel" onclick="askCancelOrder(this,'redo')">Переделка</button>
                 @endif
 
                 @if($order->status !== 'served')
-                <button type="button" class="actionTabViewOrderCardButton --orderCancel" onclick="askCancelOrder(this)">Отменить заказ</button>
+                <button type="button" class="actionTabViewOrderCardButton --orderCancel" onclick="askCancelOrder(this,'cancelled')">Отменить заказ</button>
                 @endif
             </div>
 
-            @if($order->status !== 'served')
-            <div class="cancelOrderConfirm" hidden>
-                <p>Отменить заказ?</p>
+            @php
+                $confirms = $order->status === 'served'
+                    ? ['closed' => ['Завершить заказ?', 'Да, завершить', '--orderDone'], 'redo' => ['Отправить на переделку?', 'Да, переделать', '--orderCancel']]
+                    : ['cancelled' => ['Отменить заказ?', 'Да, отменить', '--orderCancel']];
+            @endphp
+            @foreach($confirms as $key => [$question, $yes, $yesClass])
+            <div class="cancelOrderConfirm" data-key="{{ $key }}" hidden>
+                <p>{{ $question }}</p>
                 <div class="actionTabViewOrderCardActionButtons">
-                    <button type="submit" name="status" value="cancelled" class="actionTabViewOrderCardButton --orderCancel">Да, отменить</button>
-                    <button type="button" class="actionTabViewOrderCardButton --orderDone" onclick="askCancelOrder(this)">Нет</button>
+                    <button type="submit" name="status" value="{{ $key }}" class="actionTabViewOrderCardButton {{ $yesClass }}">{{ $yes }}</button>
+                    <button type="button" class="actionTabViewOrderCardButton {{ $yesClass === '--orderDone' ? '--orderCancel' : '--orderDone' }}" onclick="askCancelOrder(this)">Нет</button>
                 </div>
             </div>
-            @endif
+            @endforeach
         </form>
 
     </div>

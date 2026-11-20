@@ -83,11 +83,9 @@ class OrderController extends Controller
                         ? 'Вчера - ' . $carbon->translatedFormat('d M Y')
                         : $carbon->translatedFormat('d M Y'));
                 $priority = ['pending' => 0, 'ready' => 1, 'in_progress' => 2, 'served' => 3];
-                return [$label => $group->sortBy([
-                    [fn ($o) => $priority[$o->status] ?? 4, 'asc'],
-                    [fn ($o) => $o->created_at->timestamp, 'desc'],
-                    ['id', 'desc'],
-                ])->values()];
+                return [$label => $group->sort(fn ($a, $b) => ($priority[$a->status] ?? 4) <=> ($priority[$b->status] ?? 4)
+                    ?: $b->created_at->timestamp <=> $a->created_at->timestamp
+                    ?: $b->id <=> $a->id)->values()];
             });
 
         $nextOffset = $offset + $perPage;

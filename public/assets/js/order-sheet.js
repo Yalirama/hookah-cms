@@ -299,13 +299,11 @@ function selectViewOrderGuest(id) {
     document.getElementById('viewOrderAttachGuestForm').requestSubmit();
 }
 
-function askCancelOrder(btn) {
+function askCancelOrder(btn, key) {
     const form = btn.closest('form');
-    const box = form.querySelector('.cancelOrderConfirm');
     const main = form.querySelector('.actionTabViewOrderCardActionButtons');
-    const open = box.hidden;
-    box.hidden = !open;
-    main.hidden = open;
+    form.querySelectorAll('.cancelOrderConfirm').forEach(b => { b.hidden = !key || b.dataset.key !== key; });
+    main.hidden = !!key;
 }
 
 function toggleDetachGuestConfirm() {
