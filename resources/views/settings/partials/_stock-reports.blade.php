@@ -11,7 +11,7 @@
         <thead><tr><th>Табак</th><th>Доступно</th><th>Хватит</th><th>Купить</th></tr></thead>
         <tbody>
         @foreach($list as $r)
-        <tr><td>{{ $r->name }}</td><td>{{ $g($r->stock->available) }} г</td><td>{{ $r->days === null ? '—' : $g($r->days) . ' дн.' }}</td><td>{{ $g($r->buy) }} г ({{ (int) ceil($r->buy / max($r->stock->pack_size, 1)) }} п.)</td></tr>
+        <tr><td>{{ $r->name }}</td><td>{{ $g($r->stock->available) }} г</td><td>{{ $r->days === null ? '—' : $g($r->days) . ' дн.' }}</td><td>{{ $g($r->buy) }} г{{ $r->stock->pack_size > 0 ? ' (' . (int) ceil($r->buy / $r->stock->pack_size) . ' п.)' : '' }}</td></tr>
         @endforeach
         </tbody>
     </table>

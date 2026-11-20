@@ -402,15 +402,23 @@ class StockService
         });
     }
 
-    public function revertConsumption(Order $order): void
+    public function revertConsumption(Order $order, string $note = 'Откат статуса'): void
     {
-        DB::transaction(function () use ($order) {
+        DB::transaction(function () use ($order, $note) {
             $net = StockMovement::where('order_id', $order->id)
-                ->where(fn ($q) => $q->where('type', 'consume')->orWhere(fn ($q) => $q->where('type', 'correction')->where('note', 'Откат статуса')))
+                ->where(fn ($q) => $q->where('type', 'consume')->orWhere(fn ($q) => $q->where('type', 'correction')->whereIn('note', ['Откат статуса', 'Правка граммовки'])))
                 ->selectRaw('tobacco_id, SUM(grams) as g')->groupBy('tobacco_id')->get();
             foreach ($net as $row) {
-                if ((float) $row->g < -0.01) $this->move($row->tobacco_id, 'correction', -(float) $row->g, $order->id, null, 'Откат статуса');
+                if ((float) $row->g < -0.01) $this->move($row->tobacco_id, 'correction', -(float) $row->g, $order->id, null, $note);
             }
+        });
+    }
+
+    public function reconsume(Order $order): void
+    {
+        DB::transaction(function () use ($order) {
+            $this->revertConsumption($order, 'Правка граммовки');
+            $this->consume($order);
         });
     }
 

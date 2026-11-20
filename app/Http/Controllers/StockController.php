@@ -152,7 +152,7 @@ class StockController extends Controller
             $days = $avg > 0 ? $r->available / $avg : null;
             $mn = $stock->minFor($r);
             $need = max($avg * ($lead + $buffer) - $r->available, $r->available <= $mn ? $mn - $r->available + $avg * ($lead + $buffer) : 0);
-            $buy = $need > 0 ? ceil($need / max($r->pack_size, 1)) * $r->pack_size : 0;
+            $buy = $need > 0 ? ($r->pack_size > 0 ? ceil($need / $r->pack_size) * $r->pack_size : ceil($need)) : 0;
             $lowDays = $days !== null && $days < 7;
             return (object) [
                 'name' => trim(($r->tobacco->brand->name ?? '') . ' ' . $r->tobacco->name), 'stock' => $r,
@@ -164,7 +164,7 @@ class StockController extends Controller
 
         $purchase = $rows->filter->need->groupBy('supplier');
         $top = $rows->sortByDesc('d30')->filter(fn ($r) => $r->d30 > 0)->take(5)->values();
-        $stale = $rows->filter(fn ($r) => $r->d30 <= 0 && $r->stock->on_hand > 0)->values();
+        $stale = $rows->filter(fn ($r) => $r->d30 <= 0 && $r->stock->on_hand > 0 && $r->stock->created_at->lte(now()->subDays(30)))->values();
 
         $mixes = Mix::where('is_active', true)->with('ingredients.tobacco')->orderBy('name')->get()->map(function ($m) use ($stock) {
             $bowl = $stock->defaultBowl();

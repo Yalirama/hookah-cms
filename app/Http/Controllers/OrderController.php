@@ -757,6 +757,10 @@ class OrderController extends Controller
             }
         }
 
+        if (in_array($order->status, ['ready', 'served']) && !$calc['error']) {
+            $stock->reconsume($order);
+        }
+
         if (!auth()->user()->hasRole('admin')) unset($calc['cost']);
 
         return response()->json(['calc' => $calc]);

@@ -400,7 +400,7 @@
         <div id="bowlWarn" class="stockWarn" style="{{ $calc['shortages'] ? '' : 'display:none' }}">{{ implode('. ', $calc['shortages']) }}</div>
         @if($isAdmin)<p class="bowlInfo" id="bowlCost">{{ $calc['cost'] > 0 ? 'Себестоимость чаши: ' . number_format($calc['cost'], 0, ',', ' ') . ' ₸' : '' }}</p>@endif
         <p class="bowlInfo" id="bowlInfo">{{ $calc['error'] ?: ($calc['shortfall'] ? 'Недобор ' . $fmtG($calc['shortfall']) . ' г' : 'Итого ' . $fmtG(collect($calc['items'])->sum('grams')) . ' г из ' . $fmtG($calc['bowl']) . ' г') }}</p>
-        @unless($isActive)<p class="bowlInfo">Заказ закрыт: изменения граммовки не меняют списание со склада.</p>@endunless
+        @unless($isActive)<p class="bowlInfo">Заказ закрыт: граммовку можно поправить только в записи заказа, списание со склада не изменится.</p>@endunless
         @if($canEdit)
         <button type="button" class="btnConfirm" onclick="saveBowl({{ $order->id }})">Рассчитать</button>
         @endif
