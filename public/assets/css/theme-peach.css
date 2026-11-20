@@ -823,3 +823,4 @@ img,svg{-webkit-touch-callout:none;-webkit-user-drag:none;-webkit-user-select:no
 .appConfirmBtns button{flex:1;min-height:44px;border:0;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer}
 .appConfirmNo{background:#F2F4F7;color:#344054}
 .appConfirmYes{background:#D92D20;color:#fff}
+.topNav .filters .filtersRow:has(.customSelect){overflow:visible}
