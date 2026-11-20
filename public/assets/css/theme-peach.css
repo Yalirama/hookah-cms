@@ -813,3 +813,6 @@ img,svg{-webkit-touch-callout:none;-webkit-user-drag:none;-webkit-user-select:no
 .flashToast.--error{background:#FEF3F2;color:#B42318;border:1px solid #FECDCA}
 @keyframes flashToastLife{0%{opacity:0;transform:translate(-50%,-12px)}8%{opacity:1;transform:translate(-50%,0)}85%{opacity:1}100%{opacity:0;visibility:hidden}}
 @media (prefers-reduced-motion:reduce){.flashToast{animation:flashToastLife 4s linear forwards}}
+
+.cancelOrderConfirm[hidden],.actionTabViewOrderCardActionButtons[hidden]{display:none!important}
+.cancelOrderConfirm p{margin:0 0 8px;font-weight:600;text-align:center}

@@ -88,9 +88,19 @@
                 @endif
 
                 @if($order->status !== 'served')
-                <button type="submit" name="status" value="cancelled" class="actionTabViewOrderCardButton --orderCancel" onclick="return confirm('Отменить заказ?')">Отменить заказ</button>
+                <button type="button" class="actionTabViewOrderCardButton --orderCancel" onclick="askCancelOrder(this)">Отменить заказ</button>
                 @endif
             </div>
+
+            @if($order->status !== 'served')
+            <div class="cancelOrderConfirm" hidden>
+                <p>Отменить заказ?</p>
+                <div class="actionTabViewOrderCardActionButtons">
+                    <button type="submit" name="status" value="cancelled" class="actionTabViewOrderCardButton --orderCancel">Да, отменить</button>
+                    <button type="button" class="actionTabViewOrderCardButton --orderDone" onclick="askCancelOrder(this)">Нет</button>
+                </div>
+            </div>
+            @endif
         </form>
 
     </div>

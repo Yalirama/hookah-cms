@@ -299,6 +299,15 @@ function selectViewOrderGuest(id) {
     document.getElementById('viewOrderAttachGuestForm').requestSubmit();
 }
 
+function askCancelOrder(btn) {
+    const form = btn.closest('form');
+    const box = form.querySelector('.cancelOrderConfirm');
+    const main = form.querySelector('.actionTabViewOrderCardActionButtons');
+    const open = box.hidden;
+    box.hidden = !open;
+    main.hidden = open;
+}
+
 function toggleDetachGuestConfirm() {
     const el = document.getElementById('detachGuestConfirm');
     if (!el) return;
