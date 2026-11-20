@@ -30,10 +30,10 @@
 
 <main class="@yield('main-class')">
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="flashToast --success" role="status">{{ session('success') }}</div>
     @endif
     @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+        <div class="flashToast --error" role="alert">{{ session('error') }}</div>
     @endif
 
     @yield('content')
