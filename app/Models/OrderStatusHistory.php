@@ -8,10 +8,11 @@ class OrderStatusHistory extends Model
 {
     public $timestamps = false;
 
-    protected $fillable = ['order_id', 'status', 'started_at'];
+    protected $fillable = ['order_id', 'status', 'started_at', 'corrected_from'];
 
     protected $casts = [
         'started_at' => 'datetime',
+        'corrected_from' => 'datetime',
     ];
 
     public function order()

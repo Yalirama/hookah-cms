@@ -24,6 +24,7 @@
     $statusChangeLabels = ['pending' => 'Ожидание', 'in_progress' => 'В работе', 'ready' => 'Готово', 'served' => 'У гостя', 'closed' => 'Завершён', 'cancelled' => 'Отменён', 'redo' => 'Переделка'];
 
     $statusLogs = $order->logs->whereIn('action', ['created', 'status_changed', 'serviced', 'rolled_back']);
+    $correctedLogIds = $order->logs->where('action', 'time_corrected')->map(fn ($l) => $l->new_value['log_id'] ?? null)->filter()->flip();
     $readyLog = $order->logs
         ->whereIn('action', ['status_changed', 'rolled_back'])
         ->where(fn($log) => ($log->new_value['status'] ?? null) === 'ready')
@@ -421,6 +422,7 @@
 
                 $statusTitleCounters[$baseTitle] = ($statusTitleCounters[$baseTitle] ?? 0) + 1;
                 $title = $statusTitleCounters[$baseTitle] > 1 ? "{$baseTitle} #{$statusTitleCounters[$baseTitle]}" : $baseTitle;
+                if ($correctedLogIds->has($log->id)) $title .= ' (корректировка)';
             @endphp
             <div class="actionTabHistoryItem {{ $historyIconClass($log) }}">
                 <div class="actionTabHistoryItemLeft">
@@ -478,6 +480,7 @@
                 $baseTitle = $statusDurationLabels[$history->status] ?? $history->status;
                 $durationTitleCounters[$baseTitle] = ($durationTitleCounters[$baseTitle] ?? 0) + 1;
                 $title = $durationTitleCounters[$baseTitle] > 1 ? "{$baseTitle} #{$durationTitleCounters[$baseTitle]}" : $baseTitle;
+                if ($history->corrected_from) $title .= ' (корректировка)';
 
                 if ($isFinal) {
                     $totalDuration = $order->created_at->diff($history->started_at);
@@ -491,6 +494,7 @@
                         <p class="actionTabHistoryItemTitle">{{ $title }}</p>
                         <div class="actionTabHistoryItemRow">
                             <span>{{ $history->started_at->format('H:i:s') }}</span>
+                            @if($history->corrected_from)<span style="text-decoration:line-through; opacity:.5;">{{ $history->corrected_from->format('H:i:s') }}</span>@endif
                         </div>
                     </div>
                 </div>
@@ -694,6 +698,33 @@
         </div>
         <div class="actionTabHistorySUV">
             <button type="submit"><img src="/assets/img/edit-icon-gold.svg" alt=""><span>Откатить статус</span></button>
+        </div>
+    </form>
+</div>
+@endif
+
+{{-- Корректировка времени --}}
+@if($isAdmin && $statusHistories->count() > 1)
+<div class="actionTabViewOrderCard actionTabViewOrderCardHide">
+    <div class="actionTabViewOrderCardTop" onclick="toggleCollapse(this)">
+        <p class="actionTabTitle">корректировка времени</p>
+        <button type="button" class="arrowDown"><img src="/assets/img/arrow-down.svg" alt=""></button>
+    </div>
+    <form method="POST" action="{{ route('orders.correct-time', $order) }}">
+        @csrf
+        <div class="actionTabViewOrderCardBtm actionTabViewOrderCardBtmColumn2">
+            <div class="defaultForm">
+                <select name="history_id" required onchange="this.form.time.value = this.selectedOptions[0].dataset.time">
+                    @foreach($statusHistories->skip(1)->values() as $h)
+                    <option value="{{ $h->id }}" data-time="{{ $h->started_at->format('Y-m-d\TH:i:s') }}">{{ $statusDurationLabels[$h->status] ?? $h->status }} · {{ $h->started_at->format('d.m H:i:s') }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="defaultForm"><input type="datetime-local" name="time" step="1" value="{{ $statusHistories->get(1)->started_at->format('Y-m-d\TH:i:s') }}" required></div>
+            <div class="defaultForm"><input type="text" name="comment" placeholder="Причина (например, по камерам)" required></div>
+        </div>
+        <div class="actionTabHistorySUV">
+            <button type="submit"><img src="/assets/img/edit-icon-gold.svg" alt=""><span>Исправить время</span></button>
         </div>
     </form>
 </div>

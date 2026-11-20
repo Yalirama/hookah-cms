@@ -485,6 +485,77 @@ class OrderController extends Controller
         return $this->sheetOrDone($order, 'Статус откатен');
     }
 
+    public function correctTime(Request $request, Order $order)
+    {
+        $data = $request->validate([
+            'history_id' => 'required|integer',
+            'time'       => 'required|date',
+            'comment'    => 'required|string|max:500',
+        ]);
+
+        $fail = fn ($msg) => $request->ajax()
+            ? response()->json(['message' => $msg], 422)
+            : back()->withErrors(['time' => $msg]);
+
+        $histories = $order->statusHistories()->get()->values();
+        $i = $histories->search(fn ($h) => $h->id == $data["history_id"]);
+
+        if ($i === false || $i === 0) {
+            return $fail('Это время изменить нельзя');
+        }
+
+        $history = $histories[$i];
+        $new = \Carbon\Carbon::parse($data['time']);
+        $old = $history->started_at;
+        $next = $histories[$i + 1]->started_at ?? null;
+
+        if ($new->lte($histories[$i - 1]->started_at)) {
+            return $fail('Время должно быть позже предыдущего статуса (' . $histories[$i - 1]->started_at->format('d.m.Y H:i:s') . ')');
+        }
+        if ($next && $new->gte($next)) {
+            return $fail('Время должно быть раньше следующего статуса (' . $next->format('d.m.Y H:i:s') . ')');
+        }
+        if ($new->gt(now())) {
+            return $fail('Время не может быть в будущем');
+        }
+
+        $log = $order->logs()->whereIn('action', ['status_changed', 'rolled_back'])->get()
+            ->filter(fn ($l) => ($l->new_value['status'] ?? null) === $history->status)
+            ->sortBy(fn ($l) => abs($l->created_at->timestamp - $old->timestamp))
+            ->first();
+        if ($log && abs($log->created_at->timestamp - $old->timestamp) > 5) {
+            $log = null;
+        }
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($order, $history, $histories, $new, $old, $log) {
+            $history->update(['started_at' => $new, 'corrected_from' => $history->corrected_from ?? $old]);
+            $log?->update(['created_at' => $new]);
+
+            $closing = ['closed', 'cancelled', 'redo'];
+            if (in_array($history->status, $closing) && $histories->filter(fn ($h) => in_array($h->status, $closing))->last()->id === $history->id) {
+                $order->update(['closed_at' => $new]);
+            }
+        });
+
+        $label = \App\Models\Order::statusVisualMap()[$history->status]['label'] ?? $history->status;
+
+        OrderLog::create([
+            'order_id'   => $order->id,
+            'user_id'    => auth()->id(),
+            'action'     => 'time_corrected',
+            'old_value'  => ['status' => $history->status, 'time' => $old->format('d.m.Y H:i:s')],
+            'new_value'  => ['status' => $history->status, 'time' => $new->format('d.m.Y H:i:s'), 'log_id' => $log?->id],
+            'comment'    => $data['comment'],
+            'created_at' => now(),
+        ]);
+
+        \App\Models\AdminLog::record('updated', 'Заказ', '#' . $order->id, "Корректировка времени «{$label}»: {$old->format('d.m.Y H:i:s')} → {$new->format('d.m.Y H:i:s')}; причина: {$data['comment']}");
+
+        $this->broadcastOrder($order);
+
+        return $this->sheetOrDone($order, 'Время исправлено');
+    }
+
     public function changeTable(Request $request, Order $order)
     {
         $request->validate([

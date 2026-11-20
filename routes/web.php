@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{order}', [OrderController::class, 'show'])->name('show');
         Route::post('/{order}/status',         [OrderController::class, 'changeStatus'])->name('status');
         Route::post('/{order}/rollback',       [OrderController::class, 'rollbackStatus'])->name('rollback');
+        Route::post('/{order}/correct-time',   [OrderController::class, 'correctTime'])->name('correct-time')->middleware('role:admin');
         Route::post('/{order}/table',          [OrderController::class, 'changeTable'])->name('table');
         Route::post('/{order}/service',        [OrderController::class, 'logService'])->name('service');
         Route::post('/{order}/items',          [OrderController::class, 'addItem'])->name('items.add');

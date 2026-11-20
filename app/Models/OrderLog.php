@@ -38,6 +38,7 @@ class OrderLog extends Model
             'created' => 'Создание заказа',
             'status_changed' => $lbl ? "Статус: {$lbl}" : 'Смена статуса',
             'rolled_back' => $lbl ? "Откат на: {$lbl}" : 'Откат статуса',
+            'time_corrected' => $lbl ? "Корректировка времени: {$lbl}" : 'Корректировка времени',
             'serviced' => 'Обслуживание',
             'table_changed' => 'Смена стола',
             'item_added' => 'Добавление позиции',
