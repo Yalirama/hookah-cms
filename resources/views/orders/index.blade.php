@@ -203,6 +203,8 @@ window.ORDER_WAIT = {warn: {{ (int) \App\Models\Setting::get('order_wait_warn', 
             });
     });
 
+    sortOrderGroups();
+
     // Real-time
     function upsertOrderCard(orderId) {
         fetch(`/orders/${orderId}/card`).then(r => r.text()).then(html => {
